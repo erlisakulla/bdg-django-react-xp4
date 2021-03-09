@@ -1,20 +1,20 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
 
-function Home() {
+function Login() {
   return (
     <div>
       <h1>What is your identity</h1>
-      <div className="mb-2">
+      <div className="button">
         <Button variant="primary" size="lg">
-          Large button
+          Instructor
         </Button>{" "}
         <Button variant="secondary" size="lg">
-          Large button
+          Player
         </Button>
       </div>
     </div>
   );
 }
 
-export default Home;
+export default Login;

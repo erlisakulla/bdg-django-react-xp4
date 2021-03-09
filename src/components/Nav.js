@@ -1,5 +1,4 @@
 import React from "react";
-import { Navbar } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 function Nav() {
@@ -13,7 +12,7 @@ function Nav() {
       <h3>Logo</h3>
       <ul className="nav-links">
         <Link to="/" style={navStyle}>
-          <li>Home</li>
+          <li>Login</li>
         </Link>
         <Link to="/game" style={navStyle}>
           <li>Start New Game</li>
