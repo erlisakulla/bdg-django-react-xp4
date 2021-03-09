@@ -97,4 +97,7 @@ The purpose of this document is for developers to have a guideline to follow and
 
 Date: 9.3.2021 **Sprint 1**  
 README: introduction, requirements, conclusion  
-Web-setup:
+Web-setup: Navigation bar, without redirection.
+Login page, no login forms and not connect to database
+
+backend: Set up Django
