@@ -85,10 +85,16 @@ There are 24 rounds of the game and in each round the player performs the follow
 
 12\. When the game reaches the maximum number of weeks, it should terminate and present players with a final interface which displays the saved game statistics.
 
-3. **Setup and Deployment**
+3. ### **Setup and Deployment**
 
-4. **Conclusion**
+4. ### **Conclusion**
 
 The goal of this game is to teach students who use this software about **The Bullwhip Effect** which is a supply chain phenomenon describing how small fluctuations in demand at the retail level can cause progressively larger fluctuations in demand at the wholesale, distributor, manufacturer and raw material supplier levels. The effect is named after the physics involved in cracking a whip. When the person holding the whip snaps their wrist, the relatively small movement causes the whip’s wave patterns to increasingly amplify in a chain reaction.
 
 The purpose of this document is for developers to have a guideline to follow and know procedures about how to do your coding instead of just starting form scratch. The ideas presented above teach you with general conceptual modeling of the structure of the application, and for detailed modeling translating the models into programming code.
+
+# **Contributions**:
+
+Date: 9.3.2021 **Sprint 1**  
+README: introduction, requirements, conclusion  
+Web-setup:
