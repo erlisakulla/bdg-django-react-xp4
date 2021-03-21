@@ -10,6 +10,7 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
+        ('Instructor','__first__')
     ]
 
     operations = [

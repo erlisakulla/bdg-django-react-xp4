@@ -16,11 +16,19 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
+
+
 urlpatterns = [
-    path('', include('Game.urls')),
+    path('', include('Home.urls')),
     path('admin/', admin.site.urls),
-    path('api-game/', include('Game.urls')),
-    path('api-instructor/', include('Instructor.urls')),
+    path('game/', include('Game.urls')),
+    path('user/', include('User.urls')),
     path('api-player/', include('Player.urls')),
     path('apiauth/', include('rest_framework.urls')),
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]

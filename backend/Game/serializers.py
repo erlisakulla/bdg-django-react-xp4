@@ -5,7 +5,7 @@ from .models import game
 
 #from models import game
 
-class gameserializer(serializers.HyperlinkedModelSerializer):
+class gameserializer(serializers.ModelSerializer):
     class Meta:
         model = game
         fields = (
@@ -15,10 +15,9 @@ class gameserializer(serializers.HyperlinkedModelSerializer):
         "wholesaler_present",
         "holding_cost",
         "backlog_cost",
-
         "rounds_completed",
         "starting_inventory",
         "instructor",
-
+        "id"
         )
         
