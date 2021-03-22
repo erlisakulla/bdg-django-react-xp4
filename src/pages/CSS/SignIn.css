@@ -1,0 +1,70 @@
+.newgame {
+  box-sizing: border-box;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 12%;
+  width: 100%;
+  height: 50%;
+  padding: 20px;
+  text-align: center;
+}
+
+.loginbox {
+  box-sizing: border-box;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 12%;
+  width: 100%;
+  height: 50%;
+  border: 15px solid coral;
+  padding: 20px;
+  text-align: center;
+}
+
+.loginbox h2 {
+  color: coral;
+}
+
+.content-wrapper {
+  width: 100%;
+  max-width: 1336px;
+  margin: 0 auto;
+}
+.login {
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  font-size: 16px;
+  width: 100%;
+  max-width: 500px;
+}
+.login label {
+  font-size: 22px;
+  font-weight: bold;
+}
+.login {
+  margin: 0 auto;
+}
+.login form {
+  display: block;
+}
+input {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+#userSubmit {
+  background-color: coral;
+  color: white;
+  width: 100px;
+  height: 50px;
+  margin-left: 20%;
+  margin-right: 20%;
+}
+
+.buttonContainer {
+  width: 100%;
+}

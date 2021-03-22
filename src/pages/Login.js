@@ -1,20 +1,83 @@
-import React from "react";
-import Button from "react-bootstrap/Button";
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import "./CSS/SignIn.css";
+import axios from "axios";
+import Nav from "../components/Nav";
+import axiosInstance from "../axios";
 
-function Login() {
-  return (
-    <div>
-      <h1>What is your identity</h1>
-      <div className="button">
-        <Button variant="primary" size="lg">
-          Instructor
-        </Button>{" "}
-        <Button variant="secondary" size="lg">
-          Player
-        </Button>
+export default class SignIn extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: "",
+      password: "",
+      error: "",
+    };
+  }
+  onChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
+
+  sendForm = (e) => {
+    e.preventDefault();
+   
+    let route = "";
+   
+      axiosInstance
+        .post("api/token/", {
+          email: this.state.email,
+          password: this.state.password,
+        })
+        .then((res) => {
+          localStorage.setItem('access_token',res.data.access)
+          localStorage.setItem('refresh_token',res.data.refresh)
+          axiosInstance.defaults.headers['Authorization'] ='JWT' +
+          localStorage.getItem('access_token')
+          window.location='/'
+        }
+        )
+        .catch((err) => console.log(err));
+    }
+
+
+  render() {
+    return (
+      <div>
+        <section className="content-wrapper">
+          <div className="login">
+            <div className="box">
+              <form id="userCredentials" className="loginbox">
+                <h2>LOGIN</h2>
+                <label htmlFor="username">Username/Email</label>
+                <input
+                  id="email"
+                  name="email"
+                  type="email" className="validate"
+                  value={this.state.email}
+                  onChange={this.onChange}
+                />
+                <label htmlFor="password">Password</label>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  value={this.state.password}
+                  onChange={this.onChange}
+                />
+
+                <div className="buttonContainer">
+                  <button id="userSubmit" onClick={this.sendForm}>
+                    Log in
+                  </button>
+                </div>
+                <small className="form-text">
+                  Not <Link to="signup">Signed Up</Link> yet?
+                </small>
+              </form>
+            </div>
+          </div>
+        </section>
       </div>
-    </div>
-  );
+    );
+  }
 }
-
-export default Login;

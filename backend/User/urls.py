@@ -1,13 +1,11 @@
 
 from django.urls import path, include
-from User.views import UserDetail,UserList
+from .views import CustomUserCreate, BlacklistTokenUpdateView
+
+app_name = 'users'
 
 urlpatterns = [
-path('<int:pk>/', UserDetail.as_view(),name='detailuser'),
-
-path('', UserList.as_view(),name='listuser')
-
-#path("", views.index, name="index"),
-#path("dashboard/", views. ,name=" "),
-
+    path('create/', CustomUserCreate.as_view(), name="create_user"),
+    path('logout/blacklist/', BlacklistTokenUpdateView.as_view(),
+         name='blacklist')
 ]

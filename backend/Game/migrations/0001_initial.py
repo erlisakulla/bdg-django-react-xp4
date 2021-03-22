@@ -2,16 +2,11 @@
 
 from django.db import migrations, models
 import django.db.models.deletion
-from Instructor.models import instructor
 
 
 class Migration(migrations.Migration):
 
     initial = True
-
-    dependencies = [
-        ('Instructor','__first__')
-    ]
 
     operations = [
         migrations.CreateModel(

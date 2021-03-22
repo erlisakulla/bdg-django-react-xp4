@@ -1,5 +1,4 @@
 from django.db import models
-from Instructor.models import instructor
 from User.models import User
 
 # Create your models here.
