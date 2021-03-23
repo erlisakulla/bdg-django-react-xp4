@@ -57,7 +57,7 @@ python manage.py migrate
 ```
 
 Start Server
-```
+```bash
 ./manage.py runserver 
 ```
 more commands : follow this link 
@@ -67,14 +67,29 @@ more commands : follow this link
 ## For Custom Database (optional)
 This project uses mysqlite for database management. If you want to integrate to your database server.
 Install mysql adaptor 
-```
+```bash
 python -m pip install mysqlclient
 ```
 
 make sure to create sql database first and link it to this project. 
 
-replace this  in settings.py located inside beergame folder. 
+login to MYSQL
+```bash
+mysql -h {hostname} -u username -p {databasename}
+
+#enter your server password
+Password: {your password}
 ```
+after sucessful login inside mysql shell. Run
+```mysql
+CREATE DATABASE YOUR_DATABASE_NAME;
+```
+
+
+replace this  in settings.py located inside beergame folder. 
+
+
+```python
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -83,7 +98,7 @@ DATABASES = {
 }
 ```
 to 
-```
+```python
 DATABASES = {
   'default': {
   'ENGINE': 'django.db.backends.mysql',
@@ -110,10 +125,9 @@ python manage.py migrate
 
 ## Frontend SETUP 
 
-Use the package  manager [npm](https://www.npmjs.com/) to install dependencies.
+Use the package  manager [npm](https://www.npmjs.com/) or  [yarn](https://yarnpkg.com/) to install dependencies.
 
-
-
+n.
 
 ```bash
 #Frontend Directory 
@@ -123,12 +137,12 @@ npm install
 yarn install
 ```
 
-### Starting Frontend
+## Starting Frontend
+
+### Further steps are only shown using yarn but you can use npm
 
 ```bash
 yarn start
-#or
-npm start
 ```
 
 
@@ -136,8 +150,6 @@ npm start
 Only checks for .tests.js files 
 ```bash
 yarn test
-#or
-npm test
 ```
 
 

@@ -26,7 +26,7 @@ export default function CreateGame() {
   let handleBoolOnChange = (e) => {
     setFromData((prevstate) => ({
       ...prevstate,
-      [e.target.name]: !e.target.name,
+      [e.target.name]: !formdata[e.target.name],
     }));
   };
   let handleSubmit = (e) => {
@@ -87,7 +87,7 @@ export default function CreateGame() {
                   className="filled-in"
                   name="distributer_present"
                   onChange={handleBoolOnChange}
-                  checked
+                  checked={formdata.distributer_present}
                 />
                 <span>distributer_present</span>
               </label>
@@ -99,7 +99,7 @@ export default function CreateGame() {
                   className="filled-in"
                   name="wholesaler_present"
                   onChange={handleBoolOnChange}
-                  checked
+                  checked={formdata.wholesaler_present}
                 />
                 <span>wholesaler_present</span>
               </label>

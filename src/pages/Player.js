@@ -11,6 +11,8 @@ function Player() {
   const [showRole, setShowRole] = useState(false);
   const [showError, setShowError] = useState(false);
   const [userinfo, setUserInfo] = useState("None");
+  const [errorforinfo, setErrorInfo] = useState("");
+  const [errorforgame, setErrorGame] = useState("");
 
   useEffect(() => {
     // Update the document title using the browser API
@@ -20,21 +22,28 @@ function Player() {
         setUserInfo(res.data.email);
       })
       .catch((err) => {
+        if(err.response){
+          setErrorInfo(JSON.stringify(err.response.data))
+        }
         console.log(err);
       });
   }, []);
   let handlejoin = () => {
     axiosInstance
       .get("/game/" + joinGameID)
-      .then(function (response) {
+      .then(  (response) => {
         setGameData(response.data);
         setShowRole(true);
       })
-      .catch(function (error) {
+      .catch( (error)  => {
+        if(error.response
+        ){
+          setErrorGame(JSON.stringify(error.response.data))
+        }
         setShowRole(false);
         setShowError(true);
+
       })
-      .then(function () {});
   };
 
   let handlecodechange = (e) => {
@@ -43,7 +52,9 @@ function Player() {
   return (
     <div className="container">
       <h1>Player Page</h1>
+
       <h3>current user : {userinfo}</h3>
+      <p>{errorforinfo}</p>
       Enter Code to Join Game
       <div className="row">
         <div className="input-field col s6">
@@ -65,7 +76,7 @@ function Player() {
         </div>
       </div>
       {showRole ? <Selectrole game={gamedata} /> : null}
-      {showError ? <div>Game Not Found</div> : null}
+      {showError ? <div>{errorforgame} </div> : null}
       <div className="row">
         <div>
           <h1>Current Game</h1>
@@ -100,7 +111,7 @@ function Selectrole(props) {
         <div className="input-field col s6">
           <select className="browser-default" onChange={handleoptionchange}>
             <option defaultValue disabled>
-              Choose your option
+              Choose your option ( not set yet )
             </option>
             <option value={1}>Option 1</option>
             <option value={2}>Option 2</option>

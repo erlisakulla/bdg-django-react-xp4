@@ -50,7 +50,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework_simplejwt',
     'User',
-    'rest_framework_simplejwt.token_blacklist'
+    'rest_framework_simplejwt.token_blacklist',
+    'drf_yasg'
 ]
 
 MIDDLEWARE = [
@@ -93,7 +94,7 @@ WSGI_APPLICATION = 'beergame.wsgi.application'
 #   'default': {
 #   'ENGINE': 'django.db.backends.mysql',
 #   'NAME': 'django_db',
-#   'USER': 'mahdi',
+#   'USER': 'root',
 #   'PASSWORD':'123456',
 #   'HOST': '127.0.0.1',
 #   'PORT': '3306',
