@@ -6,12 +6,8 @@ from Game.serializers import gameserializer
 from rest_framework import generics
 from rest_framework.permissions import IsAdminUser,IsAuthenticated, SAFE_METHODS, DjangoModelPermissions, BasePermission
 from rest_framework_simplejwt.models import TokenUser
-# Create your views here.
 
-#def index(response):
-#    return HttpResponse("<h1> hello zbi</hi>")
-
-
+#permission to edit the game : only by instructor
 class GameUserWritePermission(BasePermission):
     message="editing only by the instructor "
 
@@ -20,6 +16,8 @@ class GameUserWritePermission(BasePermission):
             return True
         return obj.instructor==request.user
 
+
+#creation possible by only instructor
 class GameCreatePermission(BasePermission):
     message="creating only by the instructor "
 
@@ -30,6 +28,7 @@ class GameCreatePermission(BasePermission):
 
 
 class GameList(generics.ListCreateAPIView):
+    #must be authenticated to view game 
         permission_classes=[IsAuthenticated,GameCreatePermission]
         serializer_class = gameserializer
 
@@ -37,6 +36,7 @@ class GameList(generics.ListCreateAPIView):
             user = self.request.user
             return game.objects.filter(instructor=user)
 
+        #save game with instructor= logged in instructor
         def perform_create(self, serializer):
             print(serializer)
             serializer.save(instructor=self.request.user)
@@ -44,7 +44,7 @@ class GameList(generics.ListCreateAPIView):
 
 
 
-
+#View to get specific games with game id /game/gameid created by loggedin instructor 
 class GameDetail(generics.RetrieveUpdateDestroyAPIView,GameUserWritePermission):
         permission_classes=[IsAuthenticated,GameUserWritePermission]
         queryset = game.objects.all()

@@ -8,21 +8,6 @@ from rest_framework.permissions import AllowAny
 
 from rest_framework.permissions import IsAdminUser,IsAuthenticated, SAFE_METHODS, DjangoModelPermissions, BasePermission
 from rest_framework_simplejwt.models import TokenUser
-# Create your views here.
-
-#def index(response):
-#    return HttpResponse("
-# 
-# <h1> hello zbi</hi>")
-
-
-
-# class UserPermission(BasePermission):
-#     def has_object_permission(self,request,view,obj):
-#         if request.method in SAFE_METHODS:
-#             return True
-#         return obj.instructor==request.user
-
 
 #Creating Account
 class CustomUserCreate(APIView):
