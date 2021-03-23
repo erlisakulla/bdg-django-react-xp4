@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
                 ('backlog_cost', models.FloatField()),
                 ('rounds_completed', models.IntegerField()),
                 ('starting_inventory', models.IntegerField()),
-                ('instructor', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='Instructor.instructor')),
+                ('instructor', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='User.User')),
             ],
         ),
 

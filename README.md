@@ -58,7 +58,12 @@ python manage.py migrate
 
 Start Server
 ```bash
-./manage.py runserver 
+python manage.py runserver 
+```
+
+Run  Test
+```bash
+python manage.py test 
 ```
 more commands : follow this link 
 [https://docs.djangoproject.com/en/3.1/ref/django-admin/](https://docs.djangoproject.com/en/3.1/ref/django-admin/)
@@ -122,6 +127,11 @@ python manage.py makemigrations
 python manage.py migrate
 ```
 
+Makesure to configure your frontend url in settings.py for CORS
+
+```python
+CORS_ORIGIN_WHITELIST = 'http://localhost:3000',
+```
 
 ## Frontend SETUP 
 
