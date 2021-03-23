@@ -80,7 +80,7 @@ axiosInstance.interceptors.response.use(
             
 
 		}
-        window.location.href = '/login/';
+        // window.location.href = '/login/';
 
 		// specific error handling done elsewhere
 		return Promise.reject(error);

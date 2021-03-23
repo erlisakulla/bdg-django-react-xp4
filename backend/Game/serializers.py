@@ -6,6 +6,7 @@ from .models import game
 #from models import game
 
 class gameserializer(serializers.ModelSerializer):
+    instructor= serializers.ReadOnlyField(source='instructor.id')
     class Meta:
         model = game
         fields = (
@@ -20,4 +21,6 @@ class gameserializer(serializers.ModelSerializer):
         "instructor",
         "id"
         )
+
+        
         

@@ -31,11 +31,16 @@ class GameCreatePermission(BasePermission):
 
 class GameList(generics.ListCreateAPIView):
         permission_classes=[IsAuthenticated,GameCreatePermission]
+        serializer_class = gameserializer
+
         def get_queryset(self):
             user = self.request.user
             return game.objects.filter(instructor=user)
 
-        serializer_class = gameserializer
+        def perform_create(self, serializer):
+            print(serializer)
+            serializer.save(instructor=self.request.user)
+        
 
 
 

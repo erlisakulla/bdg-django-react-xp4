@@ -31,7 +31,6 @@ export default class signup extends Component {
 
 
   sendForm = (e) => {
-    var apiurl= "http://localhost:8000/user/create/";
     e.preventDefault();
 
     axiosInstance.post('user/create/',
@@ -57,7 +56,9 @@ export default class signup extends Component {
         }
       })
       .catch((err) =>{
-        console.log(err)
+        if(err.response){
+          this.setState({error: JSON.stringify(err.response.data)})
+        }
       })
   };
 
@@ -65,7 +66,8 @@ export default class signup extends Component {
     return (
       <div>
         <section className="content-wrapper">
-          <div className="login">
+          <div className="signup">
+            <div>{this.state.error}</div>
             <div className="box">
               <form id="userCredentials" className="loginbox">
                 <h2>SIGN UP</h2>

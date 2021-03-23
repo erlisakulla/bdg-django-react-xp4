@@ -36,7 +36,11 @@ export default class SignIn extends Component {
           window.location='/'
         }
         )
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          if(err.response){
+            this.setState({error: JSON.stringify(err.response.data)})
+          }
+        });
     }
 
 
@@ -44,6 +48,7 @@ export default class SignIn extends Component {
     return (
       <div>
         <section className="content-wrapper">
+          <div>{this.state.error}</div>
           <div className="login">
             <div className="box">
               <form id="userCredentials" className="loginbox">
