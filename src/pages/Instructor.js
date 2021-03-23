@@ -36,7 +36,7 @@ export default function Instructor() {
     {
       if (!loading) {
         gamedata.forEach((element) => {
-          component.push(<ViewGame gamedata={element} />);
+          component.push(<ViewGame key ='{gamedata.id}' gamedata={element} />);
         });
         return component;
       } else if (errordata) {
@@ -48,6 +48,7 @@ export default function Instructor() {
   }
 }
     return <div className="container">
+      <h3> Instructor Page</h3>
     <h1>Games </h1>
     <Link to="/creategame" className="btn"> Create New Game </Link>
     <div>{errordata}</div>

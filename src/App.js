@@ -42,6 +42,9 @@ function App() {
           <Route path="/logout" exact component={Logout} />
 
           <Route path="/about" exact component={About} />
+          <Route path="/:any" exact>
+            <h1>NOT FOUND</h1>
+            </Route>
         </Switch>
       </div>
     </Router>

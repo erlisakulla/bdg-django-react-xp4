@@ -14,6 +14,7 @@ export default class signup extends Component {
       password: "",
       error: "",
       isinstructor: false,
+      message:""
     };
   }
   onChange = (e) => {
@@ -45,14 +46,12 @@ export default class signup extends Component {
         }
       )
       .then((res) => {
-        console.log(res)
-        console.log(this.state)
+
 
         if (res.status === 201) {
-          alert("Successfully registered as" + this.state.isinstructor?"instructor":"player" +". Now sign in!");
-          useHistory().push("/");
+          this.setState({message:"created sucessfully"})
+          // useHistory().push("/");
                 } else {
-          console.log(res.data);
         }
       })
       .catch((err) =>{
@@ -67,6 +66,7 @@ export default class signup extends Component {
       <div>
         <section className="content-wrapper">
           <div className="signup">
+            <div>{this.state.message}</div>
             <div>{this.state.error}</div>
             <div className="box">
               <form id="userCredentials" className="loginbox">

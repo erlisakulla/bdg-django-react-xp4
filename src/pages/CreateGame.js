@@ -53,12 +53,9 @@ export default function CreateGame() {
           console.log(err.response.data);
 
         }
-
         console.log(err)
       });
   };
-
-    console.log(formdata)
   return (
     <div className="container">
       <h3>Create New Game </h3>
