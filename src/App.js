@@ -11,6 +11,7 @@ import Nav from "./components/Nav";
 import Player from "./pages/Player";
 import Logout from "./pages/Logout"
 import CreateGame from "./pages/CreateGame"
+import CreateDemand from "./pages/create_demand";
 function App() {
 
   useEffect(() => {
@@ -35,6 +36,7 @@ function App() {
           <Route path="/signup" exact component={signup} />
           <Route path="/login" exact component={Login} />
           <Route path="/creategame" exact component={CreateGame} />
+          <Route path="/createdemand" exact component={CreateDemand} />
 
           <Route path="/" exact component={LandingPage} />
 

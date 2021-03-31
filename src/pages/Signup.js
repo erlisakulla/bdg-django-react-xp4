@@ -84,11 +84,11 @@ export default class signup extends Component {
                 </div>
                 <div className="input-field col s6">
 
-                <label htmlFor="name">E-Mail</label>
+                <label htmlFor="name">Username</label>
                 <input
                   id="email"
                   name="email"
-                  type="email" className="validate"
+                  type="text"
                   value={this.state.identifier}
                   onChange={this.onChange}
                 />

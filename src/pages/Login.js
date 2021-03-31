@@ -53,12 +53,11 @@ export default class SignIn extends Component {
             <div className="box">
               <form id="userCredentials" className="loginbox">
                 <h2>LOGIN</h2>
-                <label htmlFor="username">Username/Email</label>
+                <label htmlFor="username">Username</label>
                 <input
-                  id="email"
-                  name="email"
-                  type="email" className="validate"
-                  value={this.state.email}
+                  id="username"
+                  name="username"
+                  type="text" className="validate"
                   onChange={this.onChange}
                 />
                 <label htmlFor="password">Password</label>

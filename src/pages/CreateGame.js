@@ -5,9 +5,14 @@ import { useHistory } from "react-router-dom";
 export default function CreateGame() {
   let defaultdata = {
     session_length: 1,
+    game_id: '',
+    session_code: '',
+    info_delay:2,
+    start_inventory:0,
     holding_cost: 1,
     backlog_cost: 1,
     wholesaler_present:true,
+    info_sharing: true,
     distributer_present:true
 
   };
@@ -57,13 +62,13 @@ export default function CreateGame() {
       });
   };
   return (
-    <div className="container">
-      <h3>Create New Game </h3>
+    <div className="container w-50" style={{paddingTop:30}}>
+      <h3 className="text-center">Create New Game </h3>
       <div className="error">{errordata}</div>
-      <div className="row">
+      <div className="row" style={{paddingTop:30}}>
         <form className="col s12">
           <div className="row">
-            <div className="input-field col s12">
+            <div className="input-field col s6">
               <input
                 id="session_length"
                 name="session_length"
@@ -75,35 +80,21 @@ export default function CreateGame() {
               />
               <label htmlFor="session_length">Session Length</label>
             </div>
-          </div>
-          <div className="row">
             <div className="input-field col s6">
-              <label>
-                <input
-                  type="checkbox"
-                  className="filled-in"
-                  name="distributer_present"
-                  onChange={handleBoolOnChange}
-                  checked={formdata.distributer_present}
-                />
-                <span>distributer_present</span>
-              </label>
-            </div>
-            <div className="input-field col s6">
-              <label>
-                <input
-                  type="checkbox"
-                  className="filled-in"
-                  name="wholesaler_present"
-                  onChange={handleBoolOnChange}
-                  checked={formdata.wholesaler_present}
-                />
-                <span>wholesaler_present</span>
-              </label>
+              <input
+                id="session_length"
+                name="session_length"
+                type="text"
+                value={formdata.session_code}
+                onChange={handleOnChange}
+                className="validate"
+              />
+              <label htmlFor="session_length">Session Code</label>
             </div>
           </div>
+         
           <div className="row">
-            <div className="input-field col s12">
+            <div className="input-field col s6">
               <input
                 id="holding_cost"
                 name="holding_cost"
@@ -115,9 +106,7 @@ export default function CreateGame() {
               />
               <label htmlFor="holding_cost">Holding Cost</label>
             </div>
-          </div>
-          <div className="row">
-            <div className="input-field col s12">
+            <div className="input-field col s6">
               <input
                 id="backlog_cost"
                 name="backlog_cost"
@@ -130,15 +119,89 @@ export default function CreateGame() {
               <label htmlFor="backlog_cost">Backlog Cost</label>
             </div>
           </div>
-          
-          <button
-            className="btn waves-effect waves-light"
-            type="submit"
-            name="submitbutton"
-            onClick={handleSubmit}
-          >
-            Submit{" "}
-          </button>
+          <div className="row">
+            <div className="input-field col s12">
+              <input
+                id="game_id"
+                name="game_id"
+                type="text"
+                onChange={handleOnChange}
+                className="validate"
+              />
+              <label htmlFor="backlog_cost">Game ID</label>
+            </div>
+            <div className="input-field col s4">
+              <input
+                id="info_delay"
+                name="info_delay"
+                type="number"
+                value={formdata.info_delay}
+                onChange={handleOnChange}
+                className="validate"
+              />
+              <label htmlFor="backlog_cost">Info Delay</label>
+            </div>
+            <div className="input-field col s12">
+              <input
+                id="start_inventory"
+                name="start_inventory"
+                type="number"
+                value={formdata.start_inventory}
+                onChange={handleOnChange}
+                className="validate"
+              />
+              <label htmlFor="backlog_cost">Strting Inventory</label>
+            </div>
+          </div>
+          <div className="row">
+            <div className="input-field col s4">
+              <label>
+                <input
+                  type="checkbox"
+                  className="filled-in"
+                  name="distributer_present"
+                  onChange={handleBoolOnChange}
+                  checked={formdata.distributer_present}
+                />
+                <span>Distributer</span>
+              </label>
+            </div>
+            <div className="input-field col s4">
+              <label>
+                <input
+                  type="checkbox"
+                  className="filled-in"
+                  name="wholesaler_present"
+                  onChange={handleBoolOnChange}
+                  checked={formdata.wholesaler_present}
+                />
+                <span>Wholesaler</span>
+              </label>
+            </div>
+            <div className="input-field col s4">
+              <label>
+                <input
+                  type="checkbox"
+                  className="filled-in"
+                  name="info_share"
+                  onChange={handleBoolOnChange}
+                  checked={formdata.info_sharing}
+                />
+                <span>Info Sharing</span>
+              </label>
+            </div>
+          </div>
+          <div className="d-flex align-items-center justify-content-center">
+            <button
+              className="btn waves-effect waves-light text-center"
+              type="submit"
+              name="submitbutton"
+              onClick={handleSubmit}
+              style={{marginTop:30}}
+            >
+              Create Game{" "}
+            </button>
+          </div>
         </form>
       </div>
     </div>
