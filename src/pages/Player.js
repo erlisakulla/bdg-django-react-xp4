@@ -51,39 +51,46 @@ function Player() {
   };
   return (
     <div className="container">
-      <h1>Player Page</h1>
 
-      <h3>current user : {userinfo}</h3>
+      <h3>Hello {userinfo}</h3>
       <p>{errorforinfo}</p>
-      Enter Code to Join Game
-      <div className="row">
-        <div className="input-field col s6">
-          <input
-            name="gamecode"
-            id="gamecode"
-            type="text"
-            onChange={handlecodechange}
-            className="validate"
-          />
-          <label className="active" htmlFor="gamecode">
-            Game Code
-          </label>
-        </div>
-        <div className="input-field col s2">
-          <button className="btn" onClick={handlejoin}>
-            submit
-          </button>
-        </div>
-      </div>
-      {showRole ? <Selectrole game={gamedata} /> : null}
-      {showError ? <div>{errorforgame} </div> : null}
-      <div className="row">
-        <div>
-          <h1>Current Game</h1>
+      
+      <div className="row" style={{marginTop:60}}>
 
-          <Getcurrentgame gid={1} />
+        <div className="col sm-6">
+          <div className="container w-50">
+            <p>Enter Code to Join Game</p>
+            <div className="input-field">
+              <input
+                name="gamecode"
+                id="gamecode"
+                type="text"
+                onChange={handlecodechange}
+                className="validate"
+              />
+              <label className="active" htmlFor="gamecode">
+                Game Code
+              </label>
+            </div>
+            <div className="input-field col s2">
+              <button className="btn" onClick={handlejoin}>
+                Join
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div className="col sm-6">
+          <div>
+            <h1>Current Game</h1>
+
+            <Getcurrentgame gid={1} />
+            {showRole ? <Selectrole game={gamedata} /> : null}
+            {showError ? <div>{errorforgame} </div> : null}
+          </div>
         </div>
       </div>
+      
     </div>
   );
 }

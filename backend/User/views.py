@@ -27,7 +27,8 @@ class CustomUserInfo(APIView):
     permission_classes = [IsAuthenticated]
     def get(self,request,format="json"):
         userinfo= request.user.email
-        return Response({"email":userinfo},status=status.HTTP_200_OK)
+        isInstructor = request.user.is_instructor
+        return Response({"email":userinfo, "isAdmin" : isInstructor},status=status.HTTP_200_OK)
 
 
 

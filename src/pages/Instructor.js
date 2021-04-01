@@ -47,13 +47,13 @@ export default function Instructor() {
   
   }
 }
-    return <div className="container">
-      <h3> Instructor Page</h3>
-    <h1>Games </h1>
-    <Link to="/creategame" className="btn"> Create New Game </Link>
-    <div>{errordata}</div>
-    {loadgame()}
-    </div>;
+    return (
+    <div className="container w-75" style={{marginTop:60}}>
+      <h1>Games </h1>
+      <div>{errordata}</div>
+      {loadgame()}
+      <Link to="/creategame" className="btn"> Create New Game </Link>
+    </div>);
   
 }
 

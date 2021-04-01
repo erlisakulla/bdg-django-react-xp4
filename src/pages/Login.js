@@ -29,14 +29,13 @@ export default class SignIn extends Component {
           password: this.state.password,
         })
         .then((res) => {
+          console.log(res.data);
           localStorage.setItem('access_token',res.data.access)
           localStorage.setItem('refresh_token',res.data.refresh)
           axiosInstance.defaults.headers['Authorization'] ='JWT' +
-          localStorage.getItem('access_token')
-          window.location='/'
-        }
-        )
-        .catch((err) => {
+          localStorage.getItem('access_token');
+          window.location='/';
+        }).catch((err) => {
           if(err.response){
             this.setState({error: JSON.stringify(err.response.data)})
           }
@@ -56,8 +55,8 @@ export default class SignIn extends Component {
                 <label htmlFor="username">Username</label>
                 <input
                   id="username"
-                  name="username"
-                  type="text" className="validate"
+                  name="email"
+                  type="text"
                   onChange={this.onChange}
                 />
                 <label htmlFor="password">Password</label>

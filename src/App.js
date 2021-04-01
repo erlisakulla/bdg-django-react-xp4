@@ -12,6 +12,8 @@ import Player from "./pages/Player";
 import Logout from "./pages/Logout"
 import CreateGame from "./pages/CreateGame"
 import CreateDemand from "./pages/create_demand";
+import axiosInstance from "./axios";
+import RequireAuth from "./helper_functions/checkAuth";
 function App() {
 
   useEffect(() => {
@@ -24,6 +26,7 @@ function App() {
     };
   }, []);
 
+
   return (
     <Router>
       <div className="App ">
@@ -31,8 +34,9 @@ function App() {
 
         <Switch>
           <Route path="/Instructor" exact component={Instructor} />
-          <Route path="/player" exact component={Player} />
-
+          <RequireAuth exact path="/player" component={Player}/>
+            {/* <Route path="/player" exact component={Player}/> */}
+          
           <Route path="/signup" exact component={signup} />
           <Route path="/login" exact component={Login} />
           <Route path="/creategame" exact component={CreateGame} />
