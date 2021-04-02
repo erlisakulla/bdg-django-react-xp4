@@ -6,20 +6,28 @@ export default function CreateGame() {
   let defaultdata = {
     session_length: 1,
     game_id: '',
-    session_code: '',
     info_delay:2,
     start_inventory:0,
     holding_cost: 1,
     backlog_cost: 1,
     wholesaler_present:true,
     info_sharing: true,
-    distributer_present:true
-
+    distributer_present:true,
+    demand_id: ''
   };
+  
   const [formdata, setFromData] = useState(defaultdata);
   const [errordata, setError] = useState("");
 
   var history=useHistory()
+
+  let handleOnDemandChange = (e) => {
+    setFromData((prevstate) => ({
+      ...prevstate,
+      'demand_id': e.target.value,
+    }));
+
+  };
 
   let handleOnChange = (e) => {
     setFromData((prevstate) => ({
@@ -36,7 +44,6 @@ export default function CreateGame() {
   };
   let handleSubmit = (e) => {
     e.preventDefault();
-
     axiosInstance
       .post("game/", formdata, {
         crossDomain: true,
@@ -81,15 +88,11 @@ export default function CreateGame() {
               <label htmlFor="session_length">Session Length</label>
             </div>
             <div className="input-field col s6">
-              <input
-                id="session_code"
-                name="session_code"
-                type="text"
-                value={formdata.session_code}
-                onChange={handleOnChange}
-                className="validate"
-              />
-              <label htmlFor="session_length">Session Code</label>
+              
+              <select className='form-control' name='demand_id' onChange={handleOnDemandChange}>
+                <option>Demand 1</option>
+                <option>Deamdn 2</option>
+              </select>
             </div>
           </div>
          

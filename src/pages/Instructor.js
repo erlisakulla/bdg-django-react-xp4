@@ -5,6 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Nav2 from "../components/Nav2";
 import axiosInstance from "../axios";
 import { Link } from "react-router-dom";
+import ViewGame from "../components/game_view";
 
 export default function Instructor() {
   const [gamedata, setGameData] = useState([]);
@@ -31,12 +32,12 @@ export default function Instructor() {
       });
   }, []);
 
-    let loadgame = () => {
+  let loadgame = () => {
     let component = [];
     {
       if (!loading) {
         gamedata.forEach((element) => {
-          component.push(<ViewGame key ='{gamedata.id}' gamedata={element} />);
+          component.push(<tr><ViewGame key ='{gamedata.id}' gamedata={element} /></tr>);
         });
         return component;
       } else if (errordata) {
@@ -46,18 +47,34 @@ export default function Instructor() {
       }
   
   }
-}
+  }
     return (
-    <div className="container w-75" style={{marginTop:60}}>
-      <h1>Games </h1>
+    <div className="container w-100" style={{marginTop:60}}>
+      <h1 className="text-center">Games </h1>
       <div>{errordata}</div>
-      {loadgame()}
-      <Link to="/creategame" className="btn"> Create New Game </Link>
+      <table className="table table-striped" style={{marginTop:50}}>
+        <thead>
+          <tr>
+            <th scope="col">Game ID</th>
+            <th scope="col">Current Round</th>
+            <th scope="col">Game length</th>
+            <th scope="col">Backlog Cost</th>
+            <th scope="col">Holding Cost</th>
+            <th scope="col">Demand Pattern</th>
+            <th scope="col">Status</th>
+            <th scope="col">Starting Inventory</th>
+            <th scope="col">Time Delay</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {loadgame().length == 0 ? <p className="text-center">No Games Created</p> : loadgame()}
+        </tbody>
+      </table>
+      
+      <Link to="/creategame" className="btn" style={{marginTop:30}}> Create New Game </Link>
     </div>);
   
 }
 
-function ViewGame(props) {
-  var gamedata = props.gamedata;
-  return <p>{JSON.stringify(gamedata)}</p>;
-}
+
