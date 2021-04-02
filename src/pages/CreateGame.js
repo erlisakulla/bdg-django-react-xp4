@@ -82,8 +82,8 @@ export default function CreateGame() {
             </div>
             <div className="input-field col s6">
               <input
-                id="session_length"
-                name="session_length"
+                id="session_code"
+                name="session_code"
                 type="text"
                 value={formdata.session_code}
                 onChange={handleOnChange}
