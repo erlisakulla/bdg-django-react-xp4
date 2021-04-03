@@ -22,4 +22,4 @@ class DemandPattern(models.Model):
     demand_id = models.CharField(max_length=32, null=False, default="id", blank=False, primary_key=True)
     weeks_num = models.IntegerField(blank=False, null=False)
     demands = models.CharField(max_length = 128, null=False, blank=False, validators=[int_list_validator])
-    created_by = models.ForeignKey(User,limit_choices_to={'is_instructor': True}, on_delete=models.CASCADE)
+    instructor = models.ForeignKey(User,limit_choices_to={'is_instructor': True}, on_delete=models.CASCADE)

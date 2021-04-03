@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from rest_framework import viewsets
-from Game.models import game
-from Game.serializers import gameserializer
+from rest_framework.schemas import inspectors
+from Game.models import game, DemandPattern
+from Game.serializers import gameserializer, demandPatternSerializer
 from rest_framework import generics
 from rest_framework.permissions import IsAdminUser,IsAuthenticated, SAFE_METHODS, DjangoModelPermissions, BasePermission
 from rest_framework_simplejwt.models import TokenUser
@@ -49,3 +50,16 @@ class GameDetail(generics.RetrieveUpdateDestroyAPIView,GameUserWritePermission):
         permission_classes=[IsAuthenticated,GameUserWritePermission]
         queryset = game.objects.all()
         serializer_class = gameserializer
+
+class DemandList(generics.ListCreateAPIView):
+
+    permission_classes = [IsAuthenticated, GameCreatePermission]
+    serializer_class = demandPatternSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        return DemandPattern.objects.filter(instructor = user)
+
+    def perform_create(self, serializer):
+        serializer.save(instructor = self.request.user)
+        

@@ -34,7 +34,7 @@ class demandPatternSerializer(serializers.ModelSerializer):
         "demand_id",
         "weeks_num",
         "demands",
-        "created_by",
+        "instructor",
         )
 
         

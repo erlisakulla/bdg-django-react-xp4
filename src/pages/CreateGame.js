@@ -17,9 +17,21 @@ export default function CreateGame() {
   };
   
   const [formdata, setFromData] = useState(defaultdata);
+  const [demand_list, getDemand] = useState([]);
   const [errordata, setError] = useState("");
 
   var history=useHistory()
+
+  useEffect(() => {
+    axiosInstance.get("game/demand")
+    .then(
+      res => {
+        if (res.status == 200) {
+          getDemand(res.data);
+        }
+      }
+    );
+  }, [demand_list]);
 
   let handleOnDemandChange = (e) => {
     setFromData((prevstate) => ({
@@ -44,6 +56,7 @@ export default function CreateGame() {
   };
   let handleSubmit = (e) => {
     e.preventDefault();
+    console.log(formdata);
     axiosInstance
       .post("game/", formdata, {
         crossDomain: true,
@@ -90,8 +103,15 @@ export default function CreateGame() {
             <div className="input-field col s6">
               
               <select className='form-control' name='demand_id' onChange={handleOnDemandChange}>
-                <option>Demand 1</option>
-                <option>Deamdn 2</option>
+                {
+                  demand_list.map(
+                    demand => {
+                      return (
+                        <option>{demand.demand_id}</option>
+                      );
+                    }
+                  )
+                }
               </select>
             </div>
           </div>
@@ -131,7 +151,7 @@ export default function CreateGame() {
                 onChange={handleOnChange}
                 className="validate"
               />
-              <label htmlFor="backlog_cost">Game ID</label>
+              <label htmlFor="game_id">Game ID</label>
             </div>
             <div className="input-field col s4">
               <input
@@ -142,7 +162,7 @@ export default function CreateGame() {
                 onChange={handleOnChange}
                 className="validate"
               />
-              <label htmlFor="backlog_cost">Info Delay</label>
+              <label htmlFor="info_delay">Info Delay</label>
             </div>
             <div className="input-field col s12">
               <input
@@ -153,7 +173,7 @@ export default function CreateGame() {
                 onChange={handleOnChange}
                 className="validate"
               />
-              <label htmlFor="backlog_cost">Strting Inventory</label>
+              <label htmlFor="start_inventory">Strting Inventory</label>
             </div>
           </div>
           <div className="row">

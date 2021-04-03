@@ -72,7 +72,8 @@ export default function Instructor() {
         </tbody>
       </table>
       
-      <Link to="/creategame" className="btn" style={{marginTop:30}}> Create New Game </Link>
+      <Link to="/creategame" className="btn" style={{marginTop:30}}> Create Game </Link>
+      <Link to="/createdemand" className="btn btn-primary" style={{marginTop:30, float:"right"}}> Create Demand Pattern </Link>
     </div>);
   
 }
