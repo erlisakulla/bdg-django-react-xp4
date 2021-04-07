@@ -2,7 +2,7 @@ import React, { Component, useState, useEffect } from "react";
 import axiosInstance from "../axios";
 import { useHistory } from "react-router-dom";
 
-export default function CreateGame() {
+export default function CreateGame(props) {
   let defaultdata = {
     session_length: 1,
     game_id: '',
@@ -31,6 +31,7 @@ export default function CreateGame() {
         }
       }
     );
+
   }, [demand_list]);
 
   let handleOnDemandChange = (e) => {

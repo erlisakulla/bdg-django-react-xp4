@@ -14,6 +14,8 @@ import CreateGame from "./pages/CreateGame"
 import CreateDemand from "./pages/create_demand";
 import axiosInstance from "./axios";
 import RequireAuth from "./helper_functions/checkAuth";
+import GameDetails from "./pages/game_details";
+import EditGame from "./pages/edit_game";
 function App() {
 
   useEffect(() => {
@@ -39,7 +41,9 @@ function App() {
           
           <Route path="/signup" exact component={signup} />
           <Route path="/login" exact component={Login} />
-          <Route path="/creategame" exact component={CreateGame} />
+          <Route path="/creategame" exact component={EditGame} />
+          <Route path="/game/:id" exact component={GameDetails} />
+          <Route path="/editgame/:id" exact component={EditGame} />
           <Route path="/createdemand" exact component={CreateDemand} />
 
           <Route path="/" exact component={LandingPage} />

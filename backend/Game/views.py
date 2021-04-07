@@ -43,13 +43,24 @@ class GameList(generics.ListCreateAPIView):
             serializer.save(instructor=self.request.user)
         
 
-
-
 #View to get specific games with game id /game/gameid created by loggedin instructor 
 class GameDetail(generics.RetrieveUpdateDestroyAPIView,GameUserWritePermission):
         permission_classes=[IsAuthenticated,GameUserWritePermission]
         queryset = game.objects.all()
         serializer_class = gameserializer
+
+    
+
+class GameEdit(generics.UpdateAPIView):
+    permission_classes = [IsAuthenticated, GameUserWritePermission]
+    serializer_class = gameserializer
+
+    def get_queryset(self):
+        return game.objects.filter(game_id = self.request.data['game_id'])
+
+    def perform_update(self, serializer):
+        serializer.save(instructor = self.request.user)
+
 
 class DemandList(generics.ListCreateAPIView):
 
