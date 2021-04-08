@@ -8,7 +8,7 @@ import Instructor from "./pages/Instructor";
 import LandingPage from "./pages/LandingPage";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Nav from "./components/Nav";
-import Player from "./pages/player";
+import Player from "./pages/Player";
 import Logout from "./pages/Logout"
 import CreateDemand from "./pages/create_demand";
 import axiosInstance from "./axios";
