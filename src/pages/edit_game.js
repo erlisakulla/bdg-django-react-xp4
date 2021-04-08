@@ -7,7 +7,7 @@ class EditGame extends Component {
         session_length: 1,
         game_id: '',
         info_delay:2,
-        start_inventory:0,
+        starting_inventory:5,
         holding_cost: 1,
         backlog_cost: 1,
         wholesaler_present:true,
@@ -58,7 +58,7 @@ class EditGame extends Component {
             session_length: this.state.session_length,
             game_id: this.state.game_id,
             info_delay:this.state.info_delay,
-            start_inventory:this.state.start_inventory,
+            starting_inventory:this.state.starting_inventory,
             holding_cost: this.state.holding_cost,
             backlog_cost: this.state.backlog_cost,
             wholesaler_present:this.state.wholesaler_present,
@@ -133,11 +133,14 @@ class EditGame extends Component {
                     <div className="input-field col s6">
                       
                       <select className='form-control' name='demand_id' onChange={this.handleOnDemandChange}>
+                        <option defaultValue disabled>
+                          Choose your role
+                        </option>
                         {
                           this.state.demand_list.map(
                             demand => {
                               return (
-                                <option>{demand.demand_id}</option>
+                                <option value={demand.demand_id}>{demand.demand_id}</option>
                               );
                             }
                           )
@@ -198,14 +201,14 @@ class EditGame extends Component {
                     </div>
                     <div className="input-field col s12">
                       <input
-                        id="start_inventory"
-                        name="start_inventory"
+                        id="starting_inventory"
+                        name="starting_inventory"
                         type="number"
-                        value={this.state.start_inventory}
+                        value={this.state.starting_inventory}
                         onChange={this.handleOnChange}
                         className="validate"
                       />
-                      <label htmlFor="start_inventory">Strting Inventory</label>
+                      <label htmlFor="starting_inventory">Strting Inventory</label>
                     </div>
                   </div>
                   <div className="row">

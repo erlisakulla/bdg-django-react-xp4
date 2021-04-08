@@ -74,9 +74,13 @@ class PlayerGameEdit(generics.ListCreateAPIView):
     serializer_class = playerGameSerializer
 
     def get_queryset(self):
-        role = self.request.GET['role']
-        game_id = self.request.GET['game_id']
-        return PlayerGame.objects.filter(role = role, game_id = game_id)
+        role = self.request.GET.get("role", None)
+        game_id = self.request.GET.get("game_id", None)
+
+        if (role == None):
+            return PlayerGame.objects.filter(player_id = self.request.user)
+        else:
+            return PlayerGame.objects.filter(role = role, game_id = game_id)
 
     def perform_create(self, serializer):
         print(self.request)

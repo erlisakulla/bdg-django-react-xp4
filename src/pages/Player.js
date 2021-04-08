@@ -1,120 +1,109 @@
-import React, { useState, useEffect } from "react";
-import { Link, Redirect } from "react-router-dom";
-import axios from "axios";
+import { Component } from "react";
 import axiosInstance from "../axios";
 import SelectRole from "../components/select_role";
+import CurrentGame from "../components/current_games";
 
-function Player() {
-  const [currentGame, setCurrentGame] = useState(0);
-  const [joinGameID, setjoinGameID] = useState(0);
+class Player extends Component {
 
-  const [gamedata, setGameData] = useState(null);
-  const [showRole, setShowRole] = useState(false);
-  const [showError, setShowError] = useState(false);
-  const [userinfo, setUserInfo] = useState("None");
-  const [errorforinfo, setErrorInfo] = useState("");
-  const [errorforgame, setErrorGame] = useState("");
+    state = {
+        user_info : '',
+        game_data : '',
+        games : [],
+        game_id : '',
+        error : '',
+        select_role : false
+    }
 
-  useEffect(() => {
-    // Update the document title using the browser API
-    axiosInstance
-      .get("user/info/")
-      .then((res) => {
-        setUserInfo(res.data.email);
+    componentDidMount() {
+        axiosInstance.get("user/info/")
+        .then(res => {
+            this.setState({user_info:res.data.email});
+        }).catch((err) => {
+            if(err.response){
+                this.setState({error:err.response.data});
+            }
+        });
+
+        axiosInstance.get("game/entergame/")
+        .then(
+            res => {
+                this.setState({games : res.data});
+            }
+        );
+    }
+
+    handleChange = event => {
+        this.setState({[event.target.name] : event.target.value});
+    }
+
+    handleJoin = event => {
+        axiosInstance.get("/game/" + this.state.game_id)
+        .then( res => {
+            this.setState({game_data:res.data , error:'', select_role:true});
+        })
+        .catch( error => {
+            if(error.response){
+                this.setState({error : JSON.stringify(error.response.data.detail), select_role:true});
+            }
       })
-      .catch((err) => {
-        if(err.response){
-          setErrorInfo(JSON.stringify(err.response.data))
-        }
-        console.log(err);
-      });
-  }, []);
-  let handlejoin = () => {
-    axiosInstance
-      .get("/game/" + joinGameID)
-      .then(  (response) => {
-        setGameData(response.data);
-        setShowRole(true);
-        setShowError(false);
-      })
-      .catch( (error)  => {
-        if(error.response
-        ){
-          setErrorGame(JSON.stringify(error.response.data.detail))
-        }
-        setShowRole(false);
-        setShowError(true);
+    }
 
-      })
-  };
+    render() {
+        return (
+            <div className="container">
 
-  let handlecodechange = (e) => {
-    setjoinGameID(e.target.value);
-  };
-  return (
-    <div className="container">
-
-      <h3>Hello {userinfo}</h3>
-      <p>{errorforinfo}</p>
+            <h3>Hello {this.state.user_info}</h3>
+            
+            <div className="row" style={{marginTop:60}}>
       
-      <div className="row" style={{marginTop:60}}>
-
-        <div className="col sm-6">
-          <div className="container w-50">
-            <p>Enter Code to Join Game</p>
-            <div className="input-field">
-              <input
-                name="gamecode"
-                id="gamecode"
-                type="text"
-                onChange={handlecodechange}
-                className="validate"
-              />
-              <label className="active" htmlFor="gamecode">
-                Game Code
-              </label>
-            </div>
-            <div className="input-field">
-              <button className="btn" onClick={handlejoin}>
-                Join
-              </button>
-            </div>
-            <div className="row" style={{marginTop:20}}>
-              {showError ? <div>{errorforgame} </div> : null}
-              {showRole ? <SelectRole game={gamedata} /> : null}
+              <div className="col sm-6">
+                <div className="container w-50">
+                  <p>Enter Code to Join Game</p>
+                  <div className="input-field">
+                    <input
+                      name="game_id"
+                      id="game_id"
+                      type="text"
+                      onChange={this.handleChange}
+                      className="validate"
+                    />
+                    <label className="active" htmlFor="gamecode">
+                      Game Code
+                    </label>
+                  </div>
+                  <div className="input-field">
+                    <button className="btn" onClick={this.handleJoin}>
+                      Join
+                    </button>
+                  </div>
+                  <div className="row" style={{marginTop:20}}>
+                    {this.state.error}
+                    {this.state.select_role ? <SelectRole game={this.state.game_data} /> : null}
+                  </div>
+                  
+                </div>
+                
+              </div>
+      
+              <div className="col sm-6">
+                <div>
+                    <h1>Current Games</h1>
+                    {
+                        this.state.games.map(
+                            game => {
+                                return <CurrentGame game={game} />
+                            }
+                        )
+                    }
+                  
+                  
+                </div>
+              </div>
             </div>
             
-          </div>
-          
-        </div>
-
-        <div className="col sm-6">
-          <div>
-            <h1>Current Game</h1>
-
-            <Getcurrentgame gid={1} />
-            
-          </div>
-        </div>
-      </div>
-      
-    </div>
-  );
-}
-
-
-
-function Getcurrentgame(props) {
-  if (props.gid != 0) {
-    return (
-      <div>
-        Game : {props.gid} <br />
-        Role : TOFIX <br />
-        <Link to={"/play/"}>Continue</Link>
-      </div>
-    );
-  }
-  return <div> No current Game</div>;
+          </div>  
+        );
+    }
 }
 
 export default Player;

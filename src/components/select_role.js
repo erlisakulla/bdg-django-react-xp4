@@ -36,7 +36,9 @@ class SelectRole extends Component {
                     axiosInstance.post("game/entergame/", data)
                     .then(
                         res => {
-                            console.log(res);
+                            if (res.status == 201) {
+                                window.location = '/play/' + this.state.game_id;
+                            }
                         }
                     );
                 }

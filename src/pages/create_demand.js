@@ -31,13 +31,20 @@ class CreateDemand extends Component {
         const demand = event.target.value.split(' ');
         
         let check = true;
-        for (let i = 0; i < demand.length; ++i) {
-            if (isNaN(demand[i])) {
-                this.setState({error : "Only numbers are allowed"});
-                check = false;
-                break;
+
+        if (demand.length == this.state.weeks_num) {
+            for (let i = 0; i < demand.length; ++i) {
+                if (isNaN(demand[i])) {
+                    this.setState({error : "Only numbers are allowed"});
+                    check = false;
+                    break;
+                }
             }
+
+        } else {
+            this.setState({error : "Demand must be equal to the number of weeks"});
         }
+        
 
         if (check) {
             this.setState({error: "", demands : event.target.value});

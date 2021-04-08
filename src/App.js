@@ -8,9 +8,8 @@ import Instructor from "./pages/Instructor";
 import LandingPage from "./pages/LandingPage";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Nav from "./components/Nav";
-import Player from "./pages/Player";
+import Player from "./pages/player";
 import Logout from "./pages/Logout"
-import CreateGame from "./pages/CreateGame"
 import CreateDemand from "./pages/create_demand";
 import axiosInstance from "./axios";
 import RequireAuth from "./helper_functions/checkAuth";
@@ -35,25 +34,25 @@ function App() {
         <Nav> </Nav>
 
         <Switch>
-          <Route path="/Instructor" exact component={Instructor} />
+          <RequireAuth path="/instructor" exact component={Instructor} />
           <RequireAuth exact path="/player" component={Player}/>
             {/* <Route path="/player" exact component={Player}/> */}
           
           <Route path="/signup" exact component={signup} />
           <Route path="/login" exact component={Login} />
-          <Route path="/creategame" exact component={EditGame} />
-          <Route path="/game/:id" exact component={GameDetails} />
-          <Route path="/editgame/:id" exact component={EditGame} />
-          <Route path="/createdemand" exact component={CreateDemand} />
+          <RequireAuth path="/creategame" exact component={EditGame} />
+          <RequireAuth path="/game/:id" exact component={GameDetails} />
+          <RequireAuth path="/editgame/:id" exact component={EditGame} />
+          <RequireAuth path="/createdemand" exact component={CreateDemand} />
 
           <Route path="/" exact component={LandingPage} />
 
-          <Route path="/play" exact component={Game} />
+          <RequireAuth path="/play/:id" exact component={Game} />
           <Route path="/logout" exact component={Logout} />
 
           <Route path="/about" exact component={About} />
           <Route path="/:any" exact>
-            <h1>NOT FOUND</h1>
+            <h1 className="text-center">Page Not found</h1>
             </Route>
         </Switch>
       </div>

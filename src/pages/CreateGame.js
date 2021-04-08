@@ -104,11 +104,14 @@ export default function CreateGame(props) {
             <div className="input-field col s6">
               
               <select className='form-control' name='demand_id' onChange={handleOnDemandChange}>
+                <option defaultValue disabled>
+                  Choose your role
+                </option>
                 {
                   demand_list.map(
                     demand => {
                       return (
-                        <option>{demand.demand_id}</option>
+                        <option value={demand.demand_id}>{demand.demand_id}</option>
                       );
                     }
                   )
