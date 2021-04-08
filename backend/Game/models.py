@@ -22,4 +22,11 @@ class DemandPattern(models.Model):
     demand_id = models.CharField(max_length=32, null=False, default="id", blank=False, primary_key=True)
     weeks_num = models.IntegerField(blank=False, null=False)
     demands = models.CharField(max_length = 128, null=False, blank=False, validators=[int_list_validator])
-    instructor = models.ForeignKey(User,limit_choices_to={'is_instructor': True}, on_delete=models.CASCADE)
+    instructor = models.ForeignKey(User, limit_choices_to={'is_instructor' : True}, on_delete=models.CASCADE)
+
+
+class PlayerGame(models.Model):
+    player_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    game_id = models.CharField(max_length=32, default='no-game', null=False, blank=False)
+    role = models.CharField(max_length=32, default='no-role', null=False, blank=False)
+    week_num = models.IntegerField(default=1, null=False, blank=False)

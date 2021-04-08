@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, Redirect } from "react-router-dom";
 import axios from "axios";
 import axiosInstance from "../axios";
+import SelectRole from "../components/select_role";
 
 function Player() {
   const [currentGame, setCurrentGame] = useState(0);
@@ -34,11 +35,12 @@ function Player() {
       .then(  (response) => {
         setGameData(response.data);
         setShowRole(true);
+        setShowError(false);
       })
       .catch( (error)  => {
         if(error.response
         ){
-          setErrorGame(JSON.stringify(error.response.data))
+          setErrorGame(JSON.stringify(error.response.data.detail))
         }
         setShowRole(false);
         setShowError(true);
@@ -72,12 +74,18 @@ function Player() {
                 Game Code
               </label>
             </div>
-            <div className="input-field col s2">
+            <div className="input-field">
               <button className="btn" onClick={handlejoin}>
                 Join
               </button>
             </div>
+            <div className="row" style={{marginTop:20}}>
+              {showError ? <div>{errorforgame} </div> : null}
+              {showRole ? <SelectRole game={gamedata} /> : null}
+            </div>
+            
           </div>
+          
         </div>
 
         <div className="col sm-6">
@@ -85,8 +93,7 @@ function Player() {
             <h1>Current Game</h1>
 
             <Getcurrentgame gid={1} />
-            {showRole ? <Selectrole game={gamedata} /> : null}
-            {showError ? <div>{errorforgame} </div> : null}
+            
           </div>
         </div>
       </div>
@@ -95,49 +102,7 @@ function Player() {
   );
 }
 
-function Selectrole(props) {
-  const game = props.game;
-  // game contains data display
-  const [selectedrole, setSelectedRole] = useState(null);
-  const [toredirect, setToredirect] = useState(false);
 
-  function handleoptionchange(e) {
-    setSelectedRole(e.target.value);
-  }
-  function handlerole() {
-    //first save to database using api
-    setToredirect(true);
-  }
-  if (toredirect) {
-    return <Redirect to="/play" />;
-  }
-  if (game != null) {
-    return (
-      <div className="row">
-        {JSON.stringify(game)}
-        <div className="input-field col s6">
-          <select className="browser-default" onChange={handleoptionchange}>
-            <option defaultValue disabled>
-              Choose your option ( not set yet )
-            </option>
-            <option value={1}>Option 1</option>
-            <option value={2}>Option 2</option>
-            <option value={3}>Option 3</option>
-            <option value={3}>Option 3</option>
-          </select>
-        </div>
-
-        <div className="input-field col s2">
-          <button className="btn" onClick={handlerole}>
-            submit
-          </button>
-        </div>
-      </div>
-    );
-  } else {
-    return <h1> Game Not Found </h1>;
-  }
-}
 
 function Getcurrentgame(props) {
   if (props.gid != 0) {
