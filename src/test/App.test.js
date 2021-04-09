@@ -32,111 +32,119 @@ afterEach(() => server.resetHandlers())
 afterAll(() => server.close())
 
 
-test('renders Without crashing ', () => {
-  render(<App />);
+describe("App rendering", () => {
+  test('renders Without crashing ', () => {
+    render(<App />);
+  })
+
+  test("Navbar testing", () => {
+    render(<App/>);
+    expect(screen.getByText("Login")).toBeInTheDocument();
+    expect(screen.getByText("About")).toBeInTheDocument();
+    expect(screen.getByText("Sign up")).toBeInTheDocument();
+    expect(() => screen.getByText("Logout")).toThrow();
+  });
+
+  test("Main Page content testing", () => {
+    render(<App />);
+    const linkElement = screen.getByText(/Welcome to/i);
+    const playerElement = screen.getByText("Player");
+    const instructorElement = screen.getByText("Instructor");
+    expect(playerElement).toBeInTheDocument();
+    expect(linkElement).toBeInTheDocument();
+    expect(instructorElement).toBeInTheDocument();
+  });
+});
+
+describe("Navigating testing", () => {
+
+  test('Navigating to login page', () => {
+    renderWithRouter(<App />);
+    expect(screen.getByText(/Login/i)).toBeInTheDocument();
+    const leftClick = { button: 0 };
+    userEvent.click(screen.getByText(/Login/i), leftClick);
+    expect(screen.getByText(/Password/i)).toBeInTheDocument();
+
+    expect(screen.getByRole("button")).toBeInTheDocument();
+    expect(screen.getByRole("textbox")).toBeInTheDocument();
+
+  });
+
+  test('Navigating to About Page', () => {
+    renderWithRouter(<App />);
+    expect(screen.getByText(/About/i)).toBeInTheDocument();
+
+    const leftClick = { button: 0 };
+    userEvent.click(screen.getByText(/About/i), leftClick);
+
+    expect(screen.getByText(/About Page/i)).toBeInTheDocument();
+    expect(() => screen.getByRole("textboxt")).toThrow();
+  });
+
+  test('Navigating to Sign Up Page', () => {
+    renderWithRouter(<App />);
+    expect(screen.getByText(/Sign Up/i)).toBeInTheDocument();
+
+    const leftClick = { button: 0 };
+    userEvent.click(screen.getByText(/Sign Up/i), leftClick);
+
+    expect(screen.getByText("Email")).toBeInTheDocument();
+    expect(screen.getByText("Name")).toBeInTheDocument();
+    expect(screen.getByText("Password")).toBeInTheDocument();
+    expect(screen.getByRole("button")).toBeInTheDocument();
+    expect(screen.getByRole("combobox")).toBeInTheDocument();
+  });
+
 });
 
 
-test('renders with navbar ', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/Login/i);
-  expect(linkElement).toBeInTheDocument();
+describe("Fake Authentication", () => {
+  test("Empty fields", async () => {
+    renderWithRouter(<App/>,{route:'/signup/'})
+    const leftClick = { button: 0 };
+    const click=document.getElementById('userSubmit');
+
+    userEvent.click(click, leftClick);
+
+    expect(screen.getByText("All fields are required")).toBeInTheDocument();
+  });
+
+  test("Success sign up", async () => {
+
+    server.use(
+      rest.post('http://localhost:8000/user/create/', (req, res, ctx) => {
+        return res(ctx.json({ details: 'ok ' }),ctx.status(201))
+      })
+    )
+    renderWithRouter(<App/>,{route:'/signup/'})
+
+    const leftClick = { button: 0 };
+    const click=document.getElementById('userSubmit');
+
+    userEvent.click(click, leftClick);
+
+    await waitFor(()=> screen.getByText('created sucessfully'))
+  });
+
+  test("Error in response", async () => {
+
+    server.use(
+      rest.post('http://localhost:8000/api/token/', (req, res, ctx) => {
+        return res(ctx.json({ details: 'some error ' }),ctx.status(400))
+      })
+    )
+    renderWithRouter(<App/>,{route:'/login/'})
+
+    const leftClick = { button: 0 };
+    const click=document.getElementById('userSubmit');
+
+    userEvent.click(click, leftClick);
+
+    await waitFor(()=> screen.getByText('{"details":"some error "}'))
+  });
+
+
 });
-
-
-test('renders with content Welcome to ( render container ) ', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/Welcome to/i);
-  expect(linkElement).toBeInTheDocument();
-});
-
-test('navigating to login page using navbar ', () => {
-  renderWithRouter(<App />)
-  expect(screen.getByText(/Login/i)).toBeInTheDocument()
-
-  const leftClick = { button: 0 }
-  userEvent.click(screen.getByText(/Login/i), leftClick)
-
-  expect(screen.getByText(/Password/i)).toBeInTheDocument()
-})
-
-
-
-test('navigating to about page', () => {
-  renderWithRouter(<App />)
-  expect(screen.getByText(/About/i)).toBeInTheDocument()
-
-  const leftClick = { button: 0 }
-  userEvent.click(screen.getByText(/About/i), leftClick)
-
-  expect(screen.getByText(/About Page/i)).toBeInTheDocument()
-})
-
-
-test("navigating to Sign Up Page and clicking submit returning error ", async () => {
-
-  server.use(
-    rest.post('http://localhost:8000/user/create/', (req, res, ctx) => {
-      return res(ctx.json({ details: 'fields should not be empty' }),ctx.status(400))
-    })
-  )
-
-
-  renderWithRouter(<App/>,{route:'/signup/'})
-
-
-  const leftClick = { button: 0 };
-  const click=document.getElementById('userSubmit');
-
-  userEvent.click(click, leftClick);
-
-  await waitFor(()=> screen.getByText('{"details":"fields should not be empty"}'))
-});
-
-
-
-test("navigating to Sign Up Page and clicking submit faking sucess ", async () => {
-
-  server.use(
-    rest.post('http://localhost:8000/user/create/', (req, res, ctx) => {
-      return res(ctx.json({ details: 'ok ' }),ctx.status(201))
-    })
-  )
-    // above should set state message: created sucessfully
-
-  renderWithRouter(<App/>,{route:'/signup/'})
-
-  const leftClick = { button: 0 };
-  const click=document.getElementById('userSubmit');
-
-  userEvent.click(click, leftClick);
-
-  await waitFor(()=> screen.getByText('created sucessfully'))
-});
-
-
-test("navigating to Sign Up Page and clicking submit with errors ", async () => {
-
-  server.use(
-    rest.post('http://localhost:8000/api/token/', (req, res, ctx) => {
-      return res(ctx.json({ details: 'some error ' }),ctx.status(400))
-    })
-  )
-    // above should set state message: created sucessfully
-
-  renderWithRouter(<App/>,{route:'/login/'})
-
-  const leftClick = { button: 0 };
-  const click=document.getElementById('userSubmit');
-
-  userEvent.click(click, leftClick);
-
-  await waitFor(()=> screen.getByText('{"details":"some error "}'))
-});
-
-
-
-
 
 const renderWithRouter = (ui, { route = '/' } = {}) => {
   window.history.pushState({}, 'Test page', route)

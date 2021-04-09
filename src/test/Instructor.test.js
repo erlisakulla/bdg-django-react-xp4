@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import App from "../App";
+import { act } from 'react-dom/test-utils';
 import { createMemoryHistory } from "history";
 import userEvent from "@testing-library/user-event";
 
@@ -16,9 +17,7 @@ import {
 } from "@testing-library/react";
 
 import "@testing-library/jest-dom/extend-expect";
-import { act } from "react-dom/test-utils";
 import { MemoryRouter, Router, BrowserRouter } from "react-router-dom";
-import Player from "../pages/Player";
 import Instructor from "../pages/Instructor";
 
 
@@ -40,23 +39,45 @@ afterEach(() => server.resetHandlers())
 // clean up once the tests are done
 afterAll(() => server.close())
 
-
-it("Instructor without crashing ", () => {
-
-    renderWithRouter(<Instructor />);
-    expect(screen.getByText(/Instructor Page/i)).toBeInTheDocument();
+describe("Rendering Instructor", () => {
+  test("Rendering without authentication", () => {
+    renderWithRouter(<App />);
+    expect(screen.getByText("Login")).toBeInTheDocument();
+    expect(screen.getByText("Password")).toBeInTheDocument();
+    expect(screen.getByRole("button")).toBeInTheDocument();
   });
 
+  test("Rendering with fake authentication", () => {
+    localStorage.setItem('access_token' , 'dummy token');
+    renderWithRouter(<App />);
+    expect(screen.getByText("Games")).toBeInTheDocument();
+    expect(screen.getByText("Current Round")).toBeInTheDocument();
+    expect(screen.getByText("Create Demand Pattern")).toBeInTheDocument();
+  });
 
-test("navigating to create game  page using button", async () => {
-    renderWithRouter(<App/>,{route:'/instructor/'})
-    expect(screen.getByText(/Create New Game/i)).toBeInTheDocument();
-  
-    const leftClick = { button: 0 };
-    userEvent.click(screen.getByText(/Create New Game/i), leftClick);
-    expect(screen.getByText(/Submit/i)).toBeInTheDocument();
+  test("Create Game screen", async () => {
+    localStorage.setItem('access_token' , 'dummy token');
+    renderWithRouter(<App />, {route : '/creategame'});
+    
+    expect(screen.getByText("Game ID")).toBeInTheDocument();
+    expect(screen.getByText("Strting Inventory")).toBeInTheDocument();
+    expect(screen.getByText("Holding Cost")).toBeInTheDocument();
+    expect(screen.getByRole('textbox')).toBeInTheDocument();
+  });
+
+  test("Create Demand screen", async () => {
+    localStorage.setItem('access_token' , 'dummy token');
+    renderWithRouter(<App />, {route : '/createdemand'});
+    
+    expect(screen.getByText("Demand Patterns")).toBeInTheDocument();
+    expect(screen.getByText("Enter the demand ID")).toBeInTheDocument();
+    expect(screen.getByText("Demand ID")).toBeInTheDocument();
+    expect(screen.getByRole('button')).toBeInTheDocument();
   });
   
+});
+
+
 
 const renderWithRouter = (ui, { route = "/instructor/" } = {}) => {
   window.history.pushState({}, "11 ", route);

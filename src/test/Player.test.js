@@ -1,85 +1,91 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import App from "../App";
-import { createMemoryHistory } from "history";
+import {createMemoryHistory} from "history";
 import userEvent from "@testing-library/user-event";
 
-import { rest } from 'msw'
-import { setupServer } from 'msw/node'
+import {rest} from 'msw'
+import {setupServer} from 'msw/node'
 
-import {
-  render,
-  fireEvent,
-  waitFor,
-  screen,
-  getByText,
-} from "@testing-library/react";
+import {render, fireEvent, waitFor, screen, getByText} from "@testing-library/react";
 
 import "@testing-library/jest-dom/extend-expect";
-import { act } from "react-dom/test-utils";
-import { MemoryRouter, Router, BrowserRouter } from "react-router-dom";
+import {act} from "react-dom/test-utils";
+import {MemoryRouter, Router, BrowserRouter} from "react-router-dom";
 import Player from "../pages/Player";
-
-
 
 // declare which API requests to mock
 const server = setupServer(
-    // capture "GET /greeting" requests
-    rest.get('/greeting', (req, res, ctx) => {
-      // respond using a mocked JSON body
-      return res(ctx.json({ greeting: 'hello there' }))
-    })
-  )
+// capture "GET /greeting" requests
+rest.get('/greeting', (req, res, ctx) => {
+    // respond using a mocked JSON body
+    return res(ctx.json({greeting: 'hello there'}))
+}))
 
-  // establish API mocking before all tests
+// establish API mocking before all tests
 beforeAll(() => server.listen())
-// reset any request handlers that are declared as a part of our tests
-// (i.e. for testing one-time error scenarios)
+// reset any request handlers that are declared as a part of our tests (i.e. for
+// testing one-time error scenarios)
 afterEach(() => server.resetHandlers())
 // clean up once the tests are done
 afterAll(() => server.close())
 
+describe("Rendering Player", () => {
+    test("No authentication", () => {
+        renderWithRouter(<App/>);
+        expect(screen.getByText("Login")).toBeInTheDocument();
+        expect(screen.getByText("Password")).toBeInTheDocument();
+        expect(screen.getByRole("button")).toBeInTheDocument();
+    });
 
-it("player without crashing ", () => {
+    test("Rendering with fake authentication", () => {
+        localStorage.setItem('access_token', 'another dummy token');
+        renderWithRouter(<App/>);
+        expect(screen.getByText("Hello")).toBeInTheDocument();
+        expect(screen.getByText("Join")).toBeInTheDocument();
+        expect(screen.getByRole("button")).toBeInTheDocument();
+    });
 
-    renderWithRouter(<Player />);
-    expect(screen.getByText(/Player Page/i)).toBeInTheDocument();
+    test("Get a user from server", async() => {
+
+        server.use(rest.get('http://localhost:8000/user/info/', (req, res, ctx) => {
+            return res(ctx.json({email: 'user@test.com'}))
+        }));
+        localStorage.setItem('access_token', 'another dummy token');
+        renderWithRouter(<Player/>)
+        await waitFor(() => screen.getByText(/user@test.com/i))
+
+    });
+
+    test("Get user's games", async() => {
+
+      server.use(rest.get('http://localhost:8000/user/info/', (req, res, ctx) => {
+          return res(ctx.json({email: 'user@test.com'}))
+      }));
+
+      server.use(rest.get('http://localhost:8000/game/entergame/', (req, res, ctx) => {
+          return res(ctx.json([
+            {
+              game_id: "213",
+              role: "Distributor",
+              week_num: 1,
+            }
+          ]))
+      }));
+      localStorage.setItem('access_token', 'another dummy token');
+      renderWithRouter(<Player/>)
+      await waitFor(() => screen.getByText(/user@test.com/i))
+      await waitFor(() => screen.getByText("Continue"))
+
   });
-  
 
-
-it("player with server fetch igiri@gmail.com", async () => {
-
-    server.use(
-        // Faking Request to Backend 
-        rest.get('http://localhost:8000/user/info/', (req, res, ctx) => {
-            return res(ctx.json({ email: 'igiri@gmail.com' }))
-        })
-      )
-      renderWithRouter(<Player />)
-      await waitFor(() => screen.getByText(/igiri@gmail.com/i))
- 
 });
-  
-  
 
-test("navigating to main game from continue", async () => {
-    renderWithRouter(<App/>,{route:'/player/'})
-  
-      const leftClick = { button: 0 };
-      userEvent.click(screen.getByText(/Continue/i), leftClick);
-      expect(screen.getByText(/For Week/i)).toBeInTheDocument(); 
-  });
-  
-
-  test("navigating to unknown page", async () => {
-    renderWithRouter(<App/>,{route:'/randompage'})
-
-    expect(screen.getByText(/NOT FOUND/i)).toBeInTheDocument(); 
-});
-  
-
-const renderWithRouter = (ui, { route = "/player/" } = {}) => {
-  window.history.pushState({}, "11 ", route);
-  return render(ui, { wrapper: BrowserRouter });
+const renderWithRouter = (ui, {
+    route = "/player/"
+} = {}) => {
+    window
+        .history
+        .pushState({}, "11 ", route);
+    return render(ui, {wrapper: BrowserRouter});
 };
