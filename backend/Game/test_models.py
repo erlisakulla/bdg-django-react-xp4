@@ -73,21 +73,20 @@ class DemandPatternTest(TestCase):
 
 class PlayerGameTest(TestCase):
     def setUp(self):
-        user = instr = User.objects.create(
+        instr = User.objects.create(
             email="yahoo@gmail.com",
             name="supeuser",
             password="whatever111",
             is_instructor=False,
         )
         PlayerGame.objects.create(
-            player_id=user, game_id="game1", role="distributor", weeks_num=2
+            player_id=instr, game_id="game1", role="distributor", week_num=2
         )
         PlayerGame.objects.create(
-            player_id=user, game_id="game2", role="distributor", weeks_num=12
+            player_id=instr, game_id="game2", role="distributor", week_num=12
         )
 
     def test_player_game(self):
-        object1 = PlayerGame.objects.get(
-            role="distributor",
-        )
-        self.assertEqual(len(object1), 2)
+        object1 = PlayerGame.objects.get(game_id="game1")
+
+        self.assertEqual(object1.week_num, 2)
