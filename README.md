@@ -186,6 +186,11 @@ npm test -- name of the test file
   - view the details of the game
   - modify the setting of a game.
   - create a demmand pattern
+- player can:
+  - join in one of the games created by the instructors
+  - select the role for that game
+  - if the role is taken player cannot join
+  - continue the games where the player is already registered
 - none of the above actions cannot be done without the user being authenticated and passing the token in the request that client make to the backend server
 
 - test cases are added for the backend and frontend. They include:
