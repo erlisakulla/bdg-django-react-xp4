@@ -24,6 +24,7 @@ class CreateDemand extends Component {
                 if (res.status == 200) {
                     console.log(res.data);
                     this.setState({demand_list: res.data});
+                    
                 }
             });
     }
@@ -73,6 +74,7 @@ class CreateDemand extends Component {
                 .then(res => {
                     if (res.status == 201) {
                         this.setState({error: "Demand Pattern was created successfully"});
+                        window.location="/createdemand";
                     }
                 })
                 .catch(err => {
