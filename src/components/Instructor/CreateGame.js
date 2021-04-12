@@ -1,5 +1,5 @@
 import React, {Component, useState, useEffect} from "react";
-import axiosInstance from "../axios";
+import axiosInstance from "../../axios";
 import {useHistory} from "react-router-dom";
 
 export default function CreateGame(props) {

@@ -1,10 +1,12 @@
+from django.db.models import fields
 from rest_framework import serializers
 
-from .models import DemandPattern, PlayerGame, game
+from .models import DemandPattern, PlayerGame, Weeks, game
 
 
 class gameserializer(serializers.ModelSerializer):
-    instructor= serializers.ReadOnlyField(source='instructor.id')
+    instructor = serializers.ReadOnlyField(source="instructor.id")
+
     class Meta:
         model = game
         fields = (
@@ -24,8 +26,10 @@ class gameserializer(serializers.ModelSerializer):
             "instructor",
         )
 
+
 class demandPatternSerializer(serializers.ModelSerializer):
-    instructor= serializers.ReadOnlyField(source='instructor.id')
+    instructor = serializers.ReadOnlyField(source="instructor.id")
+
     class Meta:
         model = DemandPattern
         fields = (
@@ -35,16 +39,29 @@ class demandPatternSerializer(serializers.ModelSerializer):
             "instructor",
         )
 
+
 class playerGameSerializer(serializers.ModelSerializer):
-    player_id = serializers.ReadOnlyField(source='player.id')
+    player_id = serializers.ReadOnlyField(source="player.id")
+
     class Meta:
         model = PlayerGame
-        fields = (
-            'player_id',
-            'game_id',
-            'role',
-            'week_num'
-        )
+        fields = ("player_id", "game_id", "role", "week_num")
 
-        
-        
+
+class weekSerializer(serializers.ModelSerializer):
+    player_id = serializers.ReadOnlyField(source="player.id")
+
+    class Meta:
+        model = Weeks
+        fields = (
+            "player_id",
+            "game_id",
+            "week_num",
+            "inventory",
+            "demand",
+            "incoming",
+            "outgoing",
+            "order",
+            "cost",
+            "status",
+        )

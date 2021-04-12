@@ -1,20 +1,20 @@
 import React, { useEffect } from "react";
 import "./App.css";
-import About from "./pages/About";
-import Game from "./pages/Game";
-import Login from "./pages/Login";
-import signup from "./pages/Signup";
-import Instructor from "./pages/Instructor";
-import LandingPage from "./pages/LandingPage";
+import About from "./components/About/About";
+import Game from "./components/Game/Game";
+import Login from "./components/Login/Login";
+import signup from "./components/SignUp/Signup";
+import Instructor from "./components/Instructor/Instructor";
+import LandingPage from "./components/LandingPage/LandingPage";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Nav from "./components/Nav";
-import Player from "./pages/Player";
-import Logout from "./pages/Logout"
-import CreateDemand from "./pages/create_demand";
+import Player from "./components/Player/Player";
+import Logout from "./helper_functions/Logout"
+import CreateDemand from "./components/Demand/create_demand";
 import axiosInstance from "./axios";
 import RequireAuth from "./helper_functions/checkAuth";
-import GameDetails from "./pages/game_details";
-import EditGame from "./pages/edit_game";
+import GameDetails from "./components/Instructor/game_details";
+import EditGame from "./components/Instructor/edit_game";
 function App() {
 
   useEffect(() => {

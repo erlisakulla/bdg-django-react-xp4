@@ -1,5 +1,5 @@
 import {Component} from "react";
-import axiosInstance from "../axios";
+import axiosInstance from "../../axios";
 
 class EditGame extends Component {
 
@@ -145,7 +145,7 @@ class EditGame extends Component {
                                     name='demand_id'
                                     onChange={this.handleOnDemandChange}>
                                     <option defaultValue disabled>
-                                        Choose your role
+                                        Choose your demand
                                     </option>
                                     {this
                                         .state

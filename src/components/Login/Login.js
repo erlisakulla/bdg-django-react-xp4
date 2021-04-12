@@ -1,9 +1,9 @@
 import React, {Component} from "react";
 import {Link} from "react-router-dom";
-import "./CSS/SignIn.css";
+import "./style/SignIn.css";
 import axios from "axios";
-import Nav from "../components/Nav";
-import axiosInstance from "../axios";
+import Nav from "../Nav";
+import axiosInstance from "../../axios";
 
 export default class SignIn extends Component {
     constructor(props) {
