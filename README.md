@@ -85,6 +85,9 @@ Install mysql adaptor
 python -m pip install mysqlclient
 ```
 
+If you are using windows follow the steps in this link to install mysqlclient:
+[https://medium.com/@omaraamir19966/connect-django-with-mysql-database-f946d0f6f9e3](https://medium.com/@omaraamir19966/connect-django-with-mysql-database-f946d0f6f9e3)
+
 make sure to create sql database first and link it to this project.
 
 login to MYSQL
