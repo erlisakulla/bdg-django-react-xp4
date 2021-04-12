@@ -1,5 +1,5 @@
 import {Component} from "react";
-import axiosInstance from "../axios";
+import axiosInstance from "../../axios";
 
 class CreateDemand extends Component {
 

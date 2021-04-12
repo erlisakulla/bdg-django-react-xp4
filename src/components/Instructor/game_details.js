@@ -1,5 +1,5 @@
 import {Component} from "react";
-import axiosInstance from "../axios";
+import axiosInstance from "../../axios";
 
 /*
     UI need to be done after the service of getting other infor for the
