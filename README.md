@@ -1,8 +1,8 @@
-## se-02-team-33
-SE Sprint 02, Team 33
+## se-03-team-33
 
-Ishwor Giri & Hamza Bouhelal
+SE Sprint 3, Team 33
 
+Enis Mustafaj & Diego Ricardo Zablah
 
 ## Installation
 
@@ -15,7 +15,7 @@ cd se-02-team-33
 ```
 
 ```bash
-#Install Virtual Environment first 
+#Install Virtual Environment first
 python3 -m pip install --user virtualenv
 
 # Creating a virtual environment
@@ -24,7 +24,9 @@ python3 -m venv env
 source env/bin/activate
 
 ```
+
 must activate venv everytime if working with backend
+
 ```
 source env/bin/activate
 ```
@@ -32,18 +34,21 @@ source env/bin/activate
 Use the package manager [pip](https://pip.pypa.io/en/stable/) to install django.
 
 ```bash
-python -m pip install django djangorestframework django-cors-headers djangorestframework_simplejwt 
+python -m pip install django djangorestframework django-cors-headers djangorestframework_simplejwt
 ```
-or 
+
+or
+
 ```
 python -m pip install -r requirements.txt
 ```
 
 ## Backend
 
-Change Directory to the backend  
+Change Directory to the backend
+
 ```
-cd backend 
+cd backend
 ```
 
 Database Migration
@@ -57,42 +62,47 @@ python manage.py migrate
 ```
 
 Start Server
+
 ```bash
-python manage.py runserver 
+python manage.py runserver
 ```
 
-Run  Test
+Run Test
+
 ```bash
-python manage.py test 
+python manage.py test
 ```
-more commands : follow this link 
+
+more commands : follow this link
 [https://docs.djangoproject.com/en/3.1/ref/django-admin/](https://docs.djangoproject.com/en/3.1/ref/django-admin/)
 
-
 ## For Custom Database (optional)
+
 This project uses mysqlite for database management. If you want to integrate to your database server.
-Install mysql adaptor 
+Install mysql adaptor
+
 ```bash
 python -m pip install mysqlclient
 ```
 
-make sure to create sql database first and link it to this project. 
+make sure to create sql database first and link it to this project.
 
 login to MYSQL
+
 ```bash
 mysql -h {hostname} -u username -p {databasename}
 
 #enter your server password
 Password: {your password}
 ```
+
 after sucessful login inside mysql shell. Run
+
 ```mysql
 CREATE DATABASE YOUR_DATABASE_NAME;
 ```
 
-
-replace this  in settings.py located inside beergame folder. 
-
+replace this in settings.py located inside beergame folder.
 
 ```python
 DATABASES = {
@@ -102,7 +112,9 @@ DATABASES = {
     }
 }
 ```
-to 
+
+to
+
 ```python
 DATABASES = {
   'default': {
@@ -116,9 +128,11 @@ DATABASES = {
 
 }
 ```
-replace  DATABASE_NAME, USERNAME, PASSWORD, MYSQL_SERVER_URL, SERVER_PORT to match your SQL server address and login credentials.
 
-After connecting database makesure to run all migrations 
+replace DATABASE_NAME, USERNAME, PASSWORD, MYSQL_SERVER_URL, SERVER_PORT to match your SQL server address and login credentials.
+
+After connecting database makesure to run all migrations
+
 ```bash
 #make Migration
 python manage.py makemigrations
@@ -133,35 +147,54 @@ Makesure to configure your frontend url in settings.py for CORS
 CORS_ORIGIN_WHITELIST = 'http://localhost:3000',
 ```
 
-## Frontend SETUP 
+## Frontend SETUP
 
-Use the package  manager [npm](https://www.npmjs.com/) or  [yarn](https://yarnpkg.com/) to install dependencies.
+Use the package manager [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/) to install dependencies.
 
 n.
 
 ```bash
-#Frontend Directory 
+#Frontend Directory
 #Install Dependencies
 npm install
-# or
-yarn install
 ```
 
-## Starting Frontend
+### Frontend testing
 
-### Further steps are only shown using yarn but you can use npm
+To run the tests for the frontend, run the command:
 
-```bash
-yarn start
+```
+npm test -- name of the test file
 ```
 
+## Progress report:
 
-# Test cases
-Only checks for .tests.js files 
-```bash
-yarn test
-```
+- UI improvements in the screens from the previous sprint
+- new screens added:
 
+  - create demand pattern screen added
+  - edit game scrren added
+  - view game details screen(not fully implemented)
 
-## NOTE
-Please see Frontend,Backend Documentation for more information and layout of this project. 
+- test cases added and adapted to the new screens and UI improvements
+- models are created and added to the database.
+- the navigation system is completed and the user can navigate throug different
+  screens with changing the URL.
+- Use cannot visit pages that are allowed only when it is authenticated.
+- instructor can:
+  - view all the games that are created
+  - view the details of the game
+  - modify the setting of a game.
+  - create a demmand pattern
+- none of the above actions cannot be done without the user being authenticated and passing the token in the request that client make to the backend server
+
+- test cases are added for the backend and frontend. They include:
+
+  - test cases for the models
+  - test cases for the authentication
+  - test cases for the API
+  - test cases for the screens
+
+- API documentation is added. Go to url:
+  ` localhost:8000/swagger` or
+  ` localhost:8000/redoc` when the backend server is running.
