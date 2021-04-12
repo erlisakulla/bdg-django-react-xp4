@@ -1,5 +1,10 @@
 import {Component} from "react";
 
+/*
+    Componenet which will display the general information regarding the currnt
+    week of the game. Also it provides the user the option to send the amount 
+    of items required.
+*/
 class OrderView extends Component {
 
     state = {

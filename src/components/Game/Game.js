@@ -6,6 +6,10 @@ import PlotView from "./subComponents/plot_view";
 import StatusView from "./subComponents/status_view";
 import axiosInstance from "../../axios";
 
+/*
+    Component which contains the 4 scrrens of the game and retrieves data from
+    database for the current player.
+*/
 class PlayGameView extends Component {
 
     state = {

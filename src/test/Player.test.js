@@ -12,7 +12,7 @@ import {render, fireEvent, waitFor, screen, getByText} from "@testing-library/re
 import "@testing-library/jest-dom/extend-expect";
 import {act} from "react-dom/test-utils";
 import {MemoryRouter, Router, BrowserRouter} from "react-router-dom";
-import Player from "../pages/Player";
+import Player from "../components/Player/Player";
 
 // declare which API requests to mock
 const server = setupServer(

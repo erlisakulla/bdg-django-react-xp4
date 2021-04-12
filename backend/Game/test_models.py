@@ -1,10 +1,8 @@
 from django.test import TestCase
-from .models import game, DemandPattern, PlayerGame
+from .models import game, DemandPattern, PlayerGame, Weeks
 from User.models import User
 
-from rest_framework.test import APITestCase
 
-# Create your tests here.
 class gameTest(TestCase):
     """ Test module for Game model """
 
@@ -90,3 +88,28 @@ class PlayerGameTest(TestCase):
         object1 = PlayerGame.objects.get(game_id="game1")
 
         self.assertEqual(object1.week_num, 2)
+
+
+class WeeksTest(TestCase):
+    def setUp(self):
+        instr = User.objects.create(
+            email="user@test.com",
+            name="supeuser",
+            password="whatever111",
+            is_instructor=False,
+        )
+        Weeks.objects.create(player_id=instr, game_id="game1", week_num=2)
+        Weeks.objects.create(
+            player_id=instr, game_id="game2", demand=12, week_num=5, cost=12
+        )
+
+    def test_player_game(self):
+        object1 = Weeks.objects.get(game_id="game1")
+        self.assertEqual(object1.inventory, 0)
+        self.assertEqual(object1.cost, 0)
+        self.assertEqual(object1.demand, 0)
+
+        object2 = Weeks.objects.get(game_id="game2")
+        self.assertEqual(object2.week_num, 5)
+        self.assertEqual(object2.cost, 12)
+        self.assertEqual(object2.demand, 12)

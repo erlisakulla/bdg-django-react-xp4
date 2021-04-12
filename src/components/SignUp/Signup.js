@@ -5,6 +5,11 @@ import axios from "axios";
 import axiosInstance from "../../axios"
 import Nav from "../Nav";
 
+
+/*
+    Component which allows the users to sign up as a student(player) or instructor
+*/
+
 export default class signup extends Component {
     constructor(props) {
         super(props);

@@ -3,6 +3,11 @@ import axiosInstance from "../../axios";
 import SelectRole from "./subComponents/select_role";
 import CurrentGame from "./subComponents/current_games";
 
+
+/*
+    Component whcih allows players to join a game and to continue their previos
+    games.
+*/
 class Player extends Component {
 
     state = {

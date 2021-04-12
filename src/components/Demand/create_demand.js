@@ -1,6 +1,12 @@
 import {Component} from "react";
 import axiosInstance from "../../axios";
 
+
+/*
+    Component which is used by instructor to create 
+    and view the created demand patterns.
+
+*/
 class CreateDemand extends Component {
 
     state = {

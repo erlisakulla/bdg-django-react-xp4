@@ -2,6 +2,11 @@ import React, {Component, useState, useEffect} from "react";
 import axiosInstance from "../../axios";
 import {useHistory} from "react-router-dom";
 
+/*
+    Component which is use by the instructor and allows him to creat and manage
+    the created games.
+*/
+
 export default function CreateGame(props) {
     let defaultdata = {
         session_length: 1,

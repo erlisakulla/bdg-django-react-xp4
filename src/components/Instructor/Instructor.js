@@ -7,6 +7,10 @@ import axiosInstance from "../../axios";
 import {Link} from "react-router-dom";
 import ViewGame from "./subComponents/game_view";
 
+/*
+    The main page of the Instructor which displays the games created.
+*/
+
 export default function Instructor() {
     const [gamedata,
         setGameData] = useState([]);

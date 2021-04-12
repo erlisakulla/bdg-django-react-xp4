@@ -1,5 +1,9 @@
 import {Component} from "react";
 
+/*
+    Component which will display the information regarding the 
+    previos weeks of the game.
+*/
 class InfoView extends Component {
     state = {}
 

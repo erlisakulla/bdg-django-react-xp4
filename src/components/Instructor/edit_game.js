@@ -1,6 +1,10 @@
 import {Component} from "react";
 import axiosInstance from "../../axios";
 
+/*
+    Componenet which allows the instructor to create and edit the created games.
+*/
+
 class EditGame extends Component {
 
     state = {

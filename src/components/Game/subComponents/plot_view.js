@@ -1,5 +1,9 @@
 import {Component} from "react";
 
+/*
+    Component which will diplay plots regarding the demand, cost, etc.
+*/
+
 class PlotView extends Component {
     state = {}
 

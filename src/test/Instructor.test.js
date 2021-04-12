@@ -18,7 +18,6 @@ import {
 
 import "@testing-library/jest-dom/extend-expect";
 import { MemoryRouter, Router, BrowserRouter } from "react-router-dom";
-import Instructor from "../pages/Instructor";
 
 
 

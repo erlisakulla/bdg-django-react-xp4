@@ -1,4 +1,9 @@
 import {Component} from "react";
+/*
+    Component which will show if the other players have already submitted 
+    the amount of items to send.
+*/
+
 
 class StatusView extends Component {
     state = {}

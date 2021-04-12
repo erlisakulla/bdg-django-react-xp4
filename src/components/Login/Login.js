@@ -5,6 +5,10 @@ import axios from "axios";
 import Nav from "../Nav";
 import axiosInstance from "../../axios";
 
+/*
+    Component which allows the user to login.
+*/
+
 export default class SignIn extends Component {
     constructor(props) {
         super(props);

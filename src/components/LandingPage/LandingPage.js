@@ -2,6 +2,10 @@ import React from "react";
 import {render} from "react-dom";
 import {Link} from "react-router-dom";
 
+/*
+    Component which displays the landing page to the user.
+*/
+
 function LandingPage() {
     return (
 
