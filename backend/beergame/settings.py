@@ -89,13 +89,14 @@ WSGI_APPLICATION = 'beergame.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
+# Substitute the settings below with data from your own database
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'seproject',
-        'USER': 'seuser',
-        'PASSWORD': 'root',
+        'NAME': 'game2',
+        'USER': 'djangouser',
+        'PASSWORD': 'Password.New20',
         'HOST': 'localhost',
         'PORT': '3306',
     }

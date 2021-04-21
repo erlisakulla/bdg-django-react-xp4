@@ -206,3 +206,18 @@ npm test -- name of the test file
 - API documentation is added. Go to url:
   ` localhost:8000/swagger` or
   ` localhost:8000/redoc` when the backend server is running.
+
+
+
+# TODO
+Frontend:
+- [ ] Fix Page Permissions: students can't join games they haven't registred for, students can't create games, instructors can't join games
+- [ ] Proper errors check:  login, signup, create game, enter game, post order, register to game
+- [ ] Game settings display page/modal
+- [ ] Connect gameplay with proper game backend endpoints
+
+Backend:
+- [ ] Create and get game roles and role data
+- [ ] Implement week creation, proceeding to next week, get data for specific week
+- [ ] Player can access game only if it is activated by the instructor and all roles have been registered
+- [ ] Order beer logic
