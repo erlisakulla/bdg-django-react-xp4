@@ -1,23 +1,23 @@
 from django.db.models import fields
 from rest_framework import serializers
 
-from .models import DemandPattern, PlayerGame, Weeks, game
+from .models import DemandPattern, PlayerGame, Week, Game
 
 
-class gameserializer(serializers.ModelSerializer):
+class GameSerializer(serializers.ModelSerializer):
     instructor = serializers.ReadOnlyField(source="instructor.id")
 
     class Meta:
-        model = game
+        model = Game
         fields = (
             "game_id",
             "rounds_completed",
             "active_status",
             "info_sharing",
             "info_delay",
-            "demand_id",
+            "demand",
             "session_length",
-            "distributer_present",
+            "distributor_present",
             "wholesaler_present",
             "holding_cost",
             "backlog_cost",
@@ -27,7 +27,7 @@ class gameserializer(serializers.ModelSerializer):
         )
 
 
-class demandPatternSerializer(serializers.ModelSerializer):
+class DemandPatternSerializer(serializers.ModelSerializer):
     instructor = serializers.ReadOnlyField(source="instructor.id")
 
     class Meta:
@@ -40,22 +40,28 @@ class demandPatternSerializer(serializers.ModelSerializer):
         )
 
 
-class playerGameSerializer(serializers.ModelSerializer):
-    player_id = serializers.ReadOnlyField(source="player.id")
+class PlayerGameSerializer(serializers.ModelSerializer):
+    user_id = serializers.ReadOnlyField(source="user.id")
 
     class Meta:
         model = PlayerGame
-        fields = ("player_id", "game_id", "role", "week_num")
+        fields = (
+            "user_id", 
+            "game_id", 
+            "role_name", 
+            "downstream_player",
+            "upstream_player",
+            "order_status",
+        )
 
 
-class weekSerializer(serializers.ModelSerializer):
+class WeekSerializer(serializers.ModelSerializer):
     player_id = serializers.ReadOnlyField(source="player.id")
 
     class Meta:
-        model = Weeks
+        model = Week
         fields = (
             "player_id",
-            "game_id",
             "week_num",
             "inventory",
             "demand",
@@ -63,5 +69,21 @@ class weekSerializer(serializers.ModelSerializer):
             "outgoing",
             "order",
             "cost",
-            "status",
+            "completed_status",
         )
+
+
+class OrderSerializer(serializers.Serializer):
+    quantity = serializers.IntegerField(min_value=0)
+    class Meta:
+        fields=['quantity']
+
+
+class RoleWeekSerializer(serializers.ModelSerializer):
+    roleweeks = serializers.PrimaryKeyRelatedField(many=True,read_only=True)
+    class Meta:
+        model = PlayerGame
+        fields=['id', 'user_id', 'roleweeks']
+
+class NullSerializer(serializers.Serializer):
+    pass

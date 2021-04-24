@@ -30,20 +30,20 @@ export default class SignIn extends Component {
             email: this.state.email,
             password: this.state.password
         })
-            .then((res) => {
-                localStorage.setItem('access_token', res.data.access)
-                localStorage.setItem('refresh_token', res.data.refresh)
-                axiosInstance.defaults.headers['Authorization'] = 'JWT' + localStorage.getItem('access_token');
-                
-                window.location = '/';
-            })
-            .catch((err) => {
-                if (err.response) {
-                    this.setState({
-                        error: JSON.stringify(err.response)
-                    })
-                }
-            });
+        .then((res) => {
+            localStorage.setItem('access_token', res.data.access)
+            localStorage.setItem('refresh_token', res.data.refresh)
+            axiosInstance.defaults.headers['Authorization'] = 'JWT' + localStorage.getItem('access_token');
+            
+            window.location = '/';
+        })
+        .catch((err) => {
+            if (err.response) {
+                this.setState({
+                    error: JSON.stringify(err.response)
+                })
+            }
+        });
     }
 
     render() {

@@ -35,7 +35,8 @@ class Player extends Component {
                             if (err.response) {
                                 this.setState({error: err.response.data});
                             }
-                        });
+                        }
+                    );
 
                     axiosInstance
                         .get("game/entergame/")

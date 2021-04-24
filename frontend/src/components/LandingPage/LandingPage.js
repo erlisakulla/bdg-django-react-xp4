@@ -7,10 +7,10 @@ import axiosInstance from "../../axios";
 
 function LandingPage() {
     useEffect(() => {
-        axiosInstance.get("user/info/")
+        axiosInstance.get("api/user/")
             .then((res) => {
                 console.log(res.data);
-                if (res.data.isAdmin === false) {
+                if (res.data.is_instructor === false) {
                     window.location = '/player';
                 }
                 else {

@@ -32,3 +32,5 @@ myvenv
 
 backend/env/
 .vscode/
+
+backend_new/

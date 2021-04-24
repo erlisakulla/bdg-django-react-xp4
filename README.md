@@ -215,6 +215,8 @@ Frontend:
 - [ ] Proper errors check:  login, signup, create game, enter game, post order, register to game
 - [ ] Game settings display page/modal
 - [ ] Connect gameplay with proper game backend endpoints
+- [ ] Change form design
+- [ ] If user registers, redirect to login page. If already logged in, can't access login and register pages
 
 Backend:
 - [ ] Create and get game roles and role data
