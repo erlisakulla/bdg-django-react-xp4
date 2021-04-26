@@ -1,8 +1,8 @@
-## se-03-team-33
+## se-04-team-33
 
 SE Sprint 3, Team 33
 
-Enis Mustafaj & Diego Ricardo Zablah
+Erlisa Kula & Hai Long Tran 
 
 ## Installation
 
