@@ -169,8 +169,21 @@ To run the tests for the frontend, run the command:
 ```
 npm test -- name of the test file
 ```
-
+To start the application run the command:
+npm start
 ## Progress report:
+
+OUR PROGRESS:
+Frontend: 
+Login.js
+- proper field checking: email pattern, password inputted with warnings
+    - ui improvemenet shows what went wrong in login more nicely
+Signup.js
+-  proper field checking: email pattern, password inputted with warnings
+-  notifies if user has already been created
+-  redirects to login
+About.js 
+- update text with and added picture 
 
 - UI improvements in the screens from the previous sprint
 - new screens added:
