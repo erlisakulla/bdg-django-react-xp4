@@ -7,11 +7,11 @@ Erlisa Kula & Hai Long Tran
 ## Installation
 
 ```
-git clone https://github.com/lorenzorota/se-02-team-33.git
+git clone https://github.com/lorenzorota/se-04-team-33.git
 ```
 
 ```
-cd se-02-team-33
+cd se-04-team-33
 ```
 
 ```bash
@@ -173,7 +173,7 @@ To start the application run the command:
 npm start
 ## Progress report:
 
-OUR PROGRESS:
+# OUR PROGRESS:
 Frontend: 
 Login.js
 - proper field checking: email pattern, password inputted with warnings
