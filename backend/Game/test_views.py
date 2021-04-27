@@ -1,5 +1,5 @@
 from django.test import TestCase
-from .models import game
+from .models import Game
 from User.models import User
 
 from rest_framework.test import APITestCase
