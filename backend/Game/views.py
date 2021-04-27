@@ -55,10 +55,19 @@ class GameActions(viewsets.ModelViewSet):
     def get_serializer_class(self):
         return GameSerializer
 
+    # list all games created by logged in user
     def list(self, request):
         queryset = Game.objects.all().filter(instructor=request.user)
         serializer = GameSerializer(queryset, many=True)
         return Response(serializer.data)
+
+    def create(self, request):
+        user = request.user
+        serializer = GameSerializer(data=request.data)
+        if(serializer.is_valid()):
+            serializer.save(instructor=user)
+            return Response(serializer.data)
+        return Response(serializer.errors,status=status.HTTP_406_NOT_ACCEPTABLE)
 
     # Get list of all games created by instructors - game/all/
     @action(detail=False)
@@ -88,6 +97,21 @@ class GameActions(viewsets.ModelViewSet):
                 return Response(serialize.data)
         except:
             return Response({"detail": "Not registered for this game"}, status=status.HTTP_403_FORBIDDEN)
+
+
+# class GameList(generics.ListCreateAPIView):
+#     # must be authenticated to view game
+#     permission_classes = [IsAuthenticated, GameCreatePermission]
+#     serializer_class = GameSerializer
+
+#     def get_queryset(self):
+#         user = self.request.user
+#         return Game.objects.filter(instructor=user)
+
+#     # save game with instructor= logged in instructor
+#     def perform_create(self, serializer):
+#         print(serializer)
+#         serializer.save(instructor=self.request.user)
 
 
 # List of demand patterns - game/demand/

@@ -16,8 +16,6 @@ export default function CreateGame(props) {
         wholesaler_present: true,
         holding_cost: 1,
         backlog_cost: 1,
-        instructor: '',
-        rounds_completed: 0,
         starting_inventory: 12,
         active_status: true,
         info_sharing: true,
@@ -50,7 +48,6 @@ export default function CreateGame(props) {
             ...prevstate,
             'demand': e.target.value
         }));
-
     };
 
     let handleOnChange = (e) => {
@@ -70,11 +67,23 @@ export default function CreateGame(props) {
         e.preventDefault();
         console.log(formdata);
         axiosInstance
-            .post("game/", formdata, {crossDomain: true})
+            .post("game/", {
+                game_id: formdata.game_id,
+                session_length: formdata.session_length,
+                distributor_present: formdata.distributor_present,
+                wholesaler_present: formdata.wholesaler_present,
+                holding_cost: formdata.holding_cost,
+                backlog_cost: formdata.backlog_cost,
+                starting_inventory: formdata.starting_inventory,
+                active_status: formdata.active_status,
+                info_sharing: formdata.info_sharing,
+                info_delay: formdata.info_delay,
+                demand: formdata.demand
+            }, {crossDomain: true})
             .then((res) => {
                 console.log(res);
 
-                if (res.status === 201) {
+                if (res.status === 200) {
                     alert("Successfully Created Game");
                     history.push("/instructor");
                 } else {

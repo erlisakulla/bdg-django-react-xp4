@@ -64,7 +64,6 @@ class Player extends Component {
                 console.log(res.data);
                 const allRoles = res.data;
                 this.setState({roles: allRoles});
-                // console.log(res.data);
             }
         )
         .catch(error => {

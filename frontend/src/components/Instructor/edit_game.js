@@ -9,18 +9,20 @@ import {Link} from "react-router-dom";
 class EditGame extends Component {
 
     state = {
-        session_length: 1,
-        game_id: '',
-        info_delay: 2,
-        starting_inventory: 5,
-        holding_cost: 1,
-        backlog_cost: 1,
-        wholesaler_present: true,
-        info_sharing: true,
-        distributor_present: true,
-        demand_id: '',
+        // session_length: 1,
+        // game_id: '',
+        // info_delay: 2,
+        // starting_inventory: 5,
+        // holding_cost: 1,
+        // backlog_cost: 1,
+        // wholesaler_present: true,
+        // info_sharing: true,
+        // distributor_present: true,
+        // demand_id: '',
         demand_list: [],
-        post: ''
+        // post: ''
+
+        game_data: '',
     }
 
     componentDidMount() {
@@ -30,18 +32,21 @@ class EditGame extends Component {
                 if (res.status === 200) {
                     this.setState({demand_list: res.data});
                 }
-            });
-
-        if (this.props.match.params.id === null) {
-            this.setState({post: "game/"});
-        } else {
-            this.setState({
-                post: "game/edit/" + this.props.match.params.id + "/"
-            });
-            this.setState({game_id: this.props.match.params.id});
-        }
-
-        console.log(this.props.match.params.id);
+            }
+        );
+            
+        axiosInstance
+            .get("game/" + this.props.match.params.id + "/")
+            .then((res) => {
+                this.setState({game_data: res.data})
+            })
+            .catch((err) => {
+                if (err.response) {
+                    console.log(err.response.data);
+                }
+                console.log(err)
+            }
+        );
     }
 
     handleOnChange = event => {
@@ -122,9 +127,7 @@ class EditGame extends Component {
                 style={{
                     paddingTop: 30
                 }}>
-                <h3 className="text-center">{this.state.post === "game/"
-                        ? "Create Game"
-                        : "Edit Game"}</h3>
+                <h3 className="text-center">Edit Game</h3>
                 <div
                     className="row"
                     style={{
@@ -138,7 +141,7 @@ class EditGame extends Component {
                                     name="session_length"
                                     type="number"
                                     min={1}
-                                    value={this.state.session_length}
+                                    defaultValue={this.state.game_data.session_length}
                                     onChange={this.handleOnChange}
                                     />
                                 <label>Session Length</label>
@@ -149,7 +152,7 @@ class EditGame extends Component {
                                     className='form-control'
                                     name='demand_id'
                                     onChange={this.handleOnDemandChange}
-                                    defaultValue="none">
+                                    defaultValue={this.state.game_data.demand}>
                                     <option value="none" disabled>
                                         Choose your demand
                                     </option>
@@ -158,7 +161,7 @@ class EditGame extends Component {
                                         .demand_list
                                         .map(demand => {
                                             return (
-                                                <option value={demand.demand_id}>{demand.demand_id} - {demand.weeks_num} weeks</option>
+                                                <option key={demand.demand_id} value={demand.demand_id}>{demand.demand_id} - {demand.weeks_num} weeks</option>
                                             );
                                         })
                                     }
@@ -173,7 +176,7 @@ class EditGame extends Component {
                                     name="holding_cost"
                                     type="number"
                                     min={0}
-                                    value={this.state.holding_cost}
+                                    defaultValue={this.state.game_data.holding_cost}
                                     onChange={this.handleOnChange}
                                     className="validate"/>
                                 <label htmlFor="holding_cost">Holding Cost</label>
@@ -184,7 +187,7 @@ class EditGame extends Component {
                                     name="backlog_cost"
                                     type="number"
                                     min={0}
-                                    value={this.state.backlog_cost}
+                                    defaultValue={this.state.game_data.backlog_cost}
                                     onChange={this.handleOnChange}
                                     className="validate"/>
                                 <label htmlFor="backlog_cost">Backlog Cost</label>
@@ -198,9 +201,8 @@ class EditGame extends Component {
                                     type="text"
                                     onChange={this.handleOnChange}
                                     className="validate"
-                                    value={this.props.match.params.id}
-                                    disabled=
-                                    {this.state.post === "game/edit/" + this.props.match.params.id + "/"}/>
+                                    defaultValue={this.props.match.params.id}
+                                    disabled={true}/>
                                 <label htmlFor="game_id">Game ID</label>
                             </div>
                             <div className="col s4">
@@ -208,7 +210,7 @@ class EditGame extends Component {
                                     id="info_delay"
                                     name="info_delay"
                                     type="number"
-                                    value={this.state.info_delay}
+                                    defaultValue={this.state.game_data.info_delay}
                                     onChange={this.handleOnChange}
                                     className="validate"/>
                                 <label htmlFor="info_delay">Info Delay</label>
@@ -218,7 +220,7 @@ class EditGame extends Component {
                                     id="starting_inventory"
                                     name="starting_inventory"
                                     type="number"
-                                    value={this.state.starting_inventory}
+                                    defaultValue={this.state.game_data.starting_inventory}
                                     onChange={this.handleOnChange}
                                     className="validate"/>
                                 <label htmlFor="starting_inventory">Starting Inventory</label>
@@ -232,9 +234,9 @@ class EditGame extends Component {
                                         className="filled-in"
                                         name="distributor_present"
                                         onChange={this.handleBoolOnChange}
-                                        checked={this.state.distributor_present}
-                                        disabled=
-                                        {this.state.post === "game/edit/" + this.props.match.params.id + "/"}/>
+                                        checked={this.state.game_data.distributor_present}
+                                        disabled
+                                    />
                                     <span>Distributor</span>
                                 </label>
                             </div>
@@ -245,10 +247,9 @@ class EditGame extends Component {
                                         className="filled-in"
                                         name="wholesaler_present"
                                         onChange={this.handleBoolOnChange}
-                                        checked={this.state.wholesaler_present}
-                                        disabled=
-                                        {this.state.post === "game/edit/" + this.props.match.params.id + "/"}/>
-                                        
+                                        checked={this.state.game_data.wholesaler_present}
+                                        disabled
+                                    />
                                     <span>Wholesaler</span>
                                 </label>
                             </div>
@@ -259,7 +260,9 @@ class EditGame extends Component {
                                         className="filled-in"
                                         name="info_sharing"
                                         onChange={this.handleBoolOnChange}
-                                        checked={this.state.info_sharing}/>
+                                        checked={this.state.game_data.info_sharing}
+                                        disabled
+                                    />
                                     <span>Info Sharing</span>
                                 </label>
                             </div>
@@ -272,10 +275,7 @@ class EditGame extends Component {
                                 onClick={this.handleSubmit}
                                 style={{
                                     marginTop: 30
-                                }}>
-                                {this.state.post === "game/"
-                                    ? "Create Game"
-                                    : "Update Game"}{" "}
+                                }}>Update Game
                             </button>
                             
                             <Link to="/instructor">

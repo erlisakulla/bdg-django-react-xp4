@@ -5,26 +5,10 @@ from .models import DemandPattern, PlayerGame, Week, Game
 
 
 class GameSerializer(serializers.ModelSerializer):
-    instructor = serializers.ReadOnlyField(source="instructor.id")
-
     class Meta:
         model = Game
-        fields = (
-            "game_id",
-            "rounds_completed",
-            "active_status",
-            "info_sharing",
-            "info_delay",
-            "demand",
-            "session_length",
-            "distributor_present",
-            "wholesaler_present",
-            "holding_cost",
-            "backlog_cost",
-            "rounds_completed",
-            "starting_inventory",
-            "instructor",
-        )
+        fields="__all__"
+        extra_kwargs = {'instructor': {'read_only': True},'rounds_completed' :{'read_only': True}}
 
 
 class DemandPatternSerializer(serializers.ModelSerializer):

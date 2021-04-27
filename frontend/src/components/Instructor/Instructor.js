@@ -49,10 +49,9 @@ export default function Instructor() {
 
     let loadgame = () => {
         let component = [];
-        
+        let count = 0;
         if (!loading) {
             gamedata.forEach((element) => {
-                let count = 0;
                 component.push(
                     <tr key={count++}><ViewGame key={gamedata.id} gamedata={element}/></tr>
                 );
