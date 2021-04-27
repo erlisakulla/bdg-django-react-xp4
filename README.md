@@ -59,7 +59,7 @@ _Erlisa Kulla & Hai Long Tran_
 
 
 # Basic Local Setup 
-- Find a directory within your computer where you would liek to store the repository.
+- Find a directory within your computer where you would like to store the repository.
 - Open the terminal in that directory and run:
 
 ```bash
@@ -69,7 +69,7 @@ git clone https://github.com/lorenzorota/se-04-team-33.git
 cd se-04-team-33
 ```
 - Use `git status` to check whether everything is up to date
-- The two different apps, [backend](backend/) and [frontend](frontend/), should be run simultaniously.
+- The two different apps, [backend](backend/) and [frontend](frontend/), should be run silmutaneously.
 
 ## Backend
 1. Change to backend directory:
