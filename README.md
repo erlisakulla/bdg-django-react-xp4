@@ -33,7 +33,7 @@ _Erlisa Kulla & Hai Long Tran_
 - Implemented many endpoints to get and post data:
   - Get all games created
   - Get a list of games the current logged in instructor has created
-  - Changed game creation and update 
+  - Changed game creation and updating/editing of games
   - Delete games 
   - Get a list of all weeks data in a game
   - Get a list of all available roles (roles that users have not registered for)
@@ -49,6 +49,11 @@ _Erlisa Kulla & Hai Long Tran_
 - User is redirected to Instructor or Student view after logging in
 - Game pages are updated to render data from backend
 - All neccessary connections to backend are made using `axios`
+- client-side frontend validation was added across login, sign up and demand creation pages
+- demand creation can now recognize wether the demand pattern matches the number of weeks it should represent
+- meaning the user can clearly see what is wrong: missing blanks, bad format, account with the given email already exists...
+- additionally server-side error messages are conveniently redirected into the frontend validation process
+- sign-up process improved byu requiring reentering of password 
 
 # Basic Local Setup 
 - Find a directory within your computer where you would liek to store the repository.
@@ -328,27 +333,7 @@ urlpatterns = [
 
 ```
 
-#### Testing - `tests.py`
-- All tests are setup in `tests.py` (or similar) files
-- To test, run the command:
-```bash
-python manage.py test
-```
-- If the tests pass you will get this:
-```
-Creating test database for alias 'default'...
-System check identified no issues (0 silenced).
-.....
-----------------------------------------------------------------------
-Ran 5 tests in 0.063s
 
-OK
-Destroying test database for alias 'default'...
-```
-What to test?
-- Run `coverage run --source='.' manage.py test` if not installed use `pip install coverage`
-- Then simply generate a report - `coverage report`
-- This will give you an idea of what is covered by your tests and what is not
 
 ### Documentation
 - To view all available endpoints and descriptions as well as run test requests, go to:
@@ -386,10 +371,33 @@ yarn install
 - `package-lock.json`: records the exact version of each installed package which allows you to re-install them. Future installs will be able to build an identical dependency tree.
 - `package.json`: records the minimum version you app needs. If you update the versions of a particular package, the change is not going to be reflected here.
 - If there are any issues insalling dependencies, try removing the `package-lock.json` file since it may store data that is OS specific and not be able to run in different environments
+## Testing
+### Testing for backend 
+What to test?
+- Run `coverage run --source='.' manage.py test` if not installed use `pip install coverage`
+- Then simply generate a report - `coverage report`
+- This will give you an idea of what is covered by your tests and what is not
+- 
+- To test, run the command:
+```bash
+python manage.py test
+```
+- If the tests pass you will get this:
+```
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+.....
+----------------------------------------------------------------------
+Ran 5 tests in 0.063s
 
-### Testing
+OK
+Destroying test database for alias 'default'...
+```
+
+### Testing for frontend 
 - All tests are set up in the [`test`](frontend/src/components/test/) folder
 - To run all tests, run the command:
 ```bash
 npm test
 ```
+
