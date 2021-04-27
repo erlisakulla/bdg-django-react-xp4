@@ -88,19 +88,13 @@ export default class signup extends Component {
 				password: this.state.password,
 				is_instructor: this.state.isinstructor
 			}, { crossDomain: true }).then((res) => {
-				if (res.status === 201) {
-					errors["password1"] = 'Created succesfully';
-					this.setState({
-						errors: errors
-					})
-					console.log("created sucessfully")
-					window.location = '/login';
-					// useHistory().push("/");
-				} else {
-					//never reached
-				}	
+                errors["password1"] = 'Created succesfully';
+                this.setState({
+                    errors: errors
+                })
+                console.log("created sucessfully")
+                window.location = '/login';
 			}).catch((err) => {
-				
 				errors["password1"] = "Invalid credentials - email already used";
 				if (err.response) {
 					this.setState({

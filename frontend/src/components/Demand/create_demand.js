@@ -45,6 +45,7 @@ class CreateDemand extends Component {
 			return false;
 		}
 
+        // eslint-disable-next-line
 		else if (this.state.demands.split(' ').length != this.state.weeks_num) {
 			//this.setState({ error: "Demand length must be equal to the number of weeks" });
 			errors["demand"] = "Demand length must be equal to the number of weeks"
@@ -104,7 +105,7 @@ class CreateDemand extends Component {
                 demands: this.state.demands
             })
                 .then(res => {
-					if (res.status == 201) {
+					if (res.status === 201) {
 						errorsArr["demand"] ="Demand Pattern was created successfully"
                         this.setState({errors: errorsArr });
                         window.location="/createdemand";
