@@ -10,10 +10,12 @@ export default class signup extends Component {
         this.state = {
             name: "",
             email: "",
-            password: "",
+			password: "",
+			password1: "",
             error: "",
             isinstructor: false,
-            message: ""
+			message: "",
+			errors: {}
         };
     }
     onChange = (e) => {
@@ -31,34 +33,82 @@ export default class signup extends Component {
         }
     };
 
+	validate = () => {
+		let errors = {};
+		let isValid = true;
+		
+		if (this.state.name.length === 0) {
+			isValid = false;
+			errors["name"] = "Please enter your username.";
+		}
+	
+		if (!this.state.email) {
+			isValid = false;
+			errors["email"] = "Please enter your email Address.";
+		}
+	
+		//password length check 
+		if (!this.state.password) {
+			isValid = false;
+			errors["password"] = "Please enter your Password";
+		}
+		if (!this.state.password1) {
+			isValid = false;
+			errors["password1"] = "Please enter your Password";
+		} else if (this.state.password !== this.state.password1) {
+			isValid = false;
+			errors["password1"] = "The passwords did not match";
+		}
+	
+		if (typeof this.state.email !== "undefined") {
+			
+			const pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
+			if (!pattern.test(this.state.email)) {
+				isValid = false;
+				errors["email"] = "Please enter a valid email address.";
+			}
+		}
+	
+		this.setState({
+			errors: errors
+		});
+	
+		return isValid;
+	};
+	
     sendForm = (e) => {
         e.preventDefault();
 
-        if (this.state.email === "" || this.state.email === "" || this.state.email === "") {
-          this.setState({error : "All fields are required"});
-        } 
-
-        axiosInstance.post('user/create/', {
-            name: this.state.name,
-            email: this.state.email,
-            password: this.state.password,
-            is_instructor: this.state.isinstructor
-        }, {crossDomain: true}).then((res) => {
-            if (res.status === 201) {
-                this.setState({message: "created sucessfully"})
-                this.setState({error: ""})
-                window.location = "/login"
-            } 
-            else {
-                this.setState({error: "Couldn't create account."})
-            }
-        }).catch((err) => {
-             if (err.response) {
-                this.setState({
-                    error: err.response.data.datails
-                })
-            }
-        })
+       
+		if (this.validate()) {
+			let errors = {};
+			axiosInstance.post('user/create/', {
+				name: this.state.name,
+				email: this.state.email,
+				password: this.state.password,
+				is_instructor: this.state.isinstructor
+			}, { crossDomain: true }).then((res) => {
+				if (res.status === 201) {
+					errors["password1"] = 'Created succesfully';
+					this.setState({
+						errors: errors
+					})
+					console.log("created sucessfully")
+					window.location = '/login';
+					// useHistory().push("/");
+				} else {
+					//never reached
+				}	
+			}).catch((err) => {
+				
+				errors["password1"] = "Invalid credentials - email already used";
+				if (err.response) {
+					this.setState({
+						errors: errors
+					})
+				}
+			})
+		}
       
     };
 
@@ -81,7 +131,7 @@ export default class signup extends Component {
                                         onChange={this.onChange}
                                         required/>
                                     <label htmlFor="name">Name</label>
-
+									<div className="text-danger">{this.state.errors.name}</div>
                                 </div>
                                 <div className="input-field col s6">
 
@@ -92,7 +142,8 @@ export default class signup extends Component {
                                         type="text"
                                         value={this.state.identifier}
                                         onChange={this.onChange}
-                                        required/>
+										required />
+								<div className="text-danger">{this.state.errors.email}</div>
                                 </div>
                                 <div className="input-field col s6">
 
@@ -103,7 +154,20 @@ export default class signup extends Component {
                                         value={this.state.identifier}
                                         onChange={this.onChange}
                                         required/>
-                                    <label htmlFor="password">Password</label>
+									<label htmlFor="password">Password</label>
+									<div className="text-danger">{this.state.errors.password}</div>
+								</div>
+								<div className="input-field col s6">
+
+                                    <input
+                                        type="password"
+                                        id="password1"
+                                        name="password1"
+                                        value={this.state.identifier}
+                                        onChange={this.onChange}
+                                        required/>
+									<label htmlFor="password">Password again</label>
+									<div className="text-danger">{this.state.errors.password1}</div>
                                 </div>
                                 <div className=" col s6">
 
@@ -126,7 +190,8 @@ export default class signup extends Component {
                                     </button>
                                 </div>
                                 <small className="form-text">
-                                    Already Sign Up? Go to <Link to="/login"> Log In</Link>.
+                                    Already Sign Up? Go to
+                                    <Link to=""> Log In</Link>.
                                 </small>
                             </form>
                         </div>

@@ -81,7 +81,7 @@ class PlayGameView extends Component {
             })
             .catch((err) => {
                 if (err.response) {
-                   console.log(err.response.data);
+                   console.log(err.response);
                 }
             }
         );
@@ -94,7 +94,7 @@ class PlayGameView extends Component {
                     <Tab eventKey="order" title="Order">
                         <OrderView current_week={this.state.current_week} role_id={this.state.role.id}/>
                     </Tab>
-                    <Tab eventKey="hostory" title="Weeks Info">
+                    <Tab eventKey="history" title="Weeks Info">
                         <InfoView all_weeks={this.state.all_weeks}/>
                     </Tab>
                     <Tab eventKey="plot" title="Plot">
