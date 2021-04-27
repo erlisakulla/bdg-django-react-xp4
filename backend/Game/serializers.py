@@ -1,5 +1,6 @@
 from django.db.models import fields
 from rest_framework import serializers
+from rest_framework.validators import UniqueTogetherValidator
 
 from .models import DemandPattern, PlayerGame, Week, Game
 
@@ -25,19 +26,36 @@ class DemandPatternSerializer(serializers.ModelSerializer):
 
 
 class PlayerGameSerializer(serializers.ModelSerializer):
-    user_id = serializers.ReadOnlyField(source="user.id")
-
     class Meta:
         model = PlayerGame
         fields = (
             "id",
+            "game_id",
             "user_id", 
-            "game_id", 
             "role_name", 
             "downstream_player",
             "upstream_player",
             "order_status",
         )
+    
+        validators = [
+            UniqueTogetherValidator(
+                queryset = PlayerGame.objects.all(),
+                fields = ['game_id', 'user_id'],
+                message = "Players can only register for 1 role in each game"
+            ),
+        ]
+
+        # model = PlayerGame
+        # fields = (
+        #     "id",
+        #     "user_id", 
+        #     "game_id", 
+        #     "role_name", 
+        #     "downstream_player",
+        #     "upstream_player",
+        #     "order_status",
+        # )
 
 
 class WeekSerializer(serializers.ModelSerializer):

@@ -97,22 +97,7 @@ class GameActions(viewsets.ModelViewSet):
                 return Response(serialize.data)
         except:
             return Response({"detail": "Not registered for this game"}, status=status.HTTP_403_FORBIDDEN)
-
-
-# class GameList(generics.ListCreateAPIView):
-#     # must be authenticated to view game
-#     permission_classes = [IsAuthenticated, GameCreatePermission]
-#     serializer_class = GameSerializer
-
-#     def get_queryset(self):
-#         user = self.request.user
-#         return Game.objects.filter(instructor=user)
-
-#     # save game with instructor= logged in instructor
-#     def perform_create(self, serializer):
-#         print(serializer)
-#         serializer.save(instructor=self.request.user)
-
+            
 
 # List of demand patterns - game/demand/
 class DemandList(generics.ListCreateAPIView):
@@ -152,10 +137,11 @@ class PlayerGameActions(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
         user = request.user
         role = self.get_object()
         if user.is_instructor:
-            return Response({"detail": "Only students can join game"}, status=status.HTTP_406_NOT_ACCEPTABLE)
+            return Response({"detail": "Only a Player can Join a Game"}, status=status.HTTP_406_NOT_ACCEPTABLE)
         if(role.user_id):
             return Response({"detail": "Role already assigned to a Player"}, status=status.HTTP_406_NOT_ACCEPTABLE)
-        serialized = PlayerGameSerializer(role, data={"user_id": user.id}, partial=True)
+        serialized = PlayerGameSerializer(
+            role, data={"user_id": user.id}, partial=True)
         if(serialized.is_valid()):
             serialized.save()
             return Response(serialized.data)

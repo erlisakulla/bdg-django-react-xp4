@@ -14,7 +14,6 @@ class PlayGameView extends Component {
 
     state = {
         role: '',
-        game_data: '',
         shared_info: '',
         all_weeks: [],
         current_week: '',
@@ -27,19 +26,6 @@ class PlayGameView extends Component {
             .then(res => {
                 this.setState({role: res.data});
                 console.log(res.data);
-
-                axiosInstance
-                    .get("game/" + this.state.role.game_id + "/")
-                    .then(res => {
-                        this.setState({game_data: res.data});
-                        console.log(res.data);
-                    })
-                    .catch((err) => {
-                        if (err.response) {
-                            console.log(err.response.data);
-                        }
-                    }
-                );
 
                 axiosInstance
                     .get("game/role/" + this.props.match.params.id + "/getsharedinfo/")

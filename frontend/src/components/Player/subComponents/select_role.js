@@ -2,6 +2,12 @@ import { Component } from "react";
 import axiosInstance from "../../../axios";
 
 class SelectRole extends Component {
+    constructor(props) {
+        super(props)
+    
+        this.handleRoleChange = this.handleRoleChange.bind(this);
+        this.handleEnterGame = this.handleEnterGame.bind(this);
+      }
 
     state = {
         role : '',

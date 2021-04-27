@@ -8,6 +8,28 @@ import CurrentGame from "./subComponents/current_games";
     games.
 */
 class Player extends Component {
+    constructor(props) {
+        super(props)
+    
+        this.componentDidMount = this.componentDidMount.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.handleJoin = this.handleJoin.bind(this);
+        
+        // /**
+        //  * Role data (/api/role)
+        //  */
+        // this.state = {
+        //   errors: '',
+        //   games: '',
+        //   selected_game: '',
+        //   roles: '',
+        //   selected_role: '',
+    
+        //   role_register: {
+        //     playedBy: 2,
+        //   }
+        // }
+      }
 
     state = {
         user_info: '',
