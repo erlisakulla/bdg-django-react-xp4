@@ -67,7 +67,6 @@ export default class SignIn extends Component {
 	sendForm = (e) => {
 		e.preventDefault();
 
-		let route = "";
 		if (this.validate()) {
 			axiosInstance
 				.post("api/token/", {
