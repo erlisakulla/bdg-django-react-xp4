@@ -185,32 +185,31 @@ Signup.js
 About.js 
 - update text with and added picture 
 
+# PREVIOUS GROUP:
 - UI improvements in the screens from the previous sprint
 - new screens added:
 
-  - create demand pattern screen added
-  - edit game scrren added
+
+ 
   - view game details screen(not fully implemented)
 
 - test cases added and adapted to the new screens and UI improvements
-- models are created and added to the database.
-- the navigation system is completed and the user can navigate throug different
-  screens with changing the URL.
+  - tbd
+
 - Use cannot visit pages that are allowed only when it is authenticated.
 - instructor can:
   - view all the games that are created
   - view the details of the game
   - modify the setting of a game.
   - create a demmand pattern
-- player can:
+- student can:
   - join in one of the games created by the instructors
   - select the role for that game
-  - if the role is taken player cannot join
+  - if the role is taken another studetn has to choose a different role 
   - continue the games where the player is already registered
-- none of the above actions cannot be done without the user being authenticated and passing the token in the request that client make to the backend server
+- none of the above actions can be done without the user being authenticated and passing the token in the request that client make to the backend server
 
 - test cases are added for the backend and frontend. They include:
-
   - test cases for the models
   - test cases for the authentication
   - test cases for the API
