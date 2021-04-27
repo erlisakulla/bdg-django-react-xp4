@@ -51,7 +51,7 @@ class OrderView extends Component {
                     <h1>Week #{this.props.current_week.week_num}</h1>
                 </div>
                 <div className="row justify-content-center">
-                    <div className="col-sm-5   m-3 ">
+                    <div className="col-sm-5 m-3 ">
                         <div className="card">
                             <ul className="list-group list-group-flush">
                                 <li className="list-group-item">

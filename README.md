@@ -1,67 +1,174 @@
 # se-04-team-33
-Jumping from one STACK to another every 2 weeks can be quite jarring, cleaning it up, providing proper documentation and guidance as well as imporving and addding new features was our main motivation during this sprint.
+27.04.2021
 
 ## Authors
-_Erlisa Kula & Hai Long Tran_ 
+_Erlisa Kulla & Hai Long Tran_ 
 
-# Local Setup and deployment
-## Setup 
-### Git
-- find a directory within your computer where you would liek to store the repo
-- open the terminal in that directory and run
-```
+# Table of Contents
+- [Changes Overview:](#changes-overview-)
+  * [Backend](#backend)
+  * [Frontend](#frontend)
+- [Basic Local Setup](#basic-local-setup)
+  * [Backend](#backend-1)
+  * [Frontend](#frontend-1)
+- [Documentation](#documentation)
+  * [Backend](#backend-2)
+    + [Setting Up Databases](#setting-up-databases)
+    + [File structure](#file-structure)
+    + [Documentation](#documentation-2)
+  * [Frontend](#frontend-2)
+    + [File Structure](#file-structure)
+    + [Dependencies](#dependencies)
+    + [Testing](#testing)
+
+# Changes Overview:
+## Backend:
+- Made some changes to the models to make them more suitable for the database model:
+  - Connected User model with PlayerGame model (`playerrole`)
+  - Connected PlayerGame model with Game model (`gameroles`)
+  - Connected Instructor model with Game model 
+  - Connected Instructor model with DemandPattern model 
+  - Connected Week model with PlayerGame model (`roleweeks`)
+- Implemented automatic role creation when a game is created and week creation when roles are created (also how they are connected with each other)
+- Implemented many endpoints to get and post data:
+  - Get all games created
+  - Get a list of games the current logged in instructor has created
+  - Changed game creation and update 
+  - Delete games 
+  - Get a list of all weeks data in a game
+  - Get a list of all available roles (roles that users have not registered for)
+  - Get all roles a student is registered for
+  - Updated role registration for students
+  - Get data of current week in game
+  - Get the status of everyone's orders (have they placed orders or not)
+  - Get the status if game is ready to proceed to next week 
+  - Post order for current week
+- **Note:** we have not implemented what happens when the student submits the order, so the game logic is implemented only for the first week of the game. We have also not fully integrated the demand in the game logic 
+
+## Frontend:
+- User is redirected to Instructor or Student view after logging in
+- Game pages are updated to render data from backend
+- All neccessary connections to backend are made using `axios`
+
+# Basic Local Setup 
+- Find a directory within your computer where you would liek to store the repository.
+- Open the terminal in that directory and run:
+
+```bash
+# Clone repository
 git clone https://github.com/lorenzorota/se-04-team-33.git
-```
-
-```
+# Change to repository directory
 cd se-04-team-33
 ```
-- use `git status` to check whether everything is up to date
-### Virtual Environment:
-- for this project we suggest using a simple python virtual environment 
+- Use `git status` to check whether everything is up to date
+- The two different apps, [backend](backend/) and [frontend](frontend/), should be run simultaniously.
+
+## Backend
+1. Change to backend directory:
+```
+cd backend
+```
+
+2. For this project we suggest setting up a simple python virtual environment: 
 ```bash
-#Install Virtual Environment first
+# Install Virtual Environment
 python3 -m pip install --user virtualenv
-
-# Creating a virtual environment
+# Create a Virtual Environment
 python3 -m venv env
-
-#Activating Virtual Environment
-source env/bin/activate
-
-```
-- the virtual environment should be installed within the project folder (main directory) and run from there 
-- you can then run your Django app inside the environment, this simplifies python versioning as well as package management
-- you will se "(name_of_your_env)" next to the name of your directory in the terminal
-- you must activate venv everytime, here is the command again:
-
-```
+# Activate Virtual Environment
 source env/bin/activate
 ```
-## Installation and deployment
 
-### Database 
-- make sure to create your own sql database first 
-- login to MYSQL
+- The virtual environment should be installed within the backend folder and run from there 
+- You can then run your Django app inside the environment, this simplifies python versioning as well as package management
+
+4. Migrate database: 
+```bash
+python manage.py makemigrations
+python manage.py migrate
+```
+
+5. Start server:
+```bash
+python manage.py runserver
+```
+- Navigate to [http://127.0.0.1:8000](http://127.0.0.1:8000)
+
+6. Run tests:
+
+```bash
+python manage.py test
+```
+
+## Frontend
+1. Change to the frontend directory:
+```
+cd frontend
+```
+2. Install all dependencies:
+```
+npm install
+```
+3. Run the app in development mode:
+```
+npm start
+```
+- Navigate to [http://localhost:3000](http://localhost:3000)
+
+4. Run tests:
+```
+npm test
+```
+
+# Documentation
+
+## Backend
+
+### Setting Up Databases
+
+#### Default option
+- Django projects use an SQLite database by default which is setup in the [`settings.py`](backend/beergame/settings.py) (found inside [`beergame`](backend/beergame/) folder) as following:
+```python
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+```
+- All the data and migrations are saved in the [`db.sqlite3`](backend/db.sqlite3) file
+- All databases and created data can be accessed by going to [127.0.0.1:8000/admin](127.0.0.1:8000/admin) and logging in with admin data
+- To create an admin user run the following command and input the credentials as prompted:
+```bash
+python manage.py createsuperuser
+```
+- After successful creation, use the credentials to access the default django admin view. From there you can view, create and update data
+  - It is important to include all models in the `admin.py` files in each APP so they appear in the admin view:
+  ```python
+  from django.contrib import admin
+  # Register your models here.
+  from .models import User
+  admin.site.register(User)
+
+  ```
+
+#### MySQL option
+- Make sure to create your own sql database first 
+- Login to MYSQL
 
 ```bash
 mysql -h {hostname} -u username -p {databasename}
 
-#enter your server password
+# Enter your server password
 Password: {your password}
 ```
-- the host is usually localhost if you are running locally on your machine 
-- after sucessful login inside mysql shell, run:
+- The host is usually localhost if you are running locally on your machine 
+- After sucessful login inside mysql shell, run:
 
 ```mysql
 CREATE DATABASE YOUR_DATABASE_NAME;
 ```
-- change directory to the backend
-```
-cd backend
-```
-- then go to the beergame folder and open settings.py
-- within that file you will find the following code
+- Setup your databse in the [`settings.py`](backend/beergame/settings.py) file
 ```python
 DATABASES = {
   'default': {
@@ -72,63 +179,162 @@ DATABASES = {
   'HOST': MYSQL_SERVER_URL,
   'PORT': SERVER_PORT,
   }
-
 }
 ```
-- replace DATABASE_NAME, USERNAME, PASSWORD, MYSQL_SERVER_URL, SERVER_PORT to match your SQL server address and login credentials
 
-After connecting your database makesure to migrate, for initial installation the second command suffices 
+- Replace DATABASE_NAME, USERNAME, PASSWORD, MYSQL_SERVER_URL, SERVER_PORT to match your SQL server address and login credentials
+- To visualize the data you can either use the [MySQL Workbench](https://www.mysql.com/products/workbench/) or the Django admin view as mentioned above
+ 
+<hr/>
 
+- It doesn't really matter which database type you use but in this project we have used the MySQL one since it is easier to manage (you can't use both types at the same time)
+
+- After connecting your database make sure to run the following commands after every change made in any of the `models.py` files
 ```bash
-#make Migration
+# Make migrations
 python manage.py makemigrations
 
-#Apply Migration
+# Apply migrations - synchronizes all models with the schema in the database
 python manage.py migrate
 ```
-- this command will  run migrations against your database - essentially, synchronizing the new models with the schema in the database
-- this is needed to initialize the database and create the necessary tables, you just need to create a database with a 'NAME' in this case 'beer_game'
-- the beauty is this process takes care of all the SQL commands using models from the DJANGO framework (explained in more detail within the backend documentation)
 
-#### Backend
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install django specific dependencies. You can install each dependency like below:
-
-```bash
-python -m pip install django djangorestframework django-cors-headers djangorestframework_simplejwt
-```
-or simply used the provided requirements.txt as follows: 
-```
-python -m pip install -r requirements.txt
-```
-- this will install all the necessary dependencies
-
-Now you are ready to run your backend server: 
-
-```bash
-python manage.py runserver
-```
-
-### Frontend
-Makesure to configure your frontend url in settings.py for CORS
+### File structure
+#### `settings.py`
+- All projects settings are set up in this file:
 ```python
+# Created apps: User, Home, Game
+INSTALLED_APPS = [
+    ...
+
+    'User', # sets up all models, views, urls etc. for User
+    'Home', # sets upurls for Swagger and Redoc
+    'Game', # sets up all models, views, urls etc. for Game (role, week, demand pattern)
+]
+
+# Database settings
+DATABASES = {
+    'default': {
+        ...
+    }
+}
+
+# Defines how JWT Authentication token is generated, can be customized
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=1),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=10),
+    ...
+}
+
+# Whitelisting frontend for CORS headers
 CORS_ORIGIN_WHITELIST = 'http://localhost:3000',
 ```
 
-Use the package manager [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/) to install dependencies:
-- go to the Frontend Directory
-- run `npm install package.json` more detail on this is provided in the frontend readme.md
-- Note: you will see will see package.json and package-lock.json, don't get confused using package.json is enough, but here is the difference:
-  - package-lock.json: records the exact version of each installed package which allows you to re-install them. Future installs will be able to build an identical dependency tree.  
-  - package.json: records the minimum version you app needs. If you update the versions of a particular package, the change is not going to be reflected here.
+#### `models.py`
+- Each app has models set up in this file. They provide the database tables and their fields are the table columns
+```python
+class MODEL_NAME(models.Model):
+    # Model fields
+    FIELD_NAME = models.FIELD_TYPE('SETTINGS')
 
+    # Defines if there are any required fields
+    REQUIRED_FIELDS = ['FIELD_NAME']
 
-## Testing
-### Backend testing 
-- run:
+    # Display name in admin view
+    def __str__(self):
+        return self.FIELD_NAME
+```
+
+#### `serializers.py`
+- Model serializers are defined in this file
+- These serializers are used in requests set up in the `views.py` files. They define the format of the data on GET methods and the data to be sent in POST methods
+```python
+class MODEL_NAME_SERIALIZER(serializers.ModelSerializer):
+    class Meta:
+        # Defines which model it will be based upon
+        model = MODEL_NAME
+        fields = (
+            # All fields should be named EXACTLY as the Model fields
+            # Not neccessary to serialize all Model fields
+            "FIELD_NAME",
+            ...
+        )
+```
+#### `views.py`
+- All permissions, requests and actions are set up here
+- Requests could be handeld using the generics library that sets up views using functions like `generics.ListCreateAPIView` which means we have to define a query to GET all data as a list (`get_queryset`) as well as to create instances of the model (`perform_create`)
+  - In each case we need to define `permission_classes` and the `serializer_class`
+- Example:
+```python
+class DemandList(generics.ListCreateAPIView):
+    permission_classes = [IsAuthenticated, GameCreatePermission]
+    serializer_class = DemandPatternSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        return DemandPattern.objects.filter(instructor=user)
+
+    def perform_create(self, serializer):
+        serializer.save(instructor=self.request.user)
+```
+
+<hr/>
+
+- Another way of setting up requests is using the `viewsets.ModelViewSet` library
+- In this case we always must define `permission_classes`, the `queryset` and the `get_serializer_class`
+- By default this method creates all GET, POST, PUT, PATCH, DELETE requests of the type `/model_name/{modelid}/`
+- Inside each view we can define different functions to GET, POST, PUT, PATCH, DELETE etc. data which could be defined using `@action(detail=True, methods=['get'])` or similar
+- Each `def` action will be an url that can be used for requests
+- Example:
+```python
+class GameActions(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated, GameCreatePermission, GameUserWritePermission]
+    queryset = Game.objects.all()
+
+    # Defines serializer class to be used for requests
+    def get_serializer_class(self):
+        return GameSerializer
+
+    # Creates the list view of all model instances
+    def list(self, request):
+        queryset = Game.objects.all().filter(instructor=request.user)
+        serializer = GameSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+    # Defines the POST method to create model instances
+    def create(self, request):
+        user = request.user
+        serializer = GameSerializer(data=request.data)
+        if(serializer.is_valid()):
+            serializer.save(instructor=user)
+            return Response(serializer.data)
+        return Response(serializer.errors,status=status.HTTP_406_NOT_ACCEPTABLE)
+            
+```
+
+#### `urls.py`
+- All urls defined in the `views.py` file are set up here.
+- These urls are used to retrieve or post data from frontend to backend
+- Example:
+```python
+# Creates rutes based on Game and PlayerGame defined actions
+router = routers.DefaultRouter()
+router.register("", GameActions)
+router.register("role", PlayerGameActions, 'Role')
+
+urlpatterns = [
+    path("", include(router.urls)),
+    path("demand", DemandList.as_view(), name="demandlist"),
+]
+
+```
+
+#### Testing - `tests.py`
+- All tests are setup in `tests.py` (or similar) files
+- To test, run the command:
 ```bash
 python manage.py test
 ```
-- if the tests pass you will get this:
+- If the tests pass you will get this:
 ```
 Creating test database for alias 'default'...
 System check identified no issues (0 silenced).
@@ -140,82 +346,50 @@ OK
 Destroying test database for alias 'default'...
 ```
 What to test?
-- run `coverage run --source='.' manage.py test` if not installed use `pip install coverage`
-- then simply generate a report - `coverage report`
-- this will give you an idea of what is covered by your tests and what is not
-### Frontend testing
-run:
+- Run `coverage run --source='.' manage.py test` if not installed use `pip install coverage`
+- Then simply generate a report - `coverage report`
+- This will give you an idea of what is covered by your tests and what is not
+
+### Documentation
+- To view all available endpoints and descriptions as well as run test requests, go to:
+  - `http://localhost:8000/swagger/` or  
+  - `http://localhost:8000/redoc/` 
+
+<hr/>
+
+## Frontend
+### File Structure
+- All main files are located in the `src` directory. 
+- Files in the `public` folder are simply used to set up the Single Page Rendering in the index.html file
+
+#### `App.js` and `index.js`
+- All links are setup using the `Router` Componenct in the `App.js` file
+- All pages are rendered inside the 'root' div in the `index.js` file
+
+#### `axios.js`
+- Sets up the axios requests by providing the base URL and Authorization headers so it will be easier to work with requests inside the project
+- Instead of using `axios` itself, we import `axiosInstance` from `axios.js` and use it to set up requests
+
+#### `helper_functions`
+- Include the logout functionality and checking whether the user is authenticated so they can access the other pages
+
+#### `components`
+- All pages and subcomponents are implemented inside this directory
+
+### Dependencies
+- Use the package manager `npm` or `yarn` to install dependencies:
+```bash
+npm install
+# or
+yarn install
 ```
-npm test -- name of the test file
+- `package-lock.json`: records the exact version of each installed package which allows you to re-install them. Future installs will be able to build an identical dependency tree.
+- `package.json`: records the minimum version you app needs. If you update the versions of a particular package, the change is not going to be reflected here.
+- If there are any issues insalling dependencies, try removing the `package-lock.json` file since it may store data that is OS specific and not be able to run in different environments
+
+### Testing
+- All tests are set up in the [`test`](frontend/src/components/test/) folder
+- To run all tests, run the command:
+```bash
+npm test
 ```
-To start the application run the command:
-npm start
-# Documentation 
-- [Backend](Backend-documentation.pdf)
-- [Frontend](Frontend-documentation.pdf)
-- will add these once I finish - Long 
-# Actionable items for next group 
-# Progress report:
-
-## OUR PROGRESS:
-Frontend: 
-Login.js
-- proper field checking: email pattern, password inputted with warnings
-    - ui improvemenet shows what went wrong in login more nicely
-Signup.js
--  proper field checking: email pattern, password inputted with warnings
--  notifies if user has already been created
--  redirects to login
-About.js 
-- update text with and added picture 
-
-# PREVIOUS GROUP:
-- UI improvements in the screens from the previous sprint
-- new screens added:
-
-
- 
-  - view game details screen(not fully implemented)
-
-- test cases added and adapted to the new screens and UI improvements
-  - tbd
-
-- Use cannot visit pages that are allowed only when it is authenticated.
-- instructor can:
-  - view all the games that are created
-  - view the details of the game
-  - modify the setting of a game.
-  - create a demmand pattern
-- student can:
-  - join in one of the games created by the instructors
-  - select the role for that game
-  - if the role is taken another studetn has to choose a different role 
-  - continue the games where the player is already registered
-- none of the above actions can be done without the user being authenticated and passing the token in the request that client make to the backend server
-
-- test cases are added for the backend and frontend. They include:
-  - test cases for the models
-  - test cases for the authentication
-  - test cases for the API
-  - test cases for the screens
-
-- API documentation is added. Go to url:
-  ` localhost:8000/swagger` or
-  ` localhost:8000/redoc` when the backend server is running.
-
-
-
-# TODO
-Frontend:
-- [ ] Fix Page Permissions: students can't join games they haven't registred for, students can't create games, instructors can't join games
-- [ ] Proper errors check:  login, signup, create game, enter game, post order, register to game
-- [ ] Game settings display page/modal
-- [ ] Connect gameplay with proper game backend endpoints
-- [ ] Change form design
-- [ ] If user registers, redirect to login page. If already logged in, can't access login and register pages
-
-Backend:
-- [ ] Create and get game roles and role data
-- [ ] Implement week creation, proceeding to next week, get data for specific week
-- [ ] Player can access game only if it is activated by the instructor and all roles have been registered
-- [ ] Order beer logic
