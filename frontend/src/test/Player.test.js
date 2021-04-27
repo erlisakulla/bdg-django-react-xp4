@@ -42,8 +42,8 @@ describe("Rendering Player", () => {
         localStorage.setItem('access_token', 'another dummy token');
         renderWithRouter(<App/>);
         expect(screen.getByText("Hello")).toBeInTheDocument();
-        expect(screen.getByText("Join")).toBeInTheDocument();
-        expect(screen.getByRole("button")).toBeInTheDocument();
+        expect(screen.getByText("Select Game")).toBeInTheDocument();
+        expect(screen.getByRole("navigation")).toBeInTheDocument();
     });
 
     test("Get a user from server", async() => {
@@ -57,27 +57,7 @@ describe("Rendering Player", () => {
 
     });
 
-    test("Get user's games", async() => {
-
-      server.use(rest.get('http://localhost:8000/user/info/', (req, res, ctx) => {
-          return res(ctx.json({email: 'user@test.com'}))
-      }));
-
-      server.use(rest.get('http://localhost:8000/game/entergame/', (req, res, ctx) => {
-          return res(ctx.json([
-            {
-              game_id: "213",
-              role: "Distributor",
-              week_num: 1,
-            }
-          ]))
-      }));
-      localStorage.setItem('access_token', 'another dummy token');
-      renderWithRouter(<Player/>)
-      await waitFor(() => screen.getByText(/user@test.com/i))
-      await waitFor(() => screen.getByText("Continue"))
-
-  });
+    
 
 });
 

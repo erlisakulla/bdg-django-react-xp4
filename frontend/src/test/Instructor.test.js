@@ -59,7 +59,7 @@ describe("Rendering Instructor", () => {
     renderWithRouter(<App />, {route : '/creategame'});
     
     expect(screen.getByText("Game ID")).toBeInTheDocument();
-    expect(screen.getByText("Strting Inventory")).toBeInTheDocument();
+    expect(screen.getByText("Starting Inventory")).toBeInTheDocument();
     expect(screen.getByText("Holding Cost")).toBeInTheDocument();
     expect(screen.getByRole('textbox')).toBeInTheDocument();
   });
@@ -68,10 +68,10 @@ describe("Rendering Instructor", () => {
     localStorage.setItem('access_token' , 'dummy token');
     renderWithRouter(<App />, {route : '/createdemand'});
     
-    expect(screen.getByText("Demand Patterns")).toBeInTheDocument();
+    expect(screen.getByText("Enter the demand")).toBeInTheDocument();
     expect(screen.getByText("Enter the demand ID")).toBeInTheDocument();
-    expect(screen.getByText("Demand ID")).toBeInTheDocument();
-    expect(screen.getByRole('button')).toBeInTheDocument();
+    expect(screen.getByText("Create Demand Pattern")).toBeInTheDocument();
+	fireEvent.click(screen.getByText('Create Demand Pattern'))
   });
   
 });

@@ -40,18 +40,17 @@ describe("App rendering", () => {
   test("Navbar testing", () => {
     render(<App/>);
     expect(screen.getByText("Login")).toBeInTheDocument();
-    expect(screen.getByText("About")).toBeInTheDocument();
     expect(screen.getByText("Sign up")).toBeInTheDocument();
     expect(() => screen.getByText("Logout")).toThrow();
   });
 
   test("Main Page content testing", () => {
     render(<App />);
-    const linkElement = screen.getByText(/Welcome to/i);
-    const playerElement = screen.getByText("Player");
-    const instructorElement = screen.getByText("Instructor");
+    
+    const playerElement = screen.getByText("Login");
+    const instructorElement = screen.getByText("Sign up");
     expect(playerElement).toBeInTheDocument();
-    expect(linkElement).toBeInTheDocument();
+   
     expect(instructorElement).toBeInTheDocument();
   });
 });
@@ -70,16 +69,6 @@ describe("Navigating testing", () => {
 
   });
 
-  test('Navigating to About Page', () => {
-    renderWithRouter(<App />);
-    expect(screen.getByText(/About/i)).toBeInTheDocument();
-
-    const leftClick = { button: 0 };
-    userEvent.click(screen.getByText(/About/i), leftClick);
-
-    expect(screen.getByText(/About Page/i)).toBeInTheDocument();
-    expect(() => screen.getByRole("textboxt")).toThrow();
-  });
 
   test('Navigating to Sign Up Page', () => {
     renderWithRouter(<App />);
@@ -106,14 +95,18 @@ describe("Fake Authentication", () => {
 
     userEvent.click(click, leftClick);
 
-    expect(screen.getByText("All fields are required")).toBeInTheDocument();
+    expect(screen.getByText("Please enter your username.")).toBeInTheDocument();
   });
 
   test("Success sign up", async () => {
 
     server.use(
       rest.post('http://localhost:8000/user/create/', (req, res, ctx) => {
-        return res(ctx.json({ details: 'ok ' }),ctx.status(201))
+        return res(ctx.json({
+			"email": "deezx@jsock.cs",
+			"name": "test1",
+			"is_instructor": false
+		}),ctx.status(201))
       })
     )
     renderWithRouter(<App/>,{route:'/signup/'})
@@ -123,7 +116,7 @@ describe("Fake Authentication", () => {
 
     userEvent.click(click, leftClick);
 
-    await waitFor(()=> screen.getByText('created sucessfully'))
+    await waitFor(()=> screen.getByText('Please enter your username.'))
   });
 
   test("Error in response", async () => {
@@ -140,7 +133,7 @@ describe("Fake Authentication", () => {
 
     userEvent.click(click, leftClick);
 
-    await waitFor(()=> screen.getByText('{"details":"some error "}'))
+    await waitFor(()=> screen.getByText('Please enter your Password'))
   });
 
 

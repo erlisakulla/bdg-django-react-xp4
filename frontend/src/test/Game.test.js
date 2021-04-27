@@ -16,23 +16,27 @@ describe("Game UI test", () => {
     test("rendering without authentification", () => {
         renderWithRouter(<App/>);
         expect(screen.getByText("Login")).toBeInTheDocument();
-        expect(screen.getByText("Password")).toBeInTheDocument();
-        expect(screen.getByRole("button")).toBeInTheDocument();
+        expect(screen.getByText("Sign up")).toBeInTheDocument();
+        expect(screen.getByText("Beer Game")).toBeInTheDocument();
     });
 
-    test("rendering with authentification", () => {
+    test("rendering with authentication", () => {
       localStorage.setItem('access_token', 'another dummy token');
       renderWithRouter(<App/>);
-      expect(screen.getByText("Week #1")).toBeInTheDocument();
-      expect(screen.getByText("SEND")).toBeInTheDocument();
-      expect(screen.getByRole("button")).toBeInTheDocument();
+      expect(screen.getByText("Beer Game")).toBeInTheDocument();
+		expect(screen.getByText("logout")).toBeInTheDocument();
+		expect(screen.getByText("Week #")).toBeInTheDocument();
+		expect(screen.getByRole("tabpanel")).toBeInTheDocument();
+
+		
   });
 
 
 });
 
 const renderWithRouter = (ui, {
-    route = "/play/213"
+    
+	route = "/role/1"
 } = {}) => {
     window
         .history

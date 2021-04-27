@@ -89,7 +89,7 @@ export default class signup extends Component {
 				is_instructor: this.state.isinstructor
 			}, { crossDomain: true }).then((res) => {
 				if (res.status === 201) {
-					errors["password1"] = 'Created succesfully';
+					errors["password1"] = 'Created successfully';
 					this.setState({
 						errors: errors
 					})
