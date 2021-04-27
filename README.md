@@ -1,11 +1,14 @@
-## se-04-team-33
+# se-04-team-33
+Jumping from one STACK to another every 2 weeks can be quite jarring, cleaning it up, providing proper documentation and guidance as well as imporving and addding new features was our main motivation during this sprint.
 
-SE Sprint 3, Team 33
+## Authors
+_Erlisa Kula & Hai Long Tran_ 
 
-Erlisa Kula & Hai Long Tran 
-
-## Installation
-
+# Local Setup and deployment
+## Setup 
+### Git
+- find a directory within your computer where you would liek to store the repo
+- open the terminal in that directory and run
 ```
 git clone https://github.com/lorenzorota/se-04-team-33.git
 ```
@@ -13,84 +16,33 @@ git clone https://github.com/lorenzorota/se-04-team-33.git
 ```
 cd se-04-team-33
 ```
-
+- use `git status` to check whether everything is up to date
+### Virtual Environment:
+- for this project we suggest using a simple python virtual environment 
 ```bash
 #Install Virtual Environment first
 python3 -m pip install --user virtualenv
 
 # Creating a virtual environment
 python3 -m venv env
+
 #Activating Virtual Environment
 source env/bin/activate
 
 ```
-
-must activate venv everytime if working with backend
+- the virtual environment should be installed within the project folder (main directory) and run from there 
+- you can then run your Django app inside the environment, this simplifies python versioning as well as package management
+- you will se "(name_of_your_env)" next to the name of your directory in the terminal
+- you must activate venv everytime, here is the command again:
 
 ```
 source env/bin/activate
 ```
+## Installation and deployment
 
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install django.
-
-```bash
-python -m pip install django djangorestframework django-cors-headers djangorestframework_simplejwt
-```
-
-or
-
-```
-python -m pip install -r requirements.txt
-```
-
-## Backend
-
-Change Directory to the backend
-
-```
-cd backend
-```
-
-Database Migration
-
-```bash
-#make Migration
-python manage.py makemigrations
-#Apply Migration
-
-python manage.py migrate
-```
-
-Start Server
-
-```bash
-python manage.py runserver
-```
-
-Run Test
-
-```bash
-python manage.py test
-```
-
-more commands : follow this link
-[https://docs.djangoproject.com/en/3.1/ref/django-admin/](https://docs.djangoproject.com/en/3.1/ref/django-admin/)
-
-## For Custom Database (optional)
-
-This project uses mysqlite for database management. If you want to integrate to your database server.
-Install mysql adaptor
-
-```bash
-python -m pip install mysqlclient
-```
-
-If you are using windows follow the steps in this link to install mysqlclient:
-[https://medium.com/@omaraamir19966/connect-django-with-mysql-database-f946d0f6f9e3](https://medium.com/@omaraamir19966/connect-django-with-mysql-database-f946d0f6f9e3)
-
-make sure to create sql database first and link it to this project.
-
-login to MYSQL
+### Database 
+- make sure to create your own sql database first 
+- login to MYSQL
 
 ```bash
 mysql -h {hostname} -u username -p {databasename}
@@ -98,26 +50,18 @@ mysql -h {hostname} -u username -p {databasename}
 #enter your server password
 Password: {your password}
 ```
-
-after sucessful login inside mysql shell. Run
+- the host is usually localhost if you are running locally on your machine 
+- after sucessful login inside mysql shell, run:
 
 ```mysql
 CREATE DATABASE YOUR_DATABASE_NAME;
 ```
-
-replace this in settings.py located inside beergame folder.
-
-```python
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+- change directory to the backend
 ```
-
-to
-
+cd backend
+```
+- then go to the beergame folder and open settings.py
+- within that file you will find the following code
 ```python
 DATABASES = {
   'default': {
@@ -131,49 +75,89 @@ DATABASES = {
 
 }
 ```
+- replace DATABASE_NAME, USERNAME, PASSWORD, MYSQL_SERVER_URL, SERVER_PORT to match your SQL server address and login credentials
 
-replace DATABASE_NAME, USERNAME, PASSWORD, MYSQL_SERVER_URL, SERVER_PORT to match your SQL server address and login credentials.
-
-After connecting database makesure to run all migrations
+After connecting your database makesure to migrate, for initial installation the second command suffices 
 
 ```bash
 #make Migration
 python manage.py makemigrations
-#Apply Migration
 
+#Apply Migration
 python manage.py migrate
 ```
+- this command will  run migrations against your database - essentially, synchronizing the new models with the schema in the database
+- this is needed to initialize the database and create the necessary tables, you just need to create a database with a 'NAME' in this case 'beer_game'
+- the beauty is this process takes care of all the SQL commands using models from the DJANGO framework (explained in more detail within the backend documentation)
 
+#### Backend
+Use the package manager [pip](https://pip.pypa.io/en/stable/) to install django specific dependencies. You can install each dependency like below:
+
+```bash
+python -m pip install django djangorestframework django-cors-headers djangorestframework_simplejwt
+```
+or simply used the provided requirements.txt as follows: 
+```
+python -m pip install -r requirements.txt
+```
+- this will install all the necessary dependencies
+
+Now you are ready to run your backend server: 
+
+```bash
+python manage.py runserver
+```
+
+### Frontend
 Makesure to configure your frontend url in settings.py for CORS
-
 ```python
 CORS_ORIGIN_WHITELIST = 'http://localhost:3000',
 ```
 
-## Frontend SETUP
+Use the package manager [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/) to install dependencies:
+- go to the Frontend Directory
+- run `npm install package.json` more detail on this is provided in the frontend readme.md
+- Note: you will see will see package.json and package-lock.json, don't get confused using package.json is enough, but here is the difference:
+  - package-lock.json: records the exact version of each installed package which allows you to re-install them. Future installs will be able to build an identical dependency tree.  
+  - package.json: records the minimum version you app needs. If you update the versions of a particular package, the change is not going to be reflected here.
 
-Use the package manager [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/) to install dependencies.
 
-n.
-
+## Testing
+### Backend testing 
+- run:
 ```bash
-#Frontend Directory
-#Install Dependencies
-npm install
+python manage.py test
 ```
+- if the tests pass you will get this:
+```
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+.....
+----------------------------------------------------------------------
+Ran 5 tests in 0.063s
 
+OK
+Destroying test database for alias 'default'...
+```
+What to test?
+- run `coverage run --source='.' manage.py test` if not installed use `pip install coverage`
+- then simply generate a report - `coverage report`
+- this will give you an idea of what is covered by your tests and what is not
 ### Frontend testing
-
-To run the tests for the frontend, run the command:
-
+run:
 ```
 npm test -- name of the test file
 ```
 To start the application run the command:
 npm start
-## Progress report:
+# Documentation 
+- [Backend](Backend-documentation.pdf)
+- [Frontend](Frontend-documentation.pdf)
+- will add these once I finish - Long 
+# Actionable items for next group 
+# Progress report:
 
-# OUR PROGRESS:
+## OUR PROGRESS:
 Frontend: 
 Login.js
 - proper field checking: email pattern, password inputted with warnings
