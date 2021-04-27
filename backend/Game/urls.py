@@ -1,21 +1,20 @@
-from django.urls import path, include
+from django.urls import path, include, re_path
+from rest_framework import permissions, routers
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+
 from Game.views import (
-    GameList,
-    WeeksEdit,
-    GameDetail,
+    GameActions,
+    PlayerGameActions,
     DemandList,
-    PlayerGameEdit,
-    GameEdit,
 )
 
+# Creating routes based on views
+router = routers.DefaultRouter()
+router.register("", GameActions)
+router.register("role", PlayerGameActions, 'Role')
 
 urlpatterns = [
-    path("<int:pk>/", GameDetail.as_view(), name="detailgame"),
-    path("edit/<int:pk>/", GameEdit.as_view(), name="editgame"),
-    path("entergame/", PlayerGameEdit.as_view()),
-    path("", GameList.as_view(), name="listgame"),
+    path("", include(router.urls)),
     path("demand", DemandList.as_view(), name="demandlist"),
-    path("play/<int:pk>", WeeksEdit.as_view(), name="play")
-    # path("", views.index, name="index"),
-    # path("dashboard/", views. ,name=" "),
 ]

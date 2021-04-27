@@ -44,14 +44,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'Home',
-    'Game',
     'rest_framework',
     'corsheaders',
     'rest_framework_simplejwt',
-    'User',
     'rest_framework_simplejwt.token_blacklist',
-    'drf_yasg'
+    'drf_yasg',
+
+    'User',
+    'Home',
+    'Game',
 ]
 
 MIDDLEWARE = [
@@ -89,13 +90,14 @@ WSGI_APPLICATION = 'beergame.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
+# Substitute the settings below with data from your own database
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'seproject',
-        'USER': 'seuser',
-        'PASSWORD': 'root',
+        'NAME': 'game2',
+        'USER': 'djangouser',
+        'PASSWORD': 'Password.New20',
         'HOST': 'localhost',
         'PORT': '3306',
     }
