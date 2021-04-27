@@ -31,7 +31,6 @@ function Nav() {
                 <li> <Link to="/signup" >Sign up </Link></li>
               </Fragment>) : <Fragment></Fragment>
           }
-          <li> <Link to="/about" >About</Link></li>
           { isAuth ? (<Fragment>
                 <li> <Link to="/logout" >logout</Link></li>
               </Fragment>) : <Fragment></Fragment>

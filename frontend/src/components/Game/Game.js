@@ -14,27 +14,91 @@ class PlayGameView extends Component {
 
     state = {
         role: '',
-        game_id: '',
-        weeks: []
+        game_data: '',
+        shared_info: '',
+        all_weeks: [],
+        current_week: '',
+        next_round_status: false,
     }
 
     componentDidMount() {
-        console.log(this.props.location.state);
-        this.setState({role:this.props.location.state});
         axiosInstance
-            .get("game/play/" + this.props.match.params.id, {
-                params : {
-                    game_id : this.props.match.params.id
-                }
-            })
+            .get("game/role/" + this.props.match.params.id)
             .then(res => {
-                this.setState({weeks:res.data});
+                this.setState({role: res.data});
+                console.log(res.data);
+
+                axiosInstance
+                    .get("game/" + this.state.role.game_id + "/")
+                    .then(res => {
+                        this.setState({game_data: res.data});
+                        console.log(res.data);
+                    })
+                    .catch((err) => {
+                        if (err.response) {
+                            console.log(err.response.data);
+                        }
+                    }
+                );
+
+                axiosInstance
+                    .get("game/role/" + this.props.match.params.id + "/getsharedinfo/")
+                    .then(res => {
+                        this.setState({shared_info: res.data});
+                        console.log(res.data);
+                    })
+                    .catch((err) => {
+                        if (err.response) {
+                            console.log(err.response.data);
+                        }
+                    }
+                );
+
+                axiosInstance
+                    .get("game/" + this.state.role.game_id + "/getallweeks/")
+                    .then(res => {
+                        this.setState({all_weeks: res.data});
+                        console.log(res.data);
+                    })
+                    .catch((err) => {
+                        if (err.response) {
+                            console.log(err.response.data);
+                        }
+                    }
+                );
+
+                axiosInstance
+                    .get("game/role/" + this.props.match.params.id + "/getcurrentweek/")
+                    .then(res => {
+                        this.setState({current_week: res.data});
+                        console.log(res.data);
+                    })
+                    .catch((err) => {
+                        if (err.response) {
+                            console.log(err.response.data);
+                        }
+                    }
+                );
+
+                axiosInstance
+                    .get("game/role/" + this.props.match.params.id + "/nextroundstatus/")
+                    .then(res => {
+                        this.setState({next_round_status: res.data});
+                        console.log(res.data);
+                    })
+                    .catch((err) => {
+                        if (err.response) {
+                            console.log(err.response.data);
+                        }
+                    }
+                );
             })
             .catch((err) => {
                 if (err.response) {
-                   
+                   console.log(err.response.data);
                 }
-            });
+            }
+        );
     }
 
     render() {
@@ -42,16 +106,16 @@ class PlayGameView extends Component {
             <div className="container mt3 ">
                 <Tabs defaultActiveKey="order" id="uncontrolled-tab-example">
                     <Tab eventKey="order" title="Order">
-                        <OrderView role={this.state.role}/>
+                        <OrderView current_week={this.state.current_week} role_id={this.state.role.id}/>
                     </Tab>
-                    <Tab eventKey="hostory" title="History">
-                        <InfoView data={this.state.weeks}/>
+                    <Tab eventKey="hostory" title="Weeks Info">
+                        <InfoView all_weeks={this.state.all_weeks}/>
                     </Tab>
                     <Tab eventKey="plot" title="Plot">
                         <PlotView/>
                     </Tab>
                     <Tab eventKey="status" title="Status">
-                        <StatusView/>
+                        <StatusView shared_info={this.state.shared_info}/>
                     </Tab>
                 </Tabs>
 

@@ -11,7 +11,7 @@ from Game.views import (
 
 router = routers.DefaultRouter()
 router.register("", GameActions)
-router.register("role", PlayerGameActions)
+router.register("role", PlayerGameActions, 'Role')
 
 urlpatterns = [
     path("", include(router.urls)),

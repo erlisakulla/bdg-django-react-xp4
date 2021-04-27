@@ -1,6 +1,6 @@
 import {Component} from "react";
 import axiosInstance from "../../axios";
-
+import {Link} from "react-router-dom";
 
 /*
     Component which is used by instructor to create 
@@ -52,10 +52,11 @@ class CreateDemand extends Component {
                 }
             }
 
-        } else {
-            check = false;
-            this.setState({error: "Demand must be equal to the number of weeks"});
-        }
+        } 
+        // else {
+        //     check = false;
+        //     this.setState({error: "Demand must be equal to the number of weeks"});
+        // }
 
         if (check) {
             this.setState({error: "", demands: event.target.value});
@@ -79,9 +80,9 @@ class CreateDemand extends Component {
                 })
                 .catch(err => {
                     this.setState({error: "Something went wrong or you are not an instructor"});
-                });
+                }
+            );
         }
-
     }
 
     render() {
@@ -112,8 +113,19 @@ class CreateDemand extends Component {
                                     <input type="text" name="demands" onChange={this.onDemandChange}></input>
                                     <label>Enter the demand</label>
                                 </div>
-                                <div className="row">
+                                <div className="d-flex align-items-center justify-content-center">
                                     <button type="button" className="btn btn-primary" onClick={this.onDemandCreate}>Create</button>
+
+                                    <Link to="/instructor">
+                                        <button
+                                            className="btn waves-effect waves-light text-center"
+                                            name="cancelbtn"
+                                            style={{
+                                                marginLeft: 15
+                                            }}>
+                                                Cancel
+                                        </button>
+                                    </Link>
                                 </div>
                             </form>
                             {this.state.error}
@@ -125,8 +137,8 @@ class CreateDemand extends Component {
                         <div
                             className="container w-100"
                             style={{
-                            paddingTop: 50
-                        }}>
+                                paddingTop: 50
+                            }}>
                             <table className="table table-stripped">
                                 <thead>
                                     <tr>
@@ -143,7 +155,7 @@ class CreateDemand extends Component {
                                         .demand_list
                                         .map((demand, index) => {
                                             return (
-                                                <tr>
+                                                <tr key={demand.demand_id}>
                                                     <td>{index + 1}</td>
                                                     <td>{demand.demand_id}</td>
                                                     <td>{demand.weeks_num}</td>
@@ -151,7 +163,7 @@ class CreateDemand extends Component {
                                                 </tr>
                                             );
                                         })
-}
+                                    }
                                 </tbody>
                             </table>
                         </div>

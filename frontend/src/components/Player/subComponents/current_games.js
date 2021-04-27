@@ -5,15 +5,15 @@ function CurrentGame(props) {
         <div style={{
             padding: 15
         }}>
-            Game : {props.game.game_id}
+            Game : {props.role.game_id}
             <br/>
-            Role : {props.game.role}
+            Role : {props.role.role_name}
             <br/>
             <Link
                 to={{
-                pathname: "/play/" + props.game.game_id,
-                state: props.game.role
-            }}>Continue</Link>
+                pathname: "/role/" + props.role.id,
+                state: props.role.id
+            }}>Enter Game</Link>
         </div>
     );
 }

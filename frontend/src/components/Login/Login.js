@@ -40,7 +40,7 @@ export default class SignIn extends Component {
         .catch((err) => {
             if (err.response) {
                 this.setState({
-                    error: JSON.stringify(err.response)
+                    error: JSON.stringify(err.response.data.detail)
                 })
             }
         });
@@ -49,14 +49,13 @@ export default class SignIn extends Component {
     render() {
         return (
             <div>
-                <section className="content-wrapper">
-                    <div>{this.state.error}</div>
+                <section className="content-wrapper" style={{textAlign:'center'}}>
                     <div className="login">
                         <div className="box">
                             <form id="userCredentials" className="loginbox">
                                 <h2>LOGIN</h2>
                                 <label htmlFor="username">Email</label>
-                                <input id="username" name="email" type="text" onChange={this.onChange}/>
+                                <input id="email" name="email" type="email" onChange={this.onChange}/>
                                 <label htmlFor="password">Password</label>
                                 <input
                                     type="password"
@@ -78,6 +77,7 @@ export default class SignIn extends Component {
                             </form>
                         </div>
                     </div>
+                    <div style={{marginTop:'20px', color:'red'}}>{this.state.error}</div>
                 </section>
             </div>
         );

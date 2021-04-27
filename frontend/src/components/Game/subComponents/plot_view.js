@@ -10,7 +10,7 @@ class PlotView extends Component {
     render() {
         return (
             <div>
-                Plots will be here
+                (Plots are not implemented)
             </div>
         );
     }

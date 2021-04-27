@@ -11,7 +11,7 @@ function ViewGame(props) {
             <td>{gamedata.session_length}</td>
             <td>{gamedata.backlog_cost}</td>
             <td>{gamedata.holding_cost}</td>
-            <td>{gamedata.demand_id}</td>
+            <td>{gamedata.demand}</td>
             <td>{gamedata.active_status === true ? "Active" : "Not Active"}</td>
             <td>{gamedata.starting_inventory}</td>
             <td>{gamedata.info_delay}</td>

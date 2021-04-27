@@ -1,5 +1,6 @@
 import {Component} from "react";
 import axiosInstance from "../../axios";
+import {Link} from "react-router-dom";
 
 /*
     Componenet which allows the instructor to create and edit the created games.
@@ -16,7 +17,7 @@ class EditGame extends Component {
         backlog_cost: 1,
         wholesaler_present: true,
         info_sharing: true,
-        distributer_present: true,
+        distributor_present: true,
         demand_id: '',
         demand_list: [],
         post: ''
@@ -70,13 +71,13 @@ class EditGame extends Component {
             backlog_cost: this.state.backlog_cost,
             wholesaler_present: this.state.wholesaler_present,
             info_sharing: this.info_sharing,
-            distributer_present: this.state.distributer_present,
-            demand_id: this.state.demand_id
+            distributor_present: this.state.distributor_present,
+            demand: this.state.demand_id
         };
 
         if (this.props.match.params.id != null) {
             axiosInstance
-                .put(this.state.post, formdata, {crossDomain: true})
+                .patch("game/" + this.props.match.params.id + "/", formdata, {crossDomain: true})
                 .then((res) => {
 
                     if (res.status === 200) {
@@ -119,19 +120,19 @@ class EditGame extends Component {
             <div
                 className="container w-50"
                 style={{
-                paddingTop: 30
-            }}>
+                    paddingTop: 30
+                }}>
                 <h3 className="text-center">{this.state.post === "game/"
                         ? "Create Game"
                         : "Edit Game"}</h3>
                 <div
                     className="row"
                     style={{
-                    paddingTop: 30
-                }}>
+                        paddingTop: 30
+                    }}>
                     <form className="col s12">
                         <div className="row">
-                            <div className="input-field col s6">
+                            <div className="col s6">
                                 <input
                                     id="session_length"
                                     name="session_length"
@@ -139,16 +140,17 @@ class EditGame extends Component {
                                     min={1}
                                     value={this.state.session_length}
                                     onChange={this.handleOnChange}
-                                    className="validate"/>
-                                <label htmlFor="session_length">Session Length</label>
+                                    />
+                                <label>Session Length</label>
                             </div>
-                            <div className="input-field col s6">
+                            <div className="col s6">
 
                                 <select
                                     className='form-control'
                                     name='demand_id'
-                                    onChange={this.handleOnDemandChange}>
-                                    <option defaultValue disabled>
+                                    onChange={this.handleOnDemandChange}
+                                    defaultValue="none">
+                                    <option value="none" disabled>
                                         Choose your demand
                                     </option>
                                     {this
@@ -156,16 +158,16 @@ class EditGame extends Component {
                                         .demand_list
                                         .map(demand => {
                                             return (
-                                                <option value={demand.demand_id}>{demand.demand_id}</option>
+                                                <option value={demand.demand_id}>{demand.demand_id} - {demand.weeks_num} weeks</option>
                                             );
                                         })
-}
+                                    }
                                 </select>
                             </div>
                         </div>
 
                         <div className="row">
-                            <div className="input-field col s6">
+                            <div className="col s6">
                                 <input
                                     id="holding_cost"
                                     name="holding_cost"
@@ -176,7 +178,7 @@ class EditGame extends Component {
                                     className="validate"/>
                                 <label htmlFor="holding_cost">Holding Cost</label>
                             </div>
-                            <div className="input-field col s6">
+                            <div className="col s6">
                                 <input
                                     id="backlog_cost"
                                     name="backlog_cost"
@@ -189,18 +191,19 @@ class EditGame extends Component {
                             </div>
                         </div>
                         <div className="row">
-                            <div className="input-field col s12">
+                            <div className="col s12">
                                 <input
                                     id="game_id"
                                     name="game_id"
                                     type="text"
                                     onChange={this.handleOnChange}
                                     className="validate"
+                                    value={this.props.match.params.id}
                                     disabled=
                                     {this.state.post === "game/edit/" + this.props.match.params.id + "/"}/>
                                 <label htmlFor="game_id">Game ID</label>
                             </div>
-                            <div className="input-field col s4">
+                            <div className="col s4">
                                 <input
                                     id="info_delay"
                                     name="info_delay"
@@ -210,7 +213,7 @@ class EditGame extends Component {
                                     className="validate"/>
                                 <label htmlFor="info_delay">Info Delay</label>
                             </div>
-                            <div className="input-field col s12">
+                            <div className="col s12">
                                 <input
                                     id="starting_inventory"
                                     name="starting_inventory"
@@ -218,33 +221,38 @@ class EditGame extends Component {
                                     value={this.state.starting_inventory}
                                     onChange={this.handleOnChange}
                                     className="validate"/>
-                                <label htmlFor="starting_inventory">Strting Inventory</label>
+                                <label htmlFor="starting_inventory">Starting Inventory</label>
                             </div>
                         </div>
                         <div className="row">
-                            <div className="input-field col s4">
+                            <div className="col s4">
                                 <label>
                                     <input
                                         type="checkbox"
                                         className="filled-in"
-                                        name="distributer_present"
+                                        name="distributor_present"
                                         onChange={this.handleBoolOnChange}
-                                        checked={this.state.distributer_present}/>
-                                    <span>Distributer</span>
+                                        checked={this.state.distributor_present}
+                                        disabled=
+                                        {this.state.post === "game/edit/" + this.props.match.params.id + "/"}/>
+                                    <span>Distributor</span>
                                 </label>
                             </div>
-                            <div className="input-field col s4">
+                            <div className="col s4">
                                 <label>
                                     <input
                                         type="checkbox"
                                         className="filled-in"
                                         name="wholesaler_present"
                                         onChange={this.handleBoolOnChange}
-                                        checked={this.state.wholesaler_present}/>
+                                        checked={this.state.wholesaler_present}
+                                        disabled=
+                                        {this.state.post === "game/edit/" + this.props.match.params.id + "/"}/>
+                                        
                                     <span>Wholesaler</span>
                                 </label>
                             </div>
-                            <div className="input-field col s4">
+                            <div className="col s4">
                                 <label>
                                     <input
                                         type="checkbox"
@@ -258,17 +266,29 @@ class EditGame extends Component {
                         </div>
                         <div className="d-flex align-items-center justify-content-center">
                             <button
-                                className="btn waves-effect waves-light text-center"
+                                className="btn btn-primary waves-effect waves-light text-center"
                                 type="submit"
                                 name="submitbutton"
                                 onClick={this.handleSubmit}
                                 style={{
-                                marginTop: 30
-                            }}>
+                                    marginTop: 30
+                                }}>
                                 {this.state.post === "game/"
                                     ? "Create Game"
-                                    : "Edit Game"}{" "}
+                                    : "Update Game"}{" "}
                             </button>
+                            
+                            <Link to="/instructor">
+                                <button
+                                    className="btn waves-effect waves-light text-center"
+                                    name="cancelbtn"
+                                    style={{
+                                        marginTop: 30, marginLeft: 15
+
+                                    }}>
+                                    Cancel
+                                </button>
+                            </Link>
                         </div>
                     </form>
                 </div>

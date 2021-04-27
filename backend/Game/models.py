@@ -39,7 +39,7 @@ class Game(models.Model):
 
 # Game Player model
 class PlayerGame(models.Model):
-    user_id = models.ForeignKey(User, null=True, blank=True, limit_choices_to={'is_instructor': False}, on_delete=models.CASCADE,related_name="playerrole")
+    user_id = models.ForeignKey(User, null=True, blank=True, limit_choices_to={'is_instructor': False}, on_delete=models.CASCADE,related_name="playerroles")
     game_id = models.ForeignKey(Game, on_delete=models.CASCADE, related_name='gameroles', null=True)
     role_name = models.CharField(max_length=32, default="no-role", null=False, blank=False)
     downstream_player = models.ForeignKey("self", null=True, blank=True, on_delete=models.CASCADE, related_name='%(class)s_downstream_player')

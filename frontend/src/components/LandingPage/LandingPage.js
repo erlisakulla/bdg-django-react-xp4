@@ -7,7 +7,7 @@ import axiosInstance from "../../axios";
 
 function LandingPage() {
     useEffect(() => {
-        axiosInstance.get("api/user/")
+        axiosInstance.get("user/info/")
             .then((res) => {
                 console.log(res.data);
                 if (res.data.is_instructor === false) {

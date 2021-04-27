@@ -49,9 +49,9 @@ export default class signup extends Component {
           if (res.status === 201) {
             this.setState({message: "created sucessfully"})
             this.setState({error: ""})
-                 // useHistory().push("/");
+            window.location = "/login"
           } else {
-            this.setState({error: "Some error occured"})
+            this.setState({error: "Couldn't create account."})
           }
          }).catch((err) => {
              if (err.response) {
@@ -127,8 +127,7 @@ export default class signup extends Component {
                                     </button>
                                 </div>
                                 <small className="form-text">
-                                    Already Sign Up? Go to
-                                    <Link to="/login">Log In</Link>.
+                                    Already Sign Up? Go to <Link to="/login"> Log In</Link>.
                                 </small>
                             </form>
                         </div>

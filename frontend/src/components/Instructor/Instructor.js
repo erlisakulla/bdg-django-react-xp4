@@ -93,13 +93,13 @@ export default function Instructor() {
                     </tr>
                 </thead>
 
-                
+                <tbody>
                     {loadgame().length === 0
-                        ? <p className="text-center">No Games Created</p>
-                        : <tbody>
-                            {loadgame()}
-                        </tbody>}
-                
+                        ? <tr className="text-center"><td>No Games Created</td></tr>
+                        : 
+                        <>{loadgame()}</>
+                        }
+                </tbody>
             </table>
 
             <Link

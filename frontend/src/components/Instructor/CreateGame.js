@@ -1,6 +1,7 @@
-import React, {Component, useState, useEffect} from "react";
+import React, {useState, useEffect} from "react";
 import axiosInstance from "../../axios";
 import {useHistory} from "react-router-dom";
+import {Link} from "react-router-dom";
 
 /*
     Component which is use by the instructor and allows him to creat and manage
@@ -9,16 +10,19 @@ import {useHistory} from "react-router-dom";
 
 export default function CreateGame(props) {
     let defaultdata = {
-        session_length: 1,
-        game_id: '',
-        info_delay: 2,
-        start_inventory: 0,
+        game_id: Math.floor(Math.random() * (1000 + 1)),
+        session_length: 12,
+        distributor_present: true,
+        wholesaler_present: true,
         holding_cost: 1,
         backlog_cost: 1,
-        wholesaler_present: true,
+        instructor: '',
+        rounds_completed: 0,
+        starting_inventory: 12,
+        active_status: true,
         info_sharing: true,
-        distributer_present: true,
-        demand_id: ''
+        info_delay: 2,
+        demand: '',
     };
 
     const [formdata,
@@ -34,17 +38,17 @@ export default function CreateGame(props) {
         axiosInstance
             .get("game/demand")
             .then(res => {
-                if (res.status == 200) {
+                if (res.status === 200) {
                     getDemand(res.data);
                 }
             });
 
-    }, [demand_list]);
+    }, []);
 
     let handleOnDemandChange = (e) => {
         setFromData((prevstate) => ({
             ...prevstate,
-            'demand_id': e.target.value
+            'demand': e.target.value
         }));
 
     };
@@ -68,7 +72,6 @@ export default function CreateGame(props) {
         axiosInstance
             .post("game/", formdata, {crossDomain: true})
             .then((res) => {
-                console.log(res);
                 console.log(res);
 
                 if (res.status === 201) {
@@ -99,7 +102,7 @@ export default function CreateGame(props) {
             }}>
                 <form className="col s12">
                     <div className="row">
-                        <div className="input-field col s6">
+                        <div className="col s6">
                             <input
                                 id="session_length"
                                 name="session_length"
@@ -110,27 +113,28 @@ export default function CreateGame(props) {
                                 className="validate"/>
                             <label htmlFor="session_length">Session Length</label>
                         </div>
-                        <div className="input-field col s6">
+                        <div className="col s6">
 
                             <select
                                 className='form-control'
-                                name='demand_id'
-                                onChange={handleOnDemandChange}>
-                                <option defaultValue disabled>
-                                    Choose your role
+                                name='demand'
+                                onChange={handleOnDemandChange}
+                                defaultValue="none">
+                                <option value="none" disabled>
+                                    Choose demand
                                 </option>
-                                {demand_list.map(demand => {
-                                    return (
-                                        <option value={demand.demand_id}>{demand.demand_id}</option>
-                                    );
-                                })
-}
+                                    {demand_list.map(demand => {
+                                        return (
+                                            <option key={demand.demand_id} value={demand.demand_id}>{demand.demand_id} - {demand.weeks_num} weeks</option>
+                                        );
+                                    })
+                                } 
                             </select>
                         </div>
                     </div>
 
                     <div className="row">
-                        <div className="input-field col s6">
+                        <div className="col s6">
                             <input
                                 id="holding_cost"
                                 name="holding_cost"
@@ -141,7 +145,7 @@ export default function CreateGame(props) {
                                 className="validate"/>
                             <label htmlFor="holding_cost">Holding Cost</label>
                         </div>
-                        <div className="input-field col s6">
+                        <div className="col s6">
                             <input
                                 id="backlog_cost"
                                 name="backlog_cost"
@@ -154,16 +158,17 @@ export default function CreateGame(props) {
                         </div>
                     </div>
                     <div className="row">
-                        <div className="input-field col s12">
+                        <div className="col s12">
                             <input
                                 id="game_id"
                                 name="game_id"
                                 type="text"
                                 onChange={handleOnChange}
+                                value={formdata.game_id}
                                 className="validate"/>
                             <label htmlFor="game_id">Game ID</label>
                         </div>
-                        <div className="input-field col s4">
+                        <div className="col s4">
                             <input
                                 id="info_delay"
                                 name="info_delay"
@@ -173,30 +178,30 @@ export default function CreateGame(props) {
                                 className="validate"/>
                             <label htmlFor="info_delay">Info Delay</label>
                         </div>
-                        <div className="input-field col s12">
+                        <div className="col s12">
                             <input
-                                id="start_inventory"
-                                name="start_inventory"
+                                id="starting_inventory"
+                                name="starting_inventory"
                                 type="number"
-                                value={formdata.start_inventory}
+                                value={formdata.starting_inventory}
                                 onChange={handleOnChange}
                                 className="validate"/>
-                            <label htmlFor="start_inventory">Strting Inventory</label>
+                            <label htmlFor="starting_inventory">Starting Inventory</label>
                         </div>
                     </div>
                     <div className="row">
-                        <div className="input-field col s4">
+                        <div className="col s4">
                             <label>
                                 <input
                                     type="checkbox"
                                     className="filled-in"
-                                    name="distributer_present"
+                                    name="distributor_present"
                                     onChange={handleBoolOnChange}
-                                    checked={formdata.distributer_present}/>
+                                    checked={formdata.distributor_present}/>
                                 <span>Distributer</span>
                             </label>
                         </div>
-                        <div className="input-field col s4">
+                        <div className="col s4">
                             <label>
                                 <input
                                     type="checkbox"
@@ -207,7 +212,7 @@ export default function CreateGame(props) {
                                 <span>Wholesaler</span>
                             </label>
                         </div>
-                        <div className="input-field col s4">
+                        <div className="col s4">
                             <label>
                                 <input
                                     type="checkbox"
@@ -221,15 +226,27 @@ export default function CreateGame(props) {
                     </div>
                     <div className="d-flex align-items-center justify-content-center">
                         <button
-                            className="btn waves-effect waves-light text-center"
+                            className="btn btn-primary waves-effect waves-light text-center"
                             type="submit"
                             name="submitbutton"
                             onClick={handleSubmit}
                             style={{
-                            marginTop: 30
-                        }}>
+                                marginTop: 30
+                            }}>
                             Create Game{" "}
                         </button>
+
+                        <Link to="/instructor">
+                            <button
+                                className="btn waves-effect waves-light text-center"
+                                name="cancelbtn"
+                                style={{
+                                marginTop: 30, marginLeft: 15
+
+                            }}>
+                                Cancel
+                            </button>
+                        </Link>
                     </div>
                 </form>
             </div>

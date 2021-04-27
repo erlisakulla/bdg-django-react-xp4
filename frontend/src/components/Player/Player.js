@@ -12,7 +12,8 @@ class Player extends Component {
     state = {
         user_info: '',
         game_data: '',
-        games: [],
+        registered_roles: [],
+        roles: [],
         game_id: '',
         error: '',
         select_role: false
@@ -39,9 +40,10 @@ class Player extends Component {
                     );
 
                     axiosInstance
-                        .get("game/entergame/")
+                        .get("game/role/all/")
                         .then(res => {
-                            this.setState({games: res.data});
+                            console.log(res.data);
+                            this.setState({registered_roles: res.data});
                         }
                     );
                 }
@@ -56,24 +58,29 @@ class Player extends Component {
     }
 
     handleJoin = event => {
-        axiosInstance
-            .get("/game/" + this.state.game_id)
-            .then(res => {
-                this.setState({game_data: res.data, error: '', select_role: true});
-            })
-            .catch(error => {
-                if (error.response) {
-                    this.setState({
-                        error: JSON.stringify(error.response.data.detail),
-                        select_role: true
-                    });
-                }
-            })
+        axiosInstance.get(`game/${this.state.game_id}/getavailableroles/`)
+        .then(
+            res => {
+                console.log(res.data);
+                const allRoles = res.data;
+                this.setState({roles: allRoles});
+                // console.log(res.data);
+            }
+        )
+        .catch(error => {
+            if (error.response) {
+                this.setState({
+                    error: JSON.stringify(error.response.data.detail),
+                    select_role: true
+                });
+            }
+        });
     }
 
     render() {
+        let counter = 0;
         return (
-            <div className="container">
+            <div className="container" style={{marginTop:'20px'}}>
 
                 <h3>Hello {this.state.user_info}</h3>
 
@@ -85,21 +92,22 @@ class Player extends Component {
 
                     <div className="col sm-6">
                         <div className="container w-50">
-                            <p>Enter Code to Join Game</p>
+                            <p>Enter ID to Join Game</p>
                             <div className="input-field">
                                 <input
                                     name="game_id"
                                     id="game_id"
                                     type="text"
                                     onChange={this.handleChange}
-                                    className="validate"/>
+                                    className="validate"
+                                    variant="outlined"/>
                                 <label className="active" htmlFor="gamecode">
-                                    Game Code
+                                    Game ID
                                 </label>
                             </div>
                             <div className="input-field">
                                 <button className="btn" onClick={this.handleJoin}>
-                                    Join
+                                    Select Game
                                 </button>
                             </div>
                             <div
@@ -108,26 +116,20 @@ class Player extends Component {
                                 marginTop: 20
                             }}>
                                 {this.state.error}
-                                {this.state.select_role
-                                    ? <SelectRole game={this.state.game_data}/>
-                                    : null}
+                                <SelectRole roles={this.state.roles} game_id={this.state.game_id}/>
+                                    
                             </div>
-
                         </div>
-
                     </div>
 
                     <div className="col sm-6">
                         <div>
                             <h1>Current Games</h1>
-                            {this
-                                .state
-                                .games
-                                .map(game => {
-                                    return <CurrentGame game={game}/>
+                            {this.state.registered_roles.map(
+                                role => {
+                                    return <CurrentGame key={counter++} role={role}/>
                                 })
                             }
-
                         </div>
                     </div>
                 </div>

@@ -10,10 +10,10 @@ class InfoView extends Component {
     render() {
         return (
             <div className="conatiner" style={{padding:30}}>
-                <h1 className="text-center">Last 10 Week Data</h1>
+                <h1 className="text-center">All Weeks Data</h1>
                 <div className="row justify-content-center">
                     <div className="container w-75" style={{paddingTop:30}}>
-                        <table className="table">
+                        <table className="table" style={{textAlign:"center"}}>
                             <thead>
                                 <tr>
                                     <th scope="col">WEEK</th>
@@ -21,14 +21,24 @@ class InfoView extends Component {
                                     <th scope="col">DEMAND</th>
                                     <th scope="col">INCOMING</th>
                                     <th scope="col">OUTGOING</th>
-                                    <th scope="col">OrderPlaced</th>
-                                    <th scope="col">CurrentCost</th>
+                                    <th scope="col">ORDER</th>
+                                    <th scope="col">TOTAL COST</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <DisplayTable week="1"/>
-                                <DisplayTable week="2"/>
-                                <DisplayTable week="3"/>
+                                {this.props.all_weeks.map((w) => {
+                                    return (
+                                        <tr key={w.week_num}>
+                                            <td>{w.week_num}</td>
+                                            <td>{w.inventory}</td>
+                                            <td>{w.demand}</td>
+                                            <td>{w.incoming}</td>
+                                            <td>{w.outgoing}</td>
+                                            <td>{w.order}</td>
+                                            <td>{w.cost}</td>
+                                        </tr>
+                                    );
+                                })}
                             </tbody>
                         </table>
                         </div>
@@ -36,22 +46,6 @@ class InfoView extends Component {
             </div>
         );
     }
-}
-
-function DisplayTable(props) {
-    let week = props.week;
-    // TODO: IMPLEMENT LOGIC
-    return (
-        <tr>
-            <th scope="col">{week}</th>
-            <th scope="col">1</th>
-            <th scope="col">1</th>
-            <th scope="col">1</th>
-            <th scope="col">1</th>
-            <th scope="col">1</th>
-            <th scope="col">1</th>
-        </tr>
-    );
 }
 
 export default InfoView;
