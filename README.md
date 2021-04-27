@@ -6,15 +6,17 @@ _Erlisa Kulla & Hai Long Tran_
 
 # Table of Contents
 - [Changes Overview:](#changes-overview-)
-- [Basic Local Setup](#basic-local-setup)
   * [Backend](#backend)
   * [Frontend](#frontend)
-- [Documentation](#documentation)
+- [Basic Local Setup](#basic-local-setup)
   * [Backend](#backend-1)
+  * [Frontend](#frontend-1)
+- [Documentation](#documentation)
+  * [Backend](#backend-2)
     + [Setting Up Databases](#setting-up-databases)
     + [File structure](#file-structure)
-    + [Documentation](#documentation-1)
-  * [Frontend](#frontend-1)
+    + [Documentation](#documentation-2)
+  * [Frontend](#frontend-2)
     + [File Structure](#file-structure)
     + [Dependencies](#dependencies)
     + [Testing](#testing)
@@ -43,7 +45,7 @@ _Erlisa Kulla & Hai Long Tran_
   - Post order for current week
 - **Note:** we have not implemented what happens when the student submits the order, so the game logic is implemented only for the first week of the game. We have also not fully integrated the demand in the game logic 
 
-## Forntend:
+## Frontend:
 - User is redirected to Instructor or Student view after logging in
 - Game pages are updated to render data from backend
 - All neccessary connections to backend are made using `axios`
