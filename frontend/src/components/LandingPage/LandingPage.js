@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 import axiosInstance from "../../axios";
 
 /*
-    Component which displays the landing page to the user.
+    Component that redirects users to their respective dashboards depending on their role.
 */
 
 function LandingPage() {

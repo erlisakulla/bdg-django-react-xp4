@@ -9,19 +9,7 @@ import {Link} from "react-router-dom";
 class EditGame extends Component {
 
     state = {
-        // session_length: 1,
-        // game_id: '',
-        // info_delay: 2,
-        // starting_inventory: 5,
-        // holding_cost: 1,
-        // backlog_cost: 1,
-        // wholesaler_present: true,
-        // info_sharing: true,
-        // distributor_present: true,
-        // demand_id: '',
         demand_list: [],
-        // post: ''
-
         game_data: '',
     }
 

@@ -1,6 +1,9 @@
 import { Component } from "react";
 import axiosInstance from "../../../axios";
 
+/*
+    Student registration to available roles of a game.
+*/
 class SelectRole extends Component {
     constructor(props) {
         super(props)

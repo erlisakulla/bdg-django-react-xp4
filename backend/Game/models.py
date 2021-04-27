@@ -123,9 +123,9 @@ def createRoles(sender, instance, created, **kwargs):
 def createFirstWeek(sender, instance, created, **kwargs):
     if created:
         week = Week.objects.create(
-            week_num=1, 
-            player_id=instance,
-            inventory=instance.game_id.starting_inventory,
-            cost=instance.game_id.starting_inventory*instance.game_id.holding_cost
+            week_num = 1, 
+            player_id = instance,
+            inventory = instance.game_id.starting_inventory,
+            cost = instance.game_id.starting_inventory*instance.game_id.holding_cost
         )
         week.save()

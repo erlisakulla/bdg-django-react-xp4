@@ -6,7 +6,7 @@ function ViewGame(props) {
     var gamedata = props.gamedata;
     return (
         <React.Fragment>
-            <td><Link to={"game/" + gamedata.game_id} >{gamedata.game_id}</Link></td>
+            <td>{gamedata.game_id}</td>
             <td>{gamedata.rounds_completed}</td>
             <td>{gamedata.session_length}</td>
             <td>{gamedata.backlog_cost}</td>

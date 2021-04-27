@@ -1,5 +1,8 @@
 import {Link} from "react-router-dom";
 
+/*
+    List of games player is registered for.
+*/
 function CurrentGame(props) {
     return (
         <div style={{

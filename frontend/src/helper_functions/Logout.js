@@ -1,8 +1,10 @@
 import React, {useEffect} from 'react';
 import axiosInstance from '../axios';
 
+/** Logout function. */
 export default function Logout() {
     useEffect(() => {
+        // posts access and refresh tokens to blacklist
         axiosInstance
             .post('user/logout/blacklist/', {
             refresh_token: localStorage.getItem('refresh_token')

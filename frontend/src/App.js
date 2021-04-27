@@ -11,7 +11,6 @@ import Player from "./components/Player/Player";
 import Logout from "./helper_functions/Logout"
 import CreateDemand from "./components/Demand/create_demand";
 import RequireAuth from "./helper_functions/checkAuth";
-import GameDetails from "./components/Instructor/game_details";
 import EditGame from "./components/Instructor/edit_game";
 import CreateGame from "./components/Instructor/CreateGame";
 
@@ -39,7 +38,6 @@ function App() {
           <Route path="/signup" exact component={signup} />
           <Route path="/login" exact component={Login} />
           <RequireAuth path="/creategame" exact component={CreateGame} />
-          <RequireAuth path="/game/:id" exact component={GameDetails} />
           <RequireAuth path="/editgame/:id" exact component={EditGame} />
           <RequireAuth path="/createdemand" exact component={CreateDemand} />
           <Route path="/" exact component={LandingPage} />

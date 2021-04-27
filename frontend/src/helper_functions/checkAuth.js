@@ -1,9 +1,6 @@
 import {Redirect, Route} from "react-router-dom";
 
-/*
-    Function which makes sure that the user is authnticated.
-*/
-
+/** Function which makes sure that the user is authnticated to access pages.*/
 const RequireAuth = ({
     component: Component,
     ...rest

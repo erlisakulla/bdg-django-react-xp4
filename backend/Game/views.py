@@ -27,7 +27,7 @@ from Game.serializers import (
 )
 
 
-# Permission to edit the game : only by instructor
+# Permission to edit the game only by instructor
 class GameUserWritePermission(BasePermission):
     message = "editing only by the instructor "
 
@@ -55,12 +55,13 @@ class GameActions(viewsets.ModelViewSet):
     def get_serializer_class(self):
         return GameSerializer
 
-    # list all games created by logged in user
+    # list all games created by logged in user - GET - game/
     def list(self, request):
         queryset = Game.objects.all().filter(instructor=request.user)
         serializer = GameSerializer(queryset, many=True)
         return Response(serializer.data)
 
+    # game creation - POST - game/
     def create(self, request):
         user = request.user
         serializer = GameSerializer(data=request.data)
@@ -69,7 +70,7 @@ class GameActions(viewsets.ModelViewSet):
             return Response(serializer.data)
         return Response(serializer.errors,status=status.HTTP_406_NOT_ACCEPTABLE)
 
-    # Get list of all games created by instructors - game/all/
+    # Get list of all games created by all instructors - game/all/
     @action(detail=False)
     def all(self, request):
         allgame = Game.objects.all()
@@ -137,9 +138,9 @@ class PlayerGameActions(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
         user = request.user
         role = self.get_object()
         if user.is_instructor:
-            return Response({"detail": "Only a Player can Join a Game"}, status=status.HTTP_406_NOT_ACCEPTABLE)
+            return Response({"detail": "Only players can join a games"}, status=status.HTTP_406_NOT_ACCEPTABLE)
         if(role.user_id):
-            return Response({"detail": "Role already assigned to a Player"}, status=status.HTTP_406_NOT_ACCEPTABLE)
+            return Response({"detail": "Role is already assigned"}, status=status.HTTP_406_NOT_ACCEPTABLE)
         serialized = PlayerGameSerializer(
             role, data={"user_id": user.id}, partial=True)
         if(serialized.is_valid()):
@@ -179,12 +180,12 @@ class PlayerGameActions(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
         if role.user_id == request.user:
             upstream = role.upstream_player
             downstream = role.downstream_player
-            upstreamname = "Brewery"
-            downstreamname = "Consumer"
+            upstream_name = "Brewery"
+            downstream_name = "Consumer"
             if upstream:
-                upstreamname = upstream.role_name
+                upstream_name = upstream.role_name
             if downstream:
-                downstreamname = downstream.role_name
+                downstream_name = downstream.role_name
             game = role.game_id
             weekinfo = {}
             thisweek = role.roleweeks.get(week_num=game.rounds_completed+1)
@@ -196,8 +197,8 @@ class PlayerGameActions(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
             weekinfo['demand'] = thisweek.demand
             weekinfo['backorder'] = thisweek.backlog
             weekinfo['outgoing_shipment'] = thisweek.outgoing
-            weekinfo['upstream'] = upstreamname
-            weekinfo['downstream'] = downstreamname
+            weekinfo['upstream'] = upstream_name
+            weekinfo['downstream'] = downstream_name
             weekinfo['total_requirements'] = thisweek.demand + thisweek.backlog
             weekinfo['total_available'] = thisweek.inventory + thisweek.incoming
             weekinfo['ending_inventory'] = thisweek.inventory
@@ -218,11 +219,11 @@ class PlayerGameActions(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
                     return Response({"everyone_has_ordered": False})
             return Response({"everyone_has_ordered": True})
         else:
-            return Response({"detail": "Not Registered for this Role"}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response({"detail": "Not registered for this role"}, status=status.HTTP_401_UNAUTHORIZED)
 
     # Geeting info for each role of the game - game/role/{roleid}/getsharedinfo/
     @action(detail=True, methods=['get'])
-    @swagger_auto_schema(operation_description="Returns Other Player Info", responses={200: ""})
+    @swagger_auto_schema(operation_description="Returns other player info", responses={200: ""})
     def getsharedinfo(self, request, pk=None):
         role = self.get_object()
         game = role.game_id

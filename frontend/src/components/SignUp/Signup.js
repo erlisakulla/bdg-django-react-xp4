@@ -3,10 +3,7 @@ import {Link} from "react-router-dom";
 import "../Login/style/SignIn.css";
 import axiosInstance from "../../axios"
 
-/*
-    Component which allows the users to sign up as a student(player) or instructor
-*/
-
+/** Component which allows the users to sign up as a student(player) or instructor */
 export default class signup extends Component {
     constructor(props) {
         super(props);
@@ -28,7 +25,8 @@ export default class signup extends Component {
     onChangePlayerOrInstructor = (e) => {
         if (e.target.value === "instructor") {
             this.setState({isinstructor: true});
-        } else {
+        } 
+        else {
             this.setState({isinstructor: false});
         }
     };
@@ -41,25 +39,26 @@ export default class signup extends Component {
         } 
 
         axiosInstance.post('user/create/', {
-          name: this.state.name,
-          email: this.state.email,
-          password: this.state.password,
-          is_instructor: this.state.isinstructor
+            name: this.state.name,
+            email: this.state.email,
+            password: this.state.password,
+            is_instructor: this.state.isinstructor
         }, {crossDomain: true}).then((res) => {
-          if (res.status === 201) {
-            this.setState({message: "created sucessfully"})
-            this.setState({error: ""})
-            window.location = "/login"
-          } else {
-            this.setState({error: "Couldn't create account."})
-          }
-         }).catch((err) => {
+            if (res.status === 201) {
+                this.setState({message: "created sucessfully"})
+                this.setState({error: ""})
+                window.location = "/login"
+            } 
+            else {
+                this.setState({error: "Couldn't create account."})
+            }
+        }).catch((err) => {
              if (err.response) {
-                 this.setState({
-                     error: err.response.data.datails
-                 })
-             }
-         })
+                this.setState({
+                    error: err.response.data.datails
+                })
+            }
+        })
       
     };
 

@@ -7,15 +7,14 @@ from Game.views import (
     GameActions,
     PlayerGameActions,
     DemandList,
-    # GameList,
 )
 
+# Creating routes based on views
 router = routers.DefaultRouter()
 router.register("", GameActions)
 router.register("role", PlayerGameActions, 'Role')
 
 urlpatterns = [
     path("", include(router.urls)),
-    # path("", GameList.as_view(), name="gameslist"),
     path("demand", DemandList.as_view(), name="demandlist"),
 ]
