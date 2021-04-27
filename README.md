@@ -43,6 +43,7 @@ _Erlisa Kulla & Hai Long Tran_
   - Get the status of everyone's orders (have they placed orders or not)
   - Get the status if game is ready to proceed to next week 
   - Post order for current week
+  - added comprehensive tests and corrected old tests to reflect our changes to the backend
 - **Note:** we have not implemented what happens when the student submits the order, so the game logic is implemented only for the first week of the game. We have also not fully integrated the demand in the game logic 
 
 ## Frontend:
@@ -54,6 +55,8 @@ _Erlisa Kulla & Hai Long Tran_
 - meaning the user can clearly see what is wrong: missing blanks, bad format, account with the given email already exists...
 - additionally server-side error messages are conveniently redirected into the frontend validation process
 - sign-up process improved byu requiring reentering of password 
+- added comprehensive tests and corrected old tests to reflect our changes to the frontend
+
 
 # Basic Local Setup 
 - Find a directory within your computer where you would liek to store the repository.
@@ -335,7 +338,7 @@ urlpatterns = [
 
 
 
-### Documentation
+### Api documentation
 - To view all available endpoints and descriptions as well as run test requests, go to:
   - `http://localhost:8000/swagger/` or  
   - `http://localhost:8000/redoc/` 
